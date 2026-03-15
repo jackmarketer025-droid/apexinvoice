@@ -72,6 +72,8 @@ export function InvoicePreview({ data }: InvoicePreviewProps) {
         <div className="inline-block bg-[#E31E24] text-white px-16 py-2.5 rounded-full font-black uppercase text-[16px] tracking-[0.2em] shadow-sm">
           INVOICE
         </div>
+        {/* Horizontal line after INVOICE */}
+        <div className="mt-6 border-b border-gray-300 mx-1"></div>
       </div>
 
       {/* Info Grid - Aligned colons and fixed one line */}
