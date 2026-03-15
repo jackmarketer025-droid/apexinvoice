@@ -42,8 +42,11 @@ const DEFAULT_INVOICE: InvoiceData = {
       productId: '10729',
       description: "Apocal-D Tab",
       packSize: "15's",
-      unitTpVat: 56.25,
-      quantity: 20
+      unitTp: 47.91,
+      vatRate: 17.4,
+      unitDis: 0,
+      quantity: 20,
+      specialDis: 0
     }
   ],
   discountRate: 0

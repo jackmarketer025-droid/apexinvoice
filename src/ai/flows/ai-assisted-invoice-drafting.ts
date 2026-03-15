@@ -18,11 +18,14 @@ export type DraftInvoiceInput = z.infer<typeof DraftInvoiceInputSchema>;
 
 // 2. Define Output Schema
 const ProductLineSchema = z.object({
-  description: z.string().describe("The name and specific details of the product (e.g., 'Acorex Syp 100 ml')."),
-  packSize: z.string().optional().describe("The package size of the product (e.g., '3x10s')."),
-  unitTpVat: z.number().describe('The Unit Price including TP and VAT.'),
-  quantity: z.number().int().positive().describe('The quantity of the product being purchased.'),
   productId: z.string().optional().describe('The product ID (e.g. 10023).'),
+  description: z.string().describe("The name and specific details of the product (e.g., 'Apocal-D Tab')."),
+  packSize: z.string().optional().describe("The package size of the product (e.g., '15\\'s')."),
+  unitTp: z.number().describe('The Unit Trade Price (TP).'),
+  vatRate: z.number().optional().default(17.4).describe('The VAT Rate in percentage (e.g., 17.4).'),
+  unitDis: z.number().optional().default(0).describe('The Unit Discount.'),
+  quantity: z.number().int().positive().describe('The quantity of the product being purchased.'),
+  specialDis: z.number().optional().default(0).describe('The Special Discount (Total for the line).'),
 });
 
 const DraftInvoiceOutputSchema = z.object({
@@ -64,7 +67,7 @@ const draftInvoicePrompt = ai.definePrompt({
 Your goal is to extract all relevant information from the user's request and structure it into a JSON object according to the provided schema.
 
 Dates should be extracted in DD-MM-YYYY format.
-If a piece of information is not explicitly mentioned, omit that field or provide an empty string. Do NOT make up information.
+If a piece of information is not explicitly mentioned, omit that field or provide an empty string or default value. Do NOT make up information.
 
 Natural language invoice description: {{{this}}}`,
 });

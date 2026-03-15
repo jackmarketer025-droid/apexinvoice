@@ -2,8 +2,11 @@ export interface ProductLine {
   productId: string;
   description: string;
   packSize: string;
-  unitTpVat: number;
+  unitTp: number;       // Unit Trade Price
+  vatRate: number;      // VAT Rate in %
+  unitDis: number;      // Unit Discount
   quantity: number;
+  specialDis: number;   // Special Discount (Total for the line)
 }
 
 export interface CustomerData {

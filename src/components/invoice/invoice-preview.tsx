@@ -10,7 +10,6 @@ interface InvoicePreviewProps {
 }
 
 export function InvoicePreview({ data }: InvoicePreviewProps) {
-  // We keep the state but don't display it in the footer as per latest request
   const [currentTime, setCurrentTime] = useState<string | null>(null);
 
   useEffect(() => {
@@ -83,34 +82,48 @@ export function InvoicePreview({ data }: InvoicePreviewProps) {
           </div>
         </div>
 
-        {/* Table Section */}
-        <table className="w-full text-[9.5px] border-collapse mb-1">
-          <thead>
-            <tr className="border-y border-gray-400 font-bold bg-gray-50">
-              <th className="p-1.5 text-left border-r w-16">P Id</th>
-              <th className="p-1.5 text-left border-r">Description</th>
-              <th className="p-1.5 border-r text-center">Pack Size</th>
-              <th className="p-1.5 border-r text-center">Unit TP+VAT</th>
-              <th className="p-1.5 border-r w-14 text-center">QTY</th>
-              <th className="p-1.5 text-right">Total Price</th>
-            </tr>
-          </thead>
-          <tbody>
-            {data.productLines.map((line, idx) => {
-              const { totalPrice } = calculateLineTotals(line);
-              return (
-                <tr key={idx} className="border-b border-gray-100">
-                  <td className="p-1.5">{line.productId}</td>
-                  <td className="p-1.5 font-semibold">{line.description}</td>
-                  <td className="p-1.5 text-center">{line.packSize}</td>
-                  <td className="p-1.5 text-center">{formatCurrency(line.unitTpVat)}</td>
-                  <td className="p-1.5 text-center">{line.quantity}</td>
-                  <td className="p-1.5 text-right font-bold">{formatCurrency(totalPrice)}</td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
+        {/* Updated Table Section (12 Columns) */}
+        <div className="overflow-x-auto">
+          <table className="w-full text-[7.5px] border-collapse mb-1 table-fixed">
+            <thead>
+              <tr className="border-y border-gray-400 font-bold bg-gray-50 uppercase text-[7px]">
+                <th className="p-1 text-left border-r w-[6%]">P Id</th>
+                <th className="p-1 text-left border-r w-[18%]">Description</th>
+                <th className="p-1 border-r text-center w-[8%]">Pack Size</th>
+                <th className="p-1 border-r text-center w-[7%]">Unit TP</th>
+                <th className="p-1 border-r text-center w-[7%]">VAT Rate %</th>
+                <th className="p-1 border-r text-center w-[7%]">Unit VAT</th>
+                <th className="p-1 border-r text-center w-[7%]">Unit Dis</th>
+                <th className="p-1 border-r text-center w-[5%]">QTY</th>
+                <th className="p-1 border-r text-center w-[8%]">Total TP</th>
+                <th className="p-1 border-r text-center w-[9%]">Total VAT</th>
+                <th className="p-1 border-r text-center w-[9%]">Special Dis</th>
+                <th className="p-1 text-right w-[9%]">Total Price</th>
+              </tr>
+            </thead>
+            <tbody>
+              {data.productLines.map((line, idx) => {
+                const { unitVat, totalTp, totalVat, totalPrice } = calculateLineTotals(line);
+                return (
+                  <tr key={idx} className="border-b border-gray-100">
+                    <td className="p-1 truncate">{line.productId}</td>
+                    <td className="p-1 font-semibold truncate">{line.description}</td>
+                    <td className="p-1 text-center truncate">{line.packSize}</td>
+                    <td className="p-1 text-center">{formatCurrency(line.unitTp)}</td>
+                    <td className="p-1 text-center">{line.vatRate}%</td>
+                    <td className="p-1 text-center">{formatCurrency(unitVat)}</td>
+                    <td className="p-1 text-center">{formatCurrency(line.unitDis)}</td>
+                    <td className="p-1 text-center">{line.quantity}</td>
+                    <td className="p-1 text-center">{formatCurrency(totalTp)}</td>
+                    <td className="p-1 text-center">{formatCurrency(totalVat)}</td>
+                    <td className="p-1 text-center">{formatCurrency(line.specialDis)}</td>
+                    <td className="p-1 text-right font-bold">{formatCurrency(totalPrice)}</td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
 
         {/* Summary Area */}
         <div className="flex justify-end mt-4">
@@ -145,13 +158,13 @@ export function InvoicePreview({ data }: InvoicePreviewProps) {
         </div>
 
         {/* Final Disclaimer */}
-        <div className="border-t pt-2 text-[9.5px] text-gray-700 italic">
-          <div className="space-y-1">
+        <div className="border-t pt-2 text-[10px] text-gray-700 italic">
+          <div className="space-y-1 font-semibold">
             <p className="leading-tight">
-              <span className="font-bold not-italic">Warranty :</span> We do hereby give this warranty that products sold under this invoice do not contravene to any provisions of section 18 of the drugs act 1940
+              <span className="font-black not-italic">Warranty :</span> We do hereby give this warranty that products sold under this invoice do not contravene to any provisions of section 18 of the drugs act 1940
             </p>
             <p className="leading-tight">
-              <span className="font-bold not-italic">Note :</span> Received the goods in full and good condition.
+              <span className="font-black not-italic">Note :</span> Received the goods in full and good condition.
             </p>
           </div>
         </div>
