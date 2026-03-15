@@ -1,3 +1,4 @@
+
 "use client"
 
 import React, { useState, useEffect } from 'react';
@@ -13,7 +14,15 @@ export function InvoicePreview({ data }: InvoicePreviewProps) {
   const [currentTime, setCurrentTime] = useState<string | null>(null);
 
   useEffect(() => {
-    setCurrentTime(new Date().toLocaleString());
+    setCurrentTime(new Date().toLocaleString('en-GB', {
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric',
+      hour: 'numeric',
+      minute: '2-digit',
+      second: '2-digit',
+      hour12: true
+    }));
   }, []);
 
   const totalAmount = data.productLines.reduce((acc, line) => {
@@ -82,7 +91,7 @@ export function InvoicePreview({ data }: InvoicePreviewProps) {
           </div>
         </div>
 
-        {/* Updated Table Section (12 Columns) */}
+        {/* Table Section */}
         <div className="overflow-x-auto">
           <table className="w-full text-[7.5px] border-collapse mb-1 table-fixed">
             <thead>
@@ -149,22 +158,41 @@ export function InvoicePreview({ data }: InvoicePreviewProps) {
       {/* Footer Section - Fixed at the very bottom of A4 */}
       <div className="mt-auto p-10 pt-0 print:p-5">
         {/* Signature Area */}
-        <div className="grid grid-cols-5 gap-4 text-[8.5px] text-center uppercase font-bold mb-12 mt-10">
-          <div className="border-t border-black pt-1">Prepared By</div>
-          <div className="border-t border-black pt-1">Authorised By</div>
-          <div className="border-t border-black pt-1">Delivered By</div>
-          <div className="border-t border-black pt-1">Collection By</div>
-          <div className="border-t border-black pt-1">Customer Signature</div>
+        <div className="flex justify-between items-end mb-12 mt-10">
+          <div className="grid grid-cols-5 gap-8 flex-1 text-[8.5px] text-center font-bold">
+            <div className="flex flex-col gap-1">
+              <div className="border-t border-black pt-1">Prepared By</div>
+            </div>
+            <div className="flex flex-col gap-1">
+              <div className="border-t border-black pt-1">Authorised by</div>
+              <div className="text-[7px] font-normal">Date:....................</div>
+            </div>
+            <div className="flex flex-col gap-1">
+              <div className="border-t border-black pt-1">Delivered by</div>
+            </div>
+            <div className="flex flex-col gap-1">
+              <div className="border-t border-black pt-1">Collection by</div>
+            </div>
+            <div className="flex flex-col gap-1">
+              <div className="border-t border-black pt-1">Customer's Signature</div>
+            </div>
+          </div>
+          
+          {/* Current Date/Time on the right of signatures */}
+          <div className="text-[8px] text-right font-bold leading-tight pl-4">
+            <p>{data.header.invoiceDate}</p>
+            <p>{currentTime?.split(', ')[1]}</p>
+          </div>
         </div>
 
         {/* Final Disclaimer */}
-        <div className="border-t pt-2 text-[10px] text-gray-700 italic">
-          <div className="space-y-1 font-semibold">
+        <div className="border-t border-black pt-2 text-[10.5px] text-gray-800">
+          <div className="space-y-1">
             <p className="leading-tight">
-              <span className="font-black not-italic">Warranty :</span> We do hereby give this warranty that products sold under this invoice do not contravene to any provisions of section 18 of the drugs act 1940
+              <span className="font-bold">Warranty :</span> We do hereby give this warranty that products sold under this invoice do not contravene to any provisions of section 18 of the drugs act 1940
             </p>
             <p className="leading-tight">
-              <span className="font-black not-italic">Note :</span> Received the goods in full and good condition.
+              <span className="font-bold">Note :</span> Received the goods in full and good condition.
             </p>
           </div>
         </div>
