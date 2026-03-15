@@ -12,7 +12,7 @@ export function InvoicePreview({ data }: InvoicePreviewProps) {
   const [currentTime, setCurrentTime] = useState<string | null>(null);
 
   useEffect(() => {
-    // Hydration fix
+    // Prevent Hydration error by setting dynamic time after mount
     setCurrentTime(new Date().toLocaleString());
   }, []);
 
@@ -25,11 +25,10 @@ export function InvoicePreview({ data }: InvoicePreviewProps) {
   }, { tp: 0, vat: 0 });
 
   const totalAmount = totals.tp + totals.vat;
-  const discountAmount = totals.tp * (data.discountRate / 100);
-  const netPayable = totalAmount - discountAmount;
+  const netPayable = totalAmount; // Based on the simplified model
 
   return (
-    <div className="invoice-a4 font-body text-[10px] leading-tight text-gray-800 flex flex-col min-h-[297mm] bg-white" id="print-area">
+    <div className="invoice-a4 font-body text-[10px] leading-tight text-gray-800 flex flex-col min-h-[297mm] bg-white relative" id="print-area">
       {/* Top Content Area */}
       <div className="flex-grow">
         {/* Header Section */}
@@ -128,10 +127,10 @@ export function InvoicePreview({ data }: InvoicePreviewProps) {
         </div>
       </div>
 
-      {/* Footer Section - Always at Bottom */}
-      <div className="mt-auto pt-10">
+      {/* Footer Section - Fixed at the very bottom of A4 */}
+      <div className="mt-auto">
         {/* Signature Area */}
-        <div className="grid grid-cols-5 gap-4 text-[8px] text-center uppercase font-bold mb-10">
+        <div className="grid grid-cols-5 gap-4 text-[8px] text-center uppercase font-bold mb-10 mt-20">
           <div className="border-t border-black pt-1">Prepared By</div>
           <div className="border-t border-black pt-1">Authorised By</div>
           <div className="border-t border-black pt-1">Delivered By</div>
