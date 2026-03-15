@@ -72,8 +72,8 @@ export function InvoicePreview({ data }: InvoicePreviewProps) {
         <div className="inline-block bg-[#E31E24] text-white px-16 py-2.5 rounded-full font-black uppercase text-[16px] tracking-[0.2em] shadow-sm">
           INVOICE
         </div>
-        {/* Horizontal line after INVOICE */}
-        <div className="mt-6 border-b border-gray-300 mx-1"></div>
+        {/* Horizontal line after INVOICE - Changed to Primary Red and adjusted margin */}
+        <div className="mt-5 border-b-[1.5px] border-[#E31E24] mx-1"></div>
       </div>
 
       {/* Info Grid - Aligned colons and fixed one line */}
@@ -174,8 +174,8 @@ export function InvoicePreview({ data }: InvoicePreviewProps) {
           </tbody>
           <tfoot>
             <tr className="bg-white text-[12px]">
-              <td colSpan={5} className="p-0"></td>
-              <td colSpan={4} className="p-2 text-right border-t-[1.5px] border-gray-900 pr-4">
+              <td colSpan={8} className="p-0"></td>
+              <td colSpan={1} className="p-2 text-right border-t-[1.5px] border-gray-900 pr-4">
                 <span className="font-bold uppercase inline-block whitespace-nowrap">TOTAL AMOUNT :</span>
               </td>
               <td className="p-2 text-center font-bold text-gray-900 border-t-[1.5px] border-gray-900">{formatCurrency(totals.totalTp)}</td>
@@ -216,7 +216,7 @@ export function InvoicePreview({ data }: InvoicePreviewProps) {
           </p>
         </div>
 
-        {/* Bengali Special Note - Corrected and Sized down */}
+        {/* Bengali Special Note */}
         <div className="mt-4 px-1 text-left">
           <p className="text-[13px] font-bold border-b-[0.5px] border-black text-black inline-block leading-tight">
             বিশেষ দ্রষ্টব্য : আপনার স্বাক্ষরিত রিসিভ ইনভয়েস ব্যতীত কাউকে টাকা / ঔষধ প্রদান করবেন না।
@@ -253,7 +253,7 @@ export function InvoicePreview({ data }: InvoicePreviewProps) {
           </div>
         </div>
 
-        {/* Final Warranty Section - Now Bolded and Adjusted size */}
+        {/* Final Warranty Section */}
         <div className="border-t-[0.5px] border-black pt-3 space-y-1.5">
           <p className="text-[10.8px] leading-none whitespace-nowrap tracking-tighter font-bold text-gray-900 w-full">
             Warranty : We do hereby give this warranty that products sold under this invoice do not contravene to any provisions of section 18 of the drugs act 1940
