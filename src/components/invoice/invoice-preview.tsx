@@ -36,7 +36,7 @@ export function InvoicePreview({ data }: InvoicePreviewProps) {
   }, { totalTp: 0, totalVat: 0, totalPrice: 0, specialDis: 0 });
 
   return (
-    <div className="invoice-a4 font-body text-[11px] leading-tight text-gray-900 flex flex-col min-h-[297mm] bg-white relative shadow-2xl" id="print-area">
+    <div className="invoice-a4 font-body text-[11px] leading-tight text-gray-900 flex flex-col min-h-[297mm] bg-white relative" id="print-area">
       {/* Header Section */}
       <div className="flex justify-between items-start pt-4 px-2">
         <div className="w-[30%]">
@@ -209,10 +209,10 @@ export function InvoicePreview({ data }: InvoicePreviewProps) {
 
         {/* Final Warranty Section */}
         <div className="border-t-[3.5px] border-black pt-4 space-y-3">
-          <p className="text-[11.2px] font-black leading-none whitespace-nowrap tracking-tighter">
+          <p className="text-[10.5px] font-black leading-none whitespace-nowrap tracking-tighter">
             <span>Warranty :</span> We do hereby give this warranty that products sold under this invoice do not contravene to any provisions of section 18 of the drugs act 1940
           </p>
-          <p className="text-[14px] font-black leading-none">
+          <p className="text-[10.5px] font-black leading-none">
             <span>Note :</span> Received the goods in full and good condition.
           </p>
         </div>
