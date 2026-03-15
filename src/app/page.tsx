@@ -1,12 +1,13 @@
 "use client"
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { InvoiceEditor } from '@/components/invoice/invoice-editor';
 import { InvoicePreview } from '@/components/invoice/invoice-preview';
 import { InvoiceData } from '@/types/invoice';
 import { Button } from '@/components/ui/button';
 import { Printer, Download, Save, FileText, Menu } from 'lucide-react';
 import { Toaster } from '@/components/ui/toaster';
+import { useToast } from '@/hooks/use-toast';
 import {
   Sheet,
   SheetContent,
@@ -14,6 +15,8 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
+
+const STORAGE_KEY = 'apex_invoice_draft_v1';
 
 const DEFAULT_INVOICE: InvoiceData = {
   customer: {
@@ -46,6 +49,7 @@ const DEFAULT_INVOICE: InvoiceData = {
       vatRate: 17.4,
       unitDis: 0,
       quantity: 20,
+      bonus: 0,
       specialDis: 0
     }
   ],
@@ -54,9 +58,40 @@ const DEFAULT_INVOICE: InvoiceData = {
 
 export default function Home() {
   const [invoiceData, setInvoiceData] = useState<InvoiceData>(DEFAULT_INVOICE);
+  const { toast } = useToast();
+
+  // Load draft from local storage on initial mount
+  useEffect(() => {
+    const savedDraft = localStorage.getItem(STORAGE_KEY);
+    if (savedDraft) {
+      try {
+        setInvoiceData(JSON.parse(savedDraft));
+      } catch (e) {
+        console.error("Failed to load draft", e);
+      }
+    }
+  }, []);
 
   const handlePrint = () => {
     window.print();
+  };
+
+  const handleSaveDraft = () => {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(invoiceData));
+    toast({
+      title: "Draft Saved Successfully!",
+      description: "The current invoice has been saved to your local storage.",
+    });
+  };
+
+  const handleExportPDF = () => {
+    toast({
+      title: "Preparing PDF Export",
+      description: "Please select 'Save as PDF' as the destination in the print window.",
+    });
+    setTimeout(() => {
+      window.print();
+    }, 800);
   };
 
   return (
@@ -73,13 +108,13 @@ export default function Home() {
         
         {/* Desktop Actions */}
         <div className="hidden md:flex items-center gap-3">
-          <Button variant="outline" size="sm" onClick={() => console.log('Saving...')}>
+          <Button variant="outline" size="sm" onClick={handleSaveDraft}>
             <Save className="w-4 h-4 mr-2" /> Save Draft
           </Button>
           <Button variant="outline" size="sm" onClick={handlePrint}>
             <Printer className="w-4 h-4 mr-2" /> Print
           </Button>
-          <Button size="sm" className="bg-secondary hover:bg-secondary/90">
+          <Button size="sm" className="bg-secondary hover:bg-secondary/90" onClick={handleExportPDF}>
             <Download className="w-4 h-4 mr-2" /> Export PDF
           </Button>
         </div>
@@ -97,13 +132,13 @@ export default function Home() {
                 <SheetTitle>Invoice Actions</SheetTitle>
               </SheetHeader>
               <div className="flex flex-col gap-4 mt-8">
-                <Button variant="outline" className="w-full justify-start" onClick={() => console.log('Saving...')}>
+                <Button variant="outline" className="w-full justify-start" onClick={handleSaveDraft}>
                   <Save className="w-4 h-4 mr-2" /> Save Draft
                 </Button>
                 <Button variant="outline" className="w-full justify-start" onClick={handlePrint}>
                   <Printer className="w-4 h-4 mr-2" /> Print Invoice
                 </Button>
-                <Button className="w-full justify-start bg-secondary" onClick={() => console.log('Exporting...')}>
+                <Button className="w-full justify-start bg-secondary" onClick={handleExportPDF}>
                   <Download className="w-4 h-4 mr-2" /> Export PDF
                 </Button>
               </div>

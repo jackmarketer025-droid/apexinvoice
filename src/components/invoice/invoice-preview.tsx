@@ -1,4 +1,3 @@
-
 "use client"
 
 import React, { useState, useEffect } from 'react';
@@ -75,7 +74,7 @@ export function InvoicePreview({ data }: InvoicePreviewProps) {
         <div className="mt-5 border-b-[1.5px] border-[#E31E24] mx-1"></div>
       </div>
 
-      {/* Info Grid - Updated with 12px font size and aligned colons */}
+      {/* Info Grid */}
       <div className="grid grid-cols-3 gap-6 mb-4 px-1 border-b-[1px] border-gray-300 pb-2">
         {/* Customer Column */}
         <div className="space-y-0.5 text-[12px]">
@@ -214,7 +213,7 @@ export function InvoicePreview({ data }: InvoicePreviewProps) {
           </p>
         </div>
 
-        {/* Bengali Special Note - Enlarged font to 13px */}
+        {/* Bengali Special Note */}
         <div className="mt-4 px-1 text-left">
           <p className="text-[13px] font-bold border-b-[0.5px] border-black text-black inline-block leading-tight">
             বিশেষ দ্রষ্টব্য : আপনার স্বাক্ষরিত রিসিভ ইনভয়েস ব্যতীত কাউকে টাকা / ঔষধ প্রদান করবেন না।
@@ -222,7 +221,7 @@ export function InvoicePreview({ data }: InvoicePreviewProps) {
         </div>
       </div>
 
-      {/* Footer Area - Signatures - Increased font size */}
+      {/* Footer Area - Signatures */}
       <div className="mt-auto px-1 pb-6">
         <div className="flex justify-between items-end mb-8 pt-16">
           <div className="grid grid-cols-6 gap-6 flex-1 text-[11px] font-medium text-gray-900">
@@ -251,7 +250,7 @@ export function InvoicePreview({ data }: InvoicePreviewProps) {
           </div>
         </div>
 
-        {/* Final Warranty Section - Font size adjusted to 10.8px bold */}
+        {/* Final Warranty Section */}
         <div className="border-t-[0.5px] border-black pt-3 space-y-1.5">
           <p className="text-[10.8px] leading-none whitespace-nowrap tracking-tighter font-bold text-gray-900 w-full">
             Warranty : We do hereby give this warranty that products sold under this invoice do not contravene to any provisions of section 18 of the drugs act 1940
