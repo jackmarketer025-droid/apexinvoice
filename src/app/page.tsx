@@ -62,7 +62,10 @@ export default function Home() {
       <header className="h-16 border-b bg-white flex items-center justify-between px-4 md:px-8 sticky top-0 z-50 no-print">
         <div className="flex items-center gap-2">
           <div className="w-8 h-8 md:w-10 md:h-10 bg-primary rounded-lg flex items-center justify-center text-white font-bold italic text-lg md:text-xl">A</div>
-          <h1 className="text-lg md:text-xl font-black text-gray-800 tracking-tighter uppercase">Apex <span className="text-primary font-light hidden sm:inline">InvoiceGen</span></h1>
+          <div className="flex flex-col">
+            <h1 className="text-lg md:text-xl font-black text-gray-800 tracking-tighter uppercase leading-none">Apex <span className="text-primary font-light hidden sm:inline">InvoiceGen</span></h1>
+            <span className="text-[10px] text-muted-foreground hidden sm:block">Professional Management</span>
+          </div>
         </div>
         
         {/* Desktop Actions */}
@@ -107,27 +110,31 @@ export default function Home() {
       </header>
 
       {/* Main Content Area */}
-      <main className="flex-1 container mx-auto p-4 md:p-8 grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 no-print min-h-0">
+      <main className="flex-1 flex flex-col lg:flex-row no-print overflow-hidden">
         {/* Editor Section */}
-        <div className="flex flex-col h-[calc(100vh-120px)] lg:h-[calc(100vh-160px)] min-w-0">
-          <InvoiceEditor 
-            data={invoiceData} 
-            onChange={setInvoiceData} 
-          />
+        <div className="w-full lg:w-1/2 p-4 md:p-6 lg:border-r overflow-y-auto bg-white lg:bg-transparent">
+          <div className="max-w-2xl mx-auto">
+             <InvoiceEditor 
+              data={invoiceData} 
+              onChange={setInvoiceData} 
+            />
+          </div>
         </div>
 
         {/* Live Preview Section */}
-        <div className="flex flex-col items-center min-w-0 overflow-hidden">
-          <div className="mb-4 w-full flex items-center justify-between px-2">
+        <div className="w-full lg:w-1/2 bg-gray-100 flex flex-col p-4 md:p-6 overflow-hidden">
+          <div className="mb-4 flex items-center justify-between px-2 max-w-2xl mx-auto w-full">
             <span className="text-xs md:text-sm font-semibold text-gray-500 uppercase flex items-center gap-2">
               <FileText className="w-4 h-4" /> Live Preview
             </span>
-            <span className="text-[10px] md:text-xs text-muted-foreground">A4 Professional Layout</span>
+            <span className="text-[10px] md:text-xs text-muted-foreground bg-white px-2 py-1 rounded-full border shadow-sm">A4 Pro Layout</span>
           </div>
           
-          <div className="w-full flex justify-center py-4 overflow-hidden">
-             <div className="origin-top scale-[0.35] sm:scale-[0.5] md:scale-[0.6] lg:scale-[0.7] xl:scale-[0.8] 2xl:scale-100 transition-transform duration-300">
-              <InvoicePreview data={invoiceData} />
+          <div className="flex-1 overflow-auto flex justify-center custom-scrollbar">
+            <div className="h-fit py-4">
+               <div className="origin-top scale-[0.35] sm:scale-[0.5] md:scale-[0.6] lg:scale-[0.7] xl:scale-[0.8] transition-transform duration-300">
+                <InvoicePreview data={invoiceData} />
+              </div>
             </div>
           </div>
         </div>

@@ -103,16 +103,17 @@ export const PREDEFINED_PRODUCTS = [
 ];
 
 export function calculateLineTotals(line: ProductLine) {
-  const amount = line.unitTpVat || 0;
-  const totalPrice = amount * (line.quantity || 0);
+  const amount = Number(line.unitTpVat) || 0;
+  const totalPrice = amount * (Number(line.quantity) || 0);
   return {
     totalPrice
   };
 }
 
-export function formatCurrency(amount: number | undefined | null) {
-  if (amount === undefined || amount === null) return "0.00";
-  return amount.toFixed(2);
+export function formatCurrency(amount: any) {
+  const val = Number(amount);
+  if (isNaN(val)) return "0.00";
+  return val.toFixed(2);
 }
 
 export function numberToWords(amount: number): string {
@@ -121,27 +122,28 @@ export function numberToWords(amount: number): string {
   const tens = ["", "", "TWENTY", "THIRTY", "FORTY", "FIFTY", "SIXTY", "SEVENTY", "EIGHTY", "NINETY"];
   const levels = ["", "THOUSAND", "MILLION", "BILLION"];
 
-  if (amount === 0) return "ZERO TAKA ONLY";
+  const num = Number(amount) || 0;
+  if (num === 0) return "ZERO TAKA ONLY";
 
-  const split = amount.toFixed(2).split(".");
+  const split = num.toFixed(2).split(".");
   const wholePart = parseInt(split[0]);
   const decimalPart = parseInt(split[1]);
 
-  function convertGroup(num: number): string {
+  function convertGroup(n: number): string {
     let result = "";
-    if (num >= 100) {
-      result += singleDigits[Math.floor(num / 100)] + " HUNDRED ";
-      num %= 100;
+    if (n >= 100) {
+      result += singleDigits[Math.floor(n / 100)] + " HUNDRED ";
+      n %= 100;
     }
-    if (num >= 20) {
-      result += tens[Math.floor(num / 10)] + " ";
-      num %= 10;
-    } else if (num >= 10) {
-      result += teens[num - 10] + " ";
-      num = 0;
+    if (n >= 20) {
+      result += tens[Math.floor(n / 10)] + " ";
+      n %= 10;
+    } else if (n >= 10) {
+      result += teens[n - 10] + " ";
+      n = 0;
     }
-    if (num > 0) {
-      result += singleDigits[num] + " ";
+    if (n > 0) {
+      result += singleDigits[n] + " ";
     }
     return result.trim();
   }
