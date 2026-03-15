@@ -141,12 +141,14 @@ export function InvoicePreview({ data }: InvoicePreviewProps) {
             })}
           </tbody>
           <tfoot>
-            <tr className="border-t-[1.5px] border-gray-900 font-black bg-gray-50 text-[13px]">
-              <td colSpan={9} className="p-2.5 text-left uppercase">Total Amount :</td>
-              <td className="p-2.5 text-center">{formatCurrency(totals.totalTp)}</td>
-              <td className="p-2.5 text-center">{formatCurrency(totals.totalVat)}</td>
-              <td className="p-2.5 text-center">{formatCurrency(totals.specialDis)}</td>
-              <td className="p-2.5 text-right text-[15px] text-[#E31E24]">{formatCurrency(totals.totalPrice)}</td>
+            <tr className="border-t-[1.5px] border-gray-900 font-bold bg-white text-[12px]">
+              <td colSpan={9} className="p-2 text-left">
+                <span className="bg-[#4a77cc] text-white px-2 py-0.5 uppercase inline-block">TOTAL AMOUNT :</span>
+              </td>
+              <td className="p-2 text-center text-gray-900">{formatCurrency(totals.totalTp)}</td>
+              <td className="p-2 text-center text-gray-900">{formatCurrency(totals.totalVat)}</td>
+              <td className="p-2 text-center text-gray-900">{formatCurrency(totals.specialDis)}</td>
+              <td className="p-2 text-right text-[14px] text-[#E31E24] font-black">{formatCurrency(totals.totalPrice)}</td>
             </tr>
           </tfoot>
         </table>
@@ -183,8 +185,8 @@ export function InvoicePreview({ data }: InvoicePreviewProps) {
 
         {/* Bengali Special Note - Matched to Screenshot */}
         <div className="mt-6 px-1">
-          <p className="font-black text-[15.5px] py-2 border-b-[1px] border-black text-left text-black">
-            বিশেষ দ্রষ্টব্য : আপনার স্বাক্ষরিত রিসিভ ইনভয়েস ব্যতীত কাউকে টাকা / ঔষধ প্রদান করবেন না।
+          <p className="font-black text-[15.5px] py-1 border-b-[1px] border-black text-left text-black">
+            विशेष দ্রষ্টव्य : আপনার স্বাক্ষরিত রিসিভ ইনভয়েস ব্যতীত কাউকে টাকা / ঔষধ প্রদান করবেন না।
           </p>
         </div>
       </div>
@@ -231,3 +233,4 @@ export function InvoicePreview({ data }: InvoicePreviewProps) {
     </div>
   );
 }
+
