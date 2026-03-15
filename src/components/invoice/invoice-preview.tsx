@@ -74,7 +74,7 @@ export function InvoicePreview({ data }: InvoicePreviewProps) {
         </div>
       </div>
 
-      {/* Info Grid - Unified look with serial colons as per screenshot */}
+      {/* Info Grid - Aligned colons */}
       <div className="grid grid-cols-3 gap-6 mb-4 px-1 border-b-[1px] border-gray-300 pb-2">
         {/* Customer Column */}
         <div className="space-y-0.5 text-[10.5px]">
@@ -86,8 +86,8 @@ export function InvoicePreview({ data }: InvoicePreviewProps) {
             { label: 'Route', value: data.customer.route, bold: true },
           ].map((item, i) => (
             <div key={i} className="flex leading-tight py-[0.5px] items-baseline">
-              <span className="w-[60px] font-bold shrink-0">{item.label}</span>
-              <span className="w-[15px] text-center shrink-0">:</span>
+              <span className="w-[50px] font-bold shrink-0">{item.label}</span>
+              <span className="w-[10px] text-center shrink-0">:</span>
               <span className={cn("flex-1 whitespace-nowrap overflow-hidden", item.bold && "font-bold uppercase")}>{item.value}</span>
             </div>
           ))}
@@ -103,8 +103,8 @@ export function InvoicePreview({ data }: InvoicePreviewProps) {
             { label: 'Sum Date', value: data.mpo.sumDate, bold: false },
           ].map((item, i) => (
             <div key={i} className="flex leading-tight py-[0.5px] items-baseline">
-              <span className="w-[60px] font-bold shrink-0">{item.label}</span>
-              <span className="w-[15px] text-center shrink-0">:</span>
+              <span className="w-[55px] font-bold shrink-0">{item.label}</span>
+              <span className="w-[10px] text-center shrink-0">:</span>
               <span className={cn("flex-1 whitespace-nowrap overflow-hidden", item.bold && "font-bold uppercase")}>{item.value}</span>
             </div>
           ))}
@@ -120,8 +120,8 @@ export function InvoicePreview({ data }: InvoicePreviewProps) {
             { label: 'Delivery Date', value: data.header.deliveryDate, bold: false },
           ].map((item, i) => (
             <div key={i} className="flex leading-tight py-[0.5px] items-baseline">
-              <span className="w-[85px] font-bold shrink-0">{item.label}</span>
-              <span className="w-[15px] text-center shrink-0">:</span>
+              <span className="w-[80px] font-bold shrink-0">{item.label}</span>
+              <span className="w-[10px] text-center shrink-0">:</span>
               <span className={cn("flex-1 whitespace-nowrap overflow-hidden", item.bold && "font-bold uppercase")}>{item.value}</span>
             </div>
           ))}
@@ -199,7 +199,7 @@ export function InvoicePreview({ data }: InvoicePreviewProps) {
               </div>
               <div className="flex justify-between pt-0.5 border-t-[1px] border-gray-200">
                 <span className="text-[13px] font-bold">Net Payable Amount</span>
-                <span className="text-[14px] font-black text-black">
+                <span className="text-[14px] font-bold text-black">
                   {totals.totalPrice.toFixed(2)}
                 </span>
               </div>
@@ -209,7 +209,7 @@ export function InvoicePreview({ data }: InvoicePreviewProps) {
 
         {/* In Words */}
         <div className="mt-6 px-1">
-          <p className="font-black uppercase text-[12px] text-black leading-tight">
+          <p className="font-bold uppercase text-[12px] text-black leading-tight">
             IN WORD: {numberToWords(totals.totalPrice)}
           </p>
         </div>
@@ -251,12 +251,12 @@ export function InvoicePreview({ data }: InvoicePreviewProps) {
           </div>
         </div>
 
-        {/* Final Warranty Section */}
+        {/* Final Warranty Section - Now Bolded as requested */}
         <div className="border-t-[0.5px] border-black pt-3 space-y-1">
-          <p className="text-[10px] leading-none whitespace-nowrap tracking-tighter font-medium text-gray-900">
+          <p className="text-[10px] leading-none whitespace-nowrap tracking-tighter font-bold text-gray-900">
             Warranty : We do hereby give this warranty that products sold under this invoice do not contravene to any provisions of section 18 of the drugs act 1940
           </p>
-          <p className="text-[10px] leading-none whitespace-nowrap tracking-tighter font-medium text-gray-900">
+          <p className="text-[10px] leading-none whitespace-nowrap tracking-tighter font-bold text-gray-900">
             Note : Received the goods in full and good condition.
           </p>
         </div>
