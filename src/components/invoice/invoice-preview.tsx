@@ -74,7 +74,7 @@ export function InvoicePreview({ data }: InvoicePreviewProps) {
         </div>
       </div>
 
-      {/* Info Grid - Aligned colons */}
+      {/* Info Grid - Aligned colons and fixed one line */}
       <div className="grid grid-cols-3 gap-6 mb-4 px-1 border-b-[1px] border-gray-300 pb-2">
         {/* Customer Column */}
         <div className="space-y-0.5 text-[10.5px]">
@@ -214,9 +214,9 @@ export function InvoicePreview({ data }: InvoicePreviewProps) {
           </p>
         </div>
 
-        {/* Bengali Special Note */}
+        {/* Bengali Special Note - Corrected and Sized down */}
         <div className="mt-4 px-1 text-left">
-          <p className="text-[9.5px] font-bold border-b-[0.5px] border-black text-black inline-block leading-tight">
+          <p className="text-[10px] font-bold border-b-[0.5px] border-black text-black inline-block leading-tight">
             বিশেষ দ্রষ্টব্য : আপনার স্বাক্ষরিত রিসিভ ইনভয়েস ব্যতীত কাউকে টাকা / ঔষধ প্রদান করবেন না।
           </p>
         </div>
@@ -251,12 +251,12 @@ export function InvoicePreview({ data }: InvoicePreviewProps) {
           </div>
         </div>
 
-        {/* Final Warranty Section - Now Bolded and Larger as requested */}
+        {/* Final Warranty Section - Now Bolded and Adjusted size */}
         <div className="border-t-[0.5px] border-black pt-3 space-y-1.5">
-          <p className="text-[11.5px] leading-none whitespace-nowrap tracking-tighter font-bold text-gray-900 w-full">
+          <p className="text-[10.8px] leading-none whitespace-nowrap tracking-tighter font-bold text-gray-900 w-full">
             Warranty : We do hereby give this warranty that products sold under this invoice do not contravene to any provisions of section 18 of the drugs act 1940
           </p>
-          <p className="text-[11.5px] leading-none whitespace-nowrap tracking-tighter font-bold text-gray-900 w-full">
+          <p className="text-[10.8px] leading-none whitespace-nowrap tracking-tighter font-bold text-gray-900 w-full">
             Note : Received the goods in full and good condition.
           </p>
         </div>
