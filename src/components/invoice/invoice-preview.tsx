@@ -75,26 +75,76 @@ export function InvoicePreview({ data }: InvoicePreviewProps) {
 
       {/* Info Grid */}
       <div className="grid grid-cols-3 gap-8 mb-6 px-1 border-b-[1.5px] border-gray-300 pb-4">
-        <div className="space-y-1 text-[11.8px]">
-          <p><span className="w-20 inline-block font-bold">Cust ID</span>: {data.customer.customerId}</p>
-          <p className="font-black text-[12.5px]"><span className="w-20 inline-block">Name</span>: {data.customer.name}</p>
-          <p><span className="w-20 inline-block font-bold">Address</span>: {data.customer.address}</p>
-          <p><span className="w-20 inline-block font-bold">Phone</span>: {data.customer.phone}</p>
-          <p className="font-black"><span className="w-20 inline-block">Route</span>: {data.customer.route}</p>
+        {/* Customer Column */}
+        <div className="space-y-0.5 text-[11.8px]">
+          <div className="flex">
+            <span className="w-[75px] font-bold">Cust ID</span>
+            <span>: {data.customer.customerId}</span>
+          </div>
+          <div className="flex font-black text-[12.5px]">
+            <span className="w-[75px]">Name</span>
+            <span>: {data.customer.name}</span>
+          </div>
+          <div className="flex">
+            <span className="w-[75px] font-bold">Address</span>
+            <span>: {data.customer.address}</span>
+          </div>
+          <div className="flex">
+            <span className="w-[75px] font-bold">Phone</span>
+            <span>: {data.customer.phone}</span>
+          </div>
+          <div className="flex font-black">
+            <span className="w-[75px]">Route</span>
+            <span>: {data.customer.route}</span>
+          </div>
         </div>
-        <div className="space-y-1 text-[11.8px]">
-          <p><span className="w-20 inline-block font-bold">Depot</span>: {data.mpo.depot}</p>
-          <p><span className="w-20 inline-block font-bold">MPO ID</span>: {data.mpo.mpoId}</p>
-          <p className="font-black text-[12.5px]"><span className="w-20 inline-block">Name</span>: {data.mpo.name}</p>
-          <p><span className="w-20 inline-block font-bold">Summary</span>: {data.mpo.summary}</p>
-          <p><span className="w-20 inline-block font-bold">Sum Date</span>: {data.mpo.sumDate}</p>
+
+        {/* MPO Column */}
+        <div className="space-y-0.5 text-[11.8px]">
+          <div className="flex">
+            <span className="w-[75px] font-bold">Depot</span>
+            <span>: {data.mpo.depot}</span>
+          </div>
+          <div className="flex">
+            <span className="w-[75px] font-bold">MPO ID</span>
+            <span>: {data.mpo.mpoId}</span>
+          </div>
+          <div className="flex font-black text-[12.5px]">
+            <span className="w-[75px]">Name</span>
+            <span>: {data.mpo.name}</span>
+          </div>
+          <div className="flex">
+            <span className="w-[75px] font-bold">Summary</span>
+            <span>: {data.mpo.summary}</span>
+          </div>
+          <div className="flex">
+            <span className="w-[75px] font-bold">Sum Date</span>
+            <span>: {data.mpo.sumDate}</span>
+          </div>
         </div>
-        <div className="space-y-0.5 text-right text-[11.8px]">
-          <p><span className="inline-block w-24 text-left font-bold">Category</span>: {data.header.category}</p>
-          <p><span className="inline-block w-24 text-left font-bold">Invoice No</span>: <span className="font-black">{data.header.invoiceNo}</span></p>
-          <p><span className="inline-block w-24 text-left font-bold">Invoice Date</span>: {data.header.invoiceDate}</p>
-          <p><span className="inline-block w-24 text-left font-bold">Order Book No</span>: {data.header.orderBookNo}</p>
-          <p><span className="inline-block w-24 text-left font-bold">Delivery Date</span>: {data.header.deliveryDate}</p>
+
+        {/* Invoice Column */}
+        <div className="space-y-0.5 text-[11.8px] flex flex-col items-end">
+          <div className="flex w-full justify-end">
+            <span className="w-[100px] text-left font-bold">Category</span>
+            <span className="w-[120px]">: {data.header.category}</span>
+          </div>
+          <div className="flex w-full justify-end font-black">
+            <span className="w-[100px] text-left">Invoice No</span>
+            <span className="w-[120px]">: {data.header.invoiceNo}</span>
+          </div>
+          <div className="flex w-full justify-end">
+            <span className="w-[100px] text-left font-bold">Invoice Date</span>
+            <span className="w-[120px]">: {data.header.invoiceDate}</span>
+          </div>
+          <div className="flex w-full justify-end">
+            <span className="w-[100px] text-left font-bold">Order Book No</span>
+            <span className="w-[120px]">: {data.header.orderBookNo}</span>
+          </div>
+          <div className="flex w-full justify-end">
+            <span className="w-[100px] text-left font-bold">Delivery Date</span>
+            <span className="w-[120px]">: {data.header.deliveryDate}</span>
+          </div>
         </div>
       </div>
 
@@ -185,7 +235,7 @@ export function InvoicePreview({ data }: InvoicePreviewProps) {
 
         {/* Bengali Special Note */}
         <div className="mt-6 px-1">
-          <p className="font-bold text-[12.5px] py-1 border-b-[1px] border-black text-left text-black inline-block">
+          <p className="font-bold text-[12px] py-0.5 border-b-[1px] border-black text-left text-black inline-block">
             বিশেষ দ্রষ্টব্য : আপনার স্বাক্ষরিত রিসিভ ইনভয়েস ব্যতীত কাউকে টাকা / ঔষধ প্রদান করবেন না।
           </p>
         </div>
