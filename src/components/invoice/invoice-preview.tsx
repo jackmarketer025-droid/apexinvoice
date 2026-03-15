@@ -12,7 +12,7 @@ export function InvoicePreview({ data }: InvoicePreviewProps) {
   const [currentTime, setCurrentTime] = useState<string | null>(null);
 
   useEffect(() => {
-    // Hydration check: only set time on client side
+    // Hydration fix: Only set client-specific time after mount
     setCurrentTime(new Date().toLocaleTimeString());
   }, []);
 
@@ -30,9 +30,9 @@ export function InvoicePreview({ data }: InvoicePreviewProps) {
 
   return (
     <div className="invoice-a4 font-body text-[10px] leading-tight text-gray-800 flex flex-col min-h-[297mm]" id="print-area">
-      {/* Top Content Area - Expands to push footer down */}
+      {/* 1. Top Section - Body Content */}
       <div className="flex-grow">
-        {/* 1. Header Section */}
+        {/* Header Section */}
         <div className="flex justify-between items-start mb-2">
           <div className="w-1/4">
             <h1 className="text-4xl font-black text-primary italic tracking-tighter">Apex<span className="text-xs align-top font-normal">™</span></h1>
@@ -49,7 +49,7 @@ export function InvoicePreview({ data }: InvoicePreviewProps) {
           </div>
         </div>
 
-        {/* 2. Invoice Label Area */}
+        {/* Invoice Label Area */}
         <div className="relative text-center mb-6">
           <p className="text-[8px] text-blue-800 italic mb-1">Plot No - 19, Block - 1, Sadar, Dinajpur. Mobile No: 01755573378</p>
           <div className="inline-block bg-primary text-white px-10 py-0.5 rounded-full font-bold uppercase text-sm tracking-widest shadow-sm relative z-10">
@@ -58,7 +58,7 @@ export function InvoicePreview({ data }: InvoicePreviewProps) {
           <div className="absolute top-7 left-0 w-full h-[1px] bg-primary opacity-40"></div>
         </div>
 
-        {/* 3. Info Grid */}
+        {/* Info Grid */}
         <div className="grid grid-cols-3 gap-8 mb-4 px-1">
           <div className="space-y-0.5">
             <p><span className="w-14 inline-block">Cust ID</span>: {data.customer.customerId}</p>
@@ -83,7 +83,7 @@ export function InvoicePreview({ data }: InvoicePreviewProps) {
           </div>
         </div>
 
-        {/* 4. Table Section */}
+        {/* Table Section */}
         <table className="w-full text-[9px] border-collapse mb-4">
           <thead>
             <tr className="border-y border-gray-400 font-bold text-center">
@@ -122,7 +122,7 @@ export function InvoicePreview({ data }: InvoicePreviewProps) {
           </tbody>
         </table>
 
-        {/* 5. Summary & Totals */}
+        {/* Summary & Totals */}
         <div className="flex justify-end mb-4">
           <div className="w-72 text-[9px]">
             <div className="flex justify-between border-b py-0.5">
@@ -140,7 +140,7 @@ export function InvoicePreview({ data }: InvoicePreviewProps) {
           </div>
         </div>
 
-        {/* 6. In Words & Note */}
+        {/* In Words & Note */}
         <div className="mb-4">
           <p className="font-bold uppercase text-[9px]">In Word: {numberToWords(netPayable)}</p>
           <p className="font-bold text-[10px] mt-2 border-l-4 border-primary pl-2 py-1 bg-red-50">
@@ -149,9 +149,8 @@ export function InvoicePreview({ data }: InvoicePreviewProps) {
         </div>
       </div>
 
-      {/* Footer Area - Always pushed to the bottom of the A4 page */}
+      {/* 2. Footer Section - Fixed at bottom */}
       <div className="mt-auto">
-        {/* 7. Footer Signatures */}
         <div className="grid grid-cols-5 gap-4 mt-8 text-[8px] relative pb-8">
           <div className="border-t border-black pt-1 text-center">
              <p className="font-bold uppercase">Prepared By</p>
@@ -178,7 +177,6 @@ export function InvoicePreview({ data }: InvoicePreviewProps) {
           </div>
         </div>
 
-        {/* 8. Bottom Warranty Disclaimer */}
         <div className="border-t border-gray-300 pt-2 text-[7.5px] text-gray-500 italic space-y-0.5">
           <p>Warranty: We do hereby give this warranty that products sold under this invoice do not contravene to any provisions of section 18 of the drugs act 1940.</p>
           <p>Note: Received the goods in full and good condition.</p>

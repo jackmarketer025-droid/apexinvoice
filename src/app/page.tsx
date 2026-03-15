@@ -108,9 +108,9 @@ export default function Home() {
       </header>
 
       {/* Main Content Area */}
-      <main className="flex-1 container mx-auto p-4 md:p-8 grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 no-print overflow-hidden">
+      <main className="flex-1 container mx-auto p-4 md:p-8 grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 no-print min-h-0">
         {/* Editor Section */}
-        <div className="h-full overflow-hidden flex flex-col">
+        <div className="flex flex-col h-[calc(100vh-120px)] lg:h-[calc(100vh-160px)] min-w-0">
           <InvoiceEditor 
             data={invoiceData} 
             onChange={setInvoiceData} 
@@ -118,7 +118,7 @@ export default function Home() {
         </div>
 
         {/* Live Preview Section */}
-        <div className="flex flex-col items-center overflow-auto lg:overflow-visible">
+        <div className="flex flex-col items-center min-w-0">
           <div className="mb-4 w-full flex items-center justify-between px-2">
             <span className="text-xs md:text-sm font-semibold text-gray-500 uppercase flex items-center gap-2">
               <FileText className="w-4 h-4" /> Live Preview
@@ -126,9 +126,9 @@ export default function Home() {
             <span className="text-[10px] md:text-xs text-muted-foreground">A4 Professional Layout</span>
           </div>
           
-          {/* Scaling logic for preview on smaller screens */}
-          <div className="w-full flex justify-center pb-20">
-            <div className="origin-top scale-[0.45] sm:scale-[0.6] md:scale-[0.75] lg:scale-[0.8] xl:scale-100 transition-transform duration-300">
+          {/* Enhanced Scaling and Overflow Handling */}
+          <div className="w-full flex justify-center overflow-x-auto lg:overflow-visible py-4 custom-scrollbar">
+            <div className="origin-top scale-[0.38] min-[400px]:scale-[0.45] sm:scale-[0.6] md:scale-[0.7] lg:scale-[0.75] xl:scale-[0.85] 2xl:scale-100 transition-transform duration-300">
               <InvoicePreview data={invoiceData} />
             </div>
           </div>
