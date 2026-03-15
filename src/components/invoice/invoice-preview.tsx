@@ -43,29 +43,27 @@ export function InvoicePreview({ data }: InvoicePreviewProps) {
 
   return (
     <div className="invoice-a4 font-body text-[11px] leading-tight text-gray-900 flex flex-col min-h-[297mm] bg-white relative overflow-hidden" id="print-area">
-      {/* ১. ছোট ছোট ফন্টের রিপিটেড প্যাটার্ন (পুরো পেজ জুড়ে) */}
+      {/* ১. ছোট ছোট ফন্টের রিপিটেড প্যাটার্ন (পুরো পেজ জুড়ে) - নতুন স্টাইল */}
       <div 
-        className="absolute inset-0 pointer-events-none select-none opacity-[0.04]"
+        className="absolute inset-0 pointer-events-none select-none opacity-[0.05]"
         style={{
-          backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='120' viewBox='0 0 180 120'%3E%3Ctext x='20' y='60' font-family='sans-serif' font-size='10' font-weight='600' fill='gray' transform='rotate(-35, 20, 60)'%3EApex Pharma Ltd.%3C/text%3E%3C/svg%3E")`,
+          backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='150' viewBox='0 0 200 150'%3E%3Ctext x='20' y='60' font-family='sans-serif' font-size='12' font-weight='600' fill='gray' transform='rotate(-35, 20, 60)'%3EApex Pharma Ltd.%3C/text%3E%3C/svg%3E")`,
           backgroundRepeat: 'repeat',
           zIndex: 0
         }}
       ></div>
 
-      {/* ২. মাঝখানের বড় মেইন জলছাপ (ডায়াগোনাল) */}
-      <div className="absolute inset-0 flex items-center justify-center pointer-events-none select-none opacity-[0.06] z-0">
-        <div className="border-[10px] border-gray-400 p-10 rounded-xl rotate-[-35deg]">
-            <h1 className="text-[100px] font-black uppercase text-gray-500 tracking-widest whitespace-nowrap">
-              Apex Pharma
-            </h1>
-        </div>
+      {/* ২. মাঝখানের বড় মেইন জলছাপ (ডায়াগোনাল) - নতুন স্টাইল: হালকা লাল */}
+      <div className="absolute inset-0 flex items-center justify-center pointer-events-none select-none opacity-[0.08] z-0">
+        <h1 className="text-[120px] font-black uppercase text-red-600 rotate-[-45deg] tracking-widest whitespace-nowrap">
+          Apex Pharma
+        </h1>
       </div>
 
       {/* ৩. আসল ইনভয়েস কন্টেন্ট (z-10 দিয়ে জলছাপের উপরে রাখা হয়েছে) */}
       <div className="relative z-10 flex flex-col flex-grow">
         {/* Header Section */}
-        <div className="flex flex-col items-center pt-8 px-1">
+        <div className="flex flex-col items-center pt-12 px-1">
           <div className="w-full flex justify-between items-start mb-2">
             <div className="w-[30%]">
               <Image 
@@ -86,8 +84,8 @@ export function InvoicePreview({ data }: InvoicePreviewProps) {
           
           <div className="text-center flex flex-col items-center">
             <h2 className="text-[38px] font-black text-[#E31E24] whitespace-nowrap leading-none mb-2 uppercase tracking-tighter">Apex Pharma Ltd.</h2>
-            <p className="text-[12px] font-bold whitespace-nowrap leading-normal">House # 06, Road # 137, Block # SE(D) Gulshan-1, Dhaka-1212, Bangladesh.</p>
-            <p className="text-[12px] font-bold whitespace-nowrap leading-normal">Tel: +88(02)55044834-37, Fax: 880-2-55044839</p>
+            <p className="text-[13px] font-bold whitespace-nowrap leading-normal">House # 06, Road # 137, Block # SE(D) Gulshan-1, Dhaka-1212, Bangladesh.</p>
+            <p className="text-[13px] font-bold whitespace-nowrap leading-normal">Tel: +88(02)55044834-37, Fax: 880-2-55044839</p>
           </div>
         </div>
 
@@ -97,7 +95,7 @@ export function InvoicePreview({ data }: InvoicePreviewProps) {
           <div className="inline-block bg-[#E31E24] text-white px-16 py-2.5 rounded-full font-black uppercase text-[16px] tracking-[0.2em] shadow-sm">
             INVOICE
           </div>
-          <div className="mt-5 border-b-[1.5px] border-[#E31E24] mx-1"></div>
+          <div className="mt-5 border-b-[2px] border-[#E31E24] mx-1"></div>
         </div>
 
         {/* Info Grid */}
@@ -241,7 +239,7 @@ export function InvoicePreview({ data }: InvoicePreviewProps) {
 
           {/* Bengali Special Note */}
           <div className="mt-4 px-1 text-left">
-            <p className="text-[13px] font-bold border-b-[0.5px] border-black text-black inline-block leading-tight">
+            <p className="text-[13.5px] font-bold border-b-[0.5px] border-black text-black inline-block leading-tight">
               বিশেষ দ্রষ্টব্য : আপনার স্বাক্ষরিত রিসিভ ইনভয়েস ব্যতীত কাউকে টাকা / ঔষধ প্রদান করবেন না।
             </p>
           </div>
@@ -250,18 +248,18 @@ export function InvoicePreview({ data }: InvoicePreviewProps) {
         {/* Footer Area - Signatures */}
         <div className="mt-auto px-1 pb-6">
           <div className="flex justify-between items-end mb-8 pt-16">
-            <div className="grid grid-cols-6 gap-6 flex-1 text-[11px] font-medium text-gray-900">
+            <div className="grid grid-cols-6 gap-6 flex-1 text-[11.5px] font-bold text-gray-900">
               <div className="flex flex-col">
                 <div className="border-t-[0.5px] border-black pt-1.5">Prepared By</div>
-                <div className="text-[10px] mt-0.5">razzak</div>
+                <div className="text-[10px] mt-0.5 font-medium">razzak</div>
               </div>
               <div className="flex flex-col">
                 <div className="border-t-[0.5px] border-black pt-1.5">Authorised by</div>
-                <div className="text-[10px] mt-0.5">Date:....................</div>
+                <div className="text-[10px] mt-0.5 font-medium">Date:....................</div>
               </div>
               <div className="flex flex-col">
                 <div className="border-t-[0.5px] border-black pt-1.5">Delivered by</div>
-                <div className="text-[10px] mt-0.5 uppercase">MAHEDY HASAN</div>
+                <div className="text-[10px] mt-0.5 uppercase font-medium">MAHEDY HASAN</div>
               </div>
               <div className="flex flex-col">
                 <div className="border-t-[0.5px] border-black pt-1.5">Collection by</div>
