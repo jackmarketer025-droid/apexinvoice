@@ -185,8 +185,8 @@ export function InvoicePreview({ data }: InvoicePreviewProps) {
 
         {/* Bengali Special Note */}
         <div className="mt-6 px-1">
-          <p className="font-black text-[15.5px] py-1 border-b-[1px] border-black text-left text-black">
-            विशेष দ্রষ্টव्य : আপনার স্বাক্ষরিত রিসিভ ইনভয়েস ব্যতীত কাউকে টাকা / ঔষধ প্রদান করবেন না।
+          <p className="font-black text-[14px] py-1 border-b-[1px] border-black text-left text-black inline-block">
+            বিশেষ দ্রষ্টব্য : আপনার স্বাক্ষরিত রিসিভ ইনভয়েস ব্যতীত কাউকে টাকা / ঔষধ প্রদান করবেন না।
           </p>
         </div>
       </div>
@@ -233,4 +233,3 @@ export function InvoicePreview({ data }: InvoicePreviewProps) {
     </div>
   );
 }
-
