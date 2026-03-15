@@ -10,6 +10,7 @@ interface InvoicePreviewProps {
 }
 
 export function InvoicePreview({ data }: InvoicePreviewProps) {
+  // We keep the state but don't display it in the footer as per latest request
   const [currentTime, setCurrentTime] = useState<string | null>(null);
 
   useEffect(() => {
@@ -29,7 +30,7 @@ export function InvoicePreview({ data }: InvoicePreviewProps) {
       <div className="flex-grow p-10 print:p-5">
         {/* Header Section */}
         <div className="flex justify-between items-start mb-2">
-          <div className="w-1/4">
+          <div className="w-1/3">
             <div className="mb-1">
               <Image 
                 src="https://res.cloudinary.com/dd3eekw7h/image/upload/v1773604830/Apex_logo_p5tupb.png" 
@@ -40,14 +41,14 @@ export function InvoicePreview({ data }: InvoicePreviewProps) {
                 priority
               />
             </div>
-            <p className="text-[7.5px] font-bold text-gray-800 uppercase tracking-tighter leading-none">A SEED MARINE FLAKE ENTERPRISE</p>
+            <p className="text-[8px] font-bold text-gray-800 uppercase tracking-tighter leading-none mt-1">A SEED MARINE FLAKE ENTERPRISE</p>
           </div>
-          <div className="w-2/4 text-center pt-2">
+          <div className="w-1/3 text-center pt-2">
             <h2 className="text-3xl font-extrabold text-primary">Apex Pharma Ltd.</h2>
             <p className="text-[9px]">House # 06, Road # 137, Block # SE(D) Gulshan-1, Dhaka-1212, Bangladesh.</p>
             <p className="text-[9px]">Tel: +88(02)55044834-37, Fax: 880-2-55044839</p>
           </div>
-          <div className="w-1/4 text-right font-semibold text-gray-600 pt-2">
+          <div className="w-1/3 text-right font-semibold text-gray-600 pt-2">
             <p>Customer Copy</p>
             <p>Customer Copy</p>
           </div>
@@ -135,7 +136,7 @@ export function InvoicePreview({ data }: InvoicePreviewProps) {
       {/* Footer Section - Fixed at the very bottom of A4 */}
       <div className="mt-auto p-10 pt-0 print:p-5">
         {/* Signature Area */}
-        <div className="grid grid-cols-5 gap-4 text-[8.5px] text-center uppercase font-bold mb-10 mt-10">
+        <div className="grid grid-cols-5 gap-4 text-[8.5px] text-center uppercase font-bold mb-12 mt-10">
           <div className="border-t border-black pt-1">Prepared By</div>
           <div className="border-t border-black pt-1">Authorised By</div>
           <div className="border-t border-black pt-1">Delivered By</div>
@@ -144,13 +145,14 @@ export function InvoicePreview({ data }: InvoicePreviewProps) {
         </div>
 
         {/* Final Disclaimer */}
-        <div className="border-t pt-2 text-[8.5px] text-gray-700 italic">
-          <div className="flex justify-between items-start">
-            <div className="space-y-1">
-              <p><span className="font-bold not-italic">Warranty :</span> We do hereby give this warranty that products sold under this invoice do not contravene to any provisions of section 18 of the drugs act 1940</p>
-              <p><span className="font-bold not-italic">Note :</span> Received the goods in full and good condition.</p>
-            </div>
-            <p className="whitespace-nowrap ml-4 text-gray-400">Print Time: {currentTime || '--:--:--'}</p>
+        <div className="border-t pt-2 text-[9.5px] text-gray-700 italic">
+          <div className="space-y-1">
+            <p className="leading-tight">
+              <span className="font-bold not-italic">Warranty :</span> We do hereby give this warranty that products sold under this invoice do not contravene to any provisions of section 18 of the drugs act 1940
+            </p>
+            <p className="leading-tight">
+              <span className="font-bold not-italic">Note :</span> Received the goods in full and good condition.
+            </p>
           </div>
         </div>
       </div>
