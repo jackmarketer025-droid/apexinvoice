@@ -1,6 +1,6 @@
 "use client"
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { InvoiceData } from '@/types/invoice';
 import { calculateLineTotals, formatCurrency, numberToWords } from '@/lib/invoice-utils';
 
@@ -9,6 +9,13 @@ interface InvoicePreviewProps {
 }
 
 export function InvoicePreview({ data }: InvoicePreviewProps) {
+  const [currentTime, setCurrentTime] = useState<string | null>(null);
+
+  useEffect(() => {
+    // Hydration check: only set time on client side
+    setCurrentTime(new Date().toLocaleTimeString());
+  }, []);
+
   const totals = data.productLines.reduce((acc, line) => {
     const { totalTp, totalVat } = calculateLineTotals(line);
     return {
@@ -23,7 +30,7 @@ export function InvoicePreview({ data }: InvoicePreviewProps) {
 
   return (
     <div className="invoice-a4 font-body text-[10px] leading-tight text-gray-800 flex flex-col min-h-[297mm]" id="print-area">
-      {/* Scrollable Content Part */}
+      {/* Top Content Area - Expands to push footer down */}
       <div className="flex-grow">
         {/* 1. Header Section */}
         <div className="flex justify-between items-start mb-2">
@@ -142,7 +149,7 @@ export function InvoicePreview({ data }: InvoicePreviewProps) {
         </div>
       </div>
 
-      {/* Footer Content - This always stays at the bottom of the A4 page */}
+      {/* Footer Area - Always pushed to the bottom of the A4 page */}
       <div className="mt-auto">
         {/* 7. Footer Signatures */}
         <div className="grid grid-cols-5 gap-4 mt-8 text-[8px] relative pb-8">
@@ -167,7 +174,7 @@ export function InvoicePreview({ data }: InvoicePreviewProps) {
 
           <div className="absolute -bottom-2 right-0 text-right opacity-70">
              <p>{data.header.invoiceDate}</p>
-             <p>{new Date().toLocaleTimeString()}</p>
+             <p>{currentTime || '--:--:--'}</p>
           </div>
         </div>
 
