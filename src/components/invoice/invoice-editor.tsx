@@ -57,7 +57,7 @@ export function InvoiceEditor({ data, onChange }: InvoiceEditorProps) {
       ...data,
       productLines: [
         ...data.productLines,
-        { productId: '', description: '', packSize: '', unitTp: 0, vatRate: 17.4, quantity: 1 }
+        { productId: '', description: '', packSize: '', unitTp: 0, vatRate: 0, quantity: 1 }
       ]
     });
   };
