@@ -56,7 +56,7 @@ export function InvoicePreview({ data }: InvoicePreviewProps) {
           />
           <p className="text-[9.5px] font-black text-gray-900 uppercase tracking-tighter leading-none mt-2">A SEED MARINE FLAKE ENTERPRISE</p>
         </div>
-        <div className="w-[50%] text-center flex flex-col items-center">
+        <div className="w-[50%] text-center flex flex-col items-center pt-2">
           <h2 className="text-[38px] font-black text-[#E31E24] whitespace-nowrap leading-none mb-1 uppercase tracking-tighter">Apex Pharma Ltd.</h2>
           <p className="text-[12px] font-bold whitespace-nowrap">House # 06, Road # 137, Block # SE(D) Gulshan-1, Dhaka-1212, Bangladesh.</p>
           <p className="text-[12px] font-bold whitespace-nowrap">Tel: +88(02)55044834-37, Fax: 880-2-55044839</p>
