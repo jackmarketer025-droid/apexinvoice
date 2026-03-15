@@ -78,23 +78,23 @@ export function InvoicePreview({ data }: InvoicePreviewProps) {
         {/* Customer Column */}
         <div className="space-y-0.5 text-[11.8px]">
           <div className="flex">
-            <span className="w-[90px] font-bold">Cust ID</span>
+            <span className="w-[85px] font-bold">Cust ID</span>
             <span>: {data.customer.customerId}</span>
           </div>
           <div className="flex font-black text-[12.5px]">
-            <span className="w-[90px]">Name</span>
+            <span className="w-[85px]">Name</span>
             <span>: {data.customer.name}</span>
           </div>
           <div className="flex">
-            <span className="w-[90px] font-bold">Address</span>
+            <span className="w-[85px] font-bold">Address</span>
             <span>: {data.customer.address}</span>
           </div>
           <div className="flex">
-            <span className="w-[90px] font-bold">Phone</span>
+            <span className="w-[85px] font-bold">Phone</span>
             <span>: {data.customer.phone}</span>
           </div>
           <div className="flex font-black">
-            <span className="w-[90px]">Route</span>
+            <span className="w-[85px]">Route</span>
             <span>: {data.customer.route}</span>
           </div>
         </div>
@@ -102,23 +102,23 @@ export function InvoicePreview({ data }: InvoicePreviewProps) {
         {/* MPO Column */}
         <div className="space-y-0.5 text-[11.8px]">
           <div className="flex">
-            <span className="w-[90px] font-bold">Depot</span>
+            <span className="w-[85px] font-bold">Depot</span>
             <span>: {data.mpo.depot}</span>
           </div>
           <div className="flex">
-            <span className="w-[90px] font-bold">MPO ID</span>
+            <span className="w-[85px] font-bold">MPO ID</span>
             <span>: {data.mpo.mpoId}</span>
           </div>
           <div className="flex font-black text-[12.5px]">
-            <span className="w-[90px]">Name</span>
+            <span className="w-[85px]">Name</span>
             <span>: {data.mpo.name}</span>
           </div>
           <div className="flex">
-            <span className="w-[90px] font-bold">Summary</span>
+            <span className="w-[85px] font-bold">Summary</span>
             <span>: {data.mpo.summary}</span>
           </div>
           <div className="flex">
-            <span className="w-[90px] font-bold">Sum Date</span>
+            <span className="w-[85px] font-bold">Sum Date</span>
             <span>: {data.mpo.sumDate}</span>
           </div>
         </div>
@@ -126,24 +126,24 @@ export function InvoicePreview({ data }: InvoicePreviewProps) {
         {/* Invoice Column */}
         <div className="space-y-0.5 text-[11.8px] flex flex-col items-end">
           <div className="flex w-full justify-end">
-            <span className="w-[110px] text-left font-bold">Category</span>
-            <span className="w-[120px]">: {data.header.category}</span>
+            <span className="w-[105px] text-left font-bold">Category</span>
+            <span className="w-[115px]">: {data.header.category}</span>
           </div>
           <div className="flex w-full justify-end font-black">
-            <span className="w-[110px] text-left">Invoice No.</span>
-            <span className="w-[120px]">: {data.header.invoiceNo}</span>
+            <span className="w-[105px] text-left">Invoice No.</span>
+            <span className="w-[115px]">: {data.header.invoiceNo}</span>
           </div>
           <div className="flex w-full justify-end">
-            <span className="w-[110px] text-left font-bold">Invoice Date</span>
-            <span className="w-[120px]">: {data.header.invoiceDate}</span>
+            <span className="w-[105px] text-left font-bold">Invoice Date</span>
+            <span className="w-[115px]">: {data.header.invoiceDate}</span>
           </div>
           <div className="flex w-full justify-end">
-            <span className="w-[110px] text-left font-bold">Order Book No.</span>
-            <span className="w-[120px]">: {data.header.orderBookNo}</span>
+            <span className="w-[105px] text-left font-bold">Order Book No.</span>
+            <span className="w-[115px]">: {data.header.orderBookNo}</span>
           </div>
           <div className="flex w-full justify-end">
-            <span className="w-[110px] text-left font-bold">Delivery Date</span>
-            <span className="w-[120px]">: {data.header.deliveryDate}</span>
+            <span className="w-[105px] text-left font-bold">Delivery Date</span>
+            <span className="w-[115px]">: {data.header.deliveryDate}</span>
           </div>
         </div>
       </div>
@@ -192,14 +192,14 @@ export function InvoicePreview({ data }: InvoicePreviewProps) {
           </tbody>
           <tfoot>
             <tr className="font-bold bg-white text-[12px]">
-              <td colSpan={7} className="p-2"></td>
-              <td colSpan={2} className="p-2 text-right border-t-[1.5px] border-gray-900">
+              <td colSpan={6} className="p-2"></td>
+              <td colSpan={3} className="p-2 text-right border-t-[1.5px] border-gray-900 pr-4">
                 <span className="font-black uppercase inline-block whitespace-nowrap">TOTAL AMOUNT :</span>
               </td>
               <td className="p-2 text-center text-gray-900 border-t-[1.5px] border-gray-900">{formatCurrency(totals.totalTp)}</td>
               <td className="p-2 text-center text-gray-900 border-t-[1.5px] border-gray-900">{formatCurrency(totals.totalVat)}</td>
               <td className="p-2 text-center text-gray-900 border-t-[1.5px] border-gray-900">{formatCurrency(totals.specialDis)}</td>
-              <td className="p-2 text-right text-[12px] text-gray-900 border-t-[1.5px] border-gray-900">{formatCurrency(totals.totalPrice)}</td>
+              <td className="p-2 text-right text-[12px] text-gray-900 border-t-[1.5px] border-gray-900 font-black">{formatCurrency(totals.totalPrice)}</td>
             </tr>
           </tfoot>
         </table>
@@ -236,7 +236,7 @@ export function InvoicePreview({ data }: InvoicePreviewProps) {
 
         {/* Bengali Special Note */}
         <div className="mt-6 px-1 text-left">
-          <p className="font-bold text-[10.5px] py-0.5 border-b-[1px] border-black text-black inline-block leading-tight">
+          <p className="font-bold text-[10px] border-b-[1px] border-black text-black inline-block leading-tight">
             বিশেষ দ্রষ্টব্য : আপনার স্বাক্ষরিত রিসিভ ইনভয়েস ব্যতীত কাউকে টাকা / ঔষধ প্রদান করবেন না।
           </p>
         </div>
