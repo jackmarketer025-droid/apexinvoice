@@ -208,7 +208,7 @@ export function InvoicePreview({ data }: InvoicePreviewProps) {
 
         {/* Final Warranty Section */}
         <div className="border-t-[3px] border-black pt-3 space-y-2">
-          <p className="text-[12.5px] leading-snug font-bold">
+          <p className="text-[12.5px] leading-snug font-bold whitespace-nowrap overflow-hidden">
             <span className="font-black uppercase">Warranty :</span> We do hereby give this warranty that products sold under this invoice do not contravene to any provisions of section 18 of the drugs act 1940
           </p>
           <p className="text-[12.5px] leading-snug font-bold">
