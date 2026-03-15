@@ -18,8 +18,8 @@ export type DraftInvoiceInput = z.infer<typeof DraftInvoiceInputSchema>;
 
 // 2. Define Output Schema
 const ProductLineSchema = z.object({
-  description: z.string().describe("The name and specific details of the product (e.g., \"Apocal-D Tablet (15's)\")."),
-  packSize: z.string().optional().describe("The package size of the product (e.g., \"15's\")."),
+  description: z.string().describe("The name and specific details of the product (e.g., Apocal-D Tablet 15's)."),
+  packSize: z.string().optional().describe("The package size of the product (e.g., 15's)."),
   unitTp: z.number().describe('The Unit Trade Price (TP) of the product.'),
   vatRate: z.number().optional().describe('The VAT Rate in percentage (e.g., 17.4).'),
   quantity: z.number().int().positive().describe('The quantity of the product being purchased.'),

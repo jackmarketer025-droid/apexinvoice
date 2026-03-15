@@ -3,7 +3,6 @@
 import React from 'react';
 import { InvoiceData } from '@/types/invoice';
 import { calculateLineTotals, formatCurrency, numberToWords } from '@/lib/invoice-utils';
-import { cn } from '@/lib/utils';
 
 interface InvoicePreviewProps {
   data: InvoiceData;
@@ -23,8 +22,9 @@ export function InvoicePreview({ data }: InvoicePreviewProps) {
   const netPayable = totalAmount - discountAmount;
 
   return (
-    <div className="invoice-a4 font-body text-[10px] leading-tight text-gray-800 flex flex-col justify-between" id="print-area">
-      <div className="flex-1">
+    <div className="invoice-a4 font-body text-[10px] leading-tight text-gray-800 flex flex-col min-h-[297mm]" id="print-area">
+      {/* Scrollable Content Part */}
+      <div className="flex-grow">
         {/* 1. Header Section */}
         <div className="flex justify-between items-start mb-2">
           <div className="w-1/4">
@@ -77,7 +77,7 @@ export function InvoicePreview({ data }: InvoicePreviewProps) {
         </div>
 
         {/* 4. Table Section */}
-        <table className="w-full text-[9px] border-collapse mb-1">
+        <table className="w-full text-[9px] border-collapse mb-4">
           <thead>
             <tr className="border-y border-gray-400 font-bold text-center">
               <th className="p-1 text-left border-r w-[60px]">P Id</th>
@@ -142,10 +142,10 @@ export function InvoicePreview({ data }: InvoicePreviewProps) {
         </div>
       </div>
 
-      {/* Footer Content - This stays at the bottom */}
-      <div className="mt-4">
+      {/* Footer Content - This always stays at the bottom of the A4 page */}
+      <div className="mt-auto">
         {/* 7. Footer Signatures */}
-        <div className="grid grid-cols-5 gap-4 mt-8 text-[8px] relative">
+        <div className="grid grid-cols-5 gap-4 mt-8 text-[8px] relative pb-8">
           <div className="border-t border-black pt-1 text-center">
              <p className="font-bold uppercase">Prepared By</p>
              <p className="mt-1">razzak</p>
@@ -165,14 +165,14 @@ export function InvoicePreview({ data }: InvoicePreviewProps) {
              <p className="font-bold uppercase">Customer's Signature</p>
           </div>
 
-          <div className="absolute -bottom-8 right-0 text-right opacity-70">
+          <div className="absolute -bottom-2 right-0 text-right opacity-70">
              <p>{data.header.invoiceDate}</p>
              <p>{new Date().toLocaleTimeString()}</p>
           </div>
         </div>
 
         {/* 8. Bottom Warranty Disclaimer */}
-        <div className="mt-12 border-t border-gray-300 pt-2 text-[7.5px] text-gray-500 italic space-y-0.5">
+        <div className="border-t border-gray-300 pt-2 text-[7.5px] text-gray-500 italic space-y-0.5">
           <p>Warranty: We do hereby give this warranty that products sold under this invoice do not contravene to any provisions of section 18 of the drugs act 1940.</p>
           <p>Note: Received the goods in full and good condition.</p>
         </div>

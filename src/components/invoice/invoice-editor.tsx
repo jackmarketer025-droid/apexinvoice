@@ -6,8 +6,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Plus, Trash2, Wand2 } from 'lucide-react';
-import { Separator } from '@/components/ui/separator';
+import { Plus, Trash2 } from 'lucide-react';
 import { AIDraftDialog } from './ai-draft-dialog';
 
 interface InvoiceEditorProps {
@@ -59,17 +58,17 @@ export function InvoiceEditor({ data, onChange }: InvoiceEditorProps) {
   };
 
   return (
-    <div className="space-y-6 max-h-[calc(100vh-100px)] overflow-y-auto pr-4 custom-scrollbar">
-      <div className="flex justify-between items-center">
-        <h2 className="text-2xl font-bold font-headline text-secondary">Edit Invoice</h2>
+    <div className="space-y-6 max-h-full overflow-y-auto pb-10 px-1 custom-scrollbar">
+      <div className="flex flex-col sm:flex-row gap-4 justify-between items-start sm:items-center sticky top-0 bg-[#FAF8F8] py-2 z-10 border-b mb-4">
+        <h2 className="text-xl md:text-2xl font-bold font-headline text-secondary">Edit Invoice</h2>
         <AIDraftDialog onDraft={(draft) => onChange(draft)} currentData={data} />
       </div>
 
       <Card>
-        <CardHeader>
-          <CardTitle className="text-sm font-bold uppercase tracking-wider text-muted-foreground">Customer Details</CardTitle>
+        <CardHeader className="py-3 px-4">
+          <CardTitle className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Customer Details</CardTitle>
         </CardHeader>
-        <CardContent className="grid grid-cols-2 gap-4">
+        <CardContent className="grid grid-cols-1 sm:grid-cols-2 gap-4 p-4">
           <div className="space-y-2">
             <Label>Customer ID</Label>
             <Input value={data.customer.customerId} onChange={(e) => handleCustomerChange('customerId', e.target.value)} />
@@ -78,7 +77,7 @@ export function InvoiceEditor({ data, onChange }: InvoiceEditorProps) {
             <Label>Name</Label>
             <Input value={data.customer.name} onChange={(e) => handleCustomerChange('name', e.target.value)} />
           </div>
-          <div className="space-y-2 col-span-2">
+          <div className="space-y-2 sm:col-span-2">
             <Label>Address</Label>
             <Input value={data.customer.address} onChange={(e) => handleCustomerChange('address', e.target.value)} />
           </div>
@@ -94,10 +93,10 @@ export function InvoiceEditor({ data, onChange }: InvoiceEditorProps) {
       </Card>
 
       <Card>
-        <CardHeader>
-          <CardTitle className="text-sm font-bold uppercase tracking-wider text-muted-foreground">MPO & Depot</CardTitle>
+        <CardHeader className="py-3 px-4">
+          <CardTitle className="text-xs font-bold uppercase tracking-wider text-muted-foreground">MPO & Depot</CardTitle>
         </CardHeader>
-        <CardContent className="grid grid-cols-2 gap-4">
+        <CardContent className="grid grid-cols-1 sm:grid-cols-2 gap-4 p-4">
           <div className="space-y-2">
             <Label>Depot</Label>
             <Input value={data.mpo.depot} onChange={(e) => handleMpoChange('depot', e.target.value)} />
@@ -118,10 +117,10 @@ export function InvoiceEditor({ data, onChange }: InvoiceEditorProps) {
       </Card>
 
       <Card>
-        <CardHeader>
-          <CardTitle className="text-sm font-bold uppercase tracking-wider text-muted-foreground">Invoice Metadata</CardTitle>
+        <CardHeader className="py-3 px-4">
+          <CardTitle className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Invoice Metadata</CardTitle>
         </CardHeader>
-        <CardContent className="grid grid-cols-2 gap-4">
+        <CardContent className="grid grid-cols-1 sm:grid-cols-2 gap-4 p-4">
           <div className="space-y-2">
             <Label>Category</Label>
             <Input value={data.header.category} onChange={(e) => handleHeaderChange('category', e.target.value)} />
@@ -149,47 +148,51 @@ export function InvoiceEditor({ data, onChange }: InvoiceEditorProps) {
           </Button>
         </div>
         
-        {data.productLines.map((line, idx) => (
-          <Card key={idx} className="relative overflow-hidden">
-            <Button 
-              variant="ghost" 
-              size="icon" 
-              className="absolute top-2 right-2 text-destructive hover:bg-destructive/10"
-              onClick={() => removeLine(idx)}
-            >
-              <Trash2 className="w-4 h-4" />
-            </Button>
-            <CardContent className="p-4 grid grid-cols-12 gap-3 pt-8">
-              <div className="col-span-2 space-y-1">
-                <Label className="text-[10px]">ID</Label>
-                <Input className="h-8 text-xs" value={line.productId} onChange={(e) => handleLineChange(idx, 'productId', e.target.value)} />
-              </div>
-              <div className="col-span-5 space-y-1">
-                <Label className="text-[10px]">Description</Label>
-                <Input className="h-8 text-xs" value={line.description} onChange={(e) => handleLineChange(idx, 'description', e.target.value)} />
-              </div>
-              <div className="col-span-3 space-y-1">
-                <Label className="text-[10px]">Pack Size</Label>
-                <Input className="h-8 text-xs" value={line.packSize} onChange={(e) => handleLineChange(idx, 'packSize', e.target.value)} />
-              </div>
-              <div className="col-span-2 space-y-1">
-                <Label className="text-[10px]">Qty</Label>
-                <Input className="h-8 text-xs" type="number" value={line.quantity} onChange={(e) => handleLineChange(idx, 'quantity', parseInt(e.target.value) || 0)} />
-              </div>
-              <div className="col-span-3 space-y-1">
-                <Label className="text-[10px]">Unit TP</Label>
-                <Input className="h-8 text-xs" type="number" step="0.01" value={line.unitTp} onChange={(e) => handleLineChange(idx, 'unitTp', parseFloat(e.target.value) || 0)} />
-              </div>
-              <div className="col-span-3 space-y-1">
-                <Label className="text-[10px]">VAT %</Label>
-                <Input className="h-8 text-xs" type="number" step="0.1" value={line.vatRate} onChange={(e) => handleLineChange(idx, 'vatRate', parseFloat(e.target.value) || 0)} />
-              </div>
-            </CardContent>
-          </Card>
-        ))}
+        <div className="space-y-4">
+          {data.productLines.map((line, idx) => (
+            <Card key={idx} className="relative overflow-hidden group">
+              <Button 
+                variant="ghost" 
+                size="icon" 
+                className="absolute top-2 right-2 text-destructive hover:bg-destructive/10"
+                onClick={() => removeLine(idx)}
+              >
+                <Trash2 className="w-4 h-4" />
+              </Button>
+              <CardContent className="p-4 pt-10">
+                <div className="grid grid-cols-1 sm:grid-cols-12 gap-3">
+                  <div className="sm:col-span-3 space-y-1">
+                    <Label className="text-[10px]">ID</Label>
+                    <Input className="h-8 text-xs" value={line.productId} onChange={(e) => handleLineChange(idx, 'productId', e.target.value)} />
+                  </div>
+                  <div className="sm:col-span-9 space-y-1">
+                    <Label className="text-[10px]">Description</Label>
+                    <Input className="h-8 text-xs" value={line.description} onChange={(e) => handleLineChange(idx, 'description', e.target.value)} />
+                  </div>
+                  <div className="sm:col-span-4 space-y-1">
+                    <Label className="text-[10px]">Pack Size</Label>
+                    <Input className="h-8 text-xs" value={line.packSize} onChange={(e) => handleLineChange(idx, 'packSize', e.target.value)} />
+                  </div>
+                  <div className="sm:col-span-2 space-y-1">
+                    <Label className="text-[10px]">Qty</Label>
+                    <Input className="h-8 text-xs" type="number" value={line.quantity} onChange={(e) => handleLineChange(idx, 'quantity', parseInt(e.target.value) || 0)} />
+                  </div>
+                  <div className="sm:col-span-3 space-y-1">
+                    <Label className="text-[10px]">Unit TP</Label>
+                    <Input className="h-8 text-xs" type="number" step="0.01" value={line.unitTp} onChange={(e) => handleLineChange(idx, 'unitTp', parseFloat(e.target.value) || 0)} />
+                  </div>
+                  <div className="sm:col-span-3 space-y-1">
+                    <Label className="text-[10px]">VAT %</Label>
+                    <Input className="h-8 text-xs" type="number" step="0.1" value={line.vatRate} onChange={(e) => handleLineChange(idx, 'vatRate', parseFloat(e.target.value) || 0)} />
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
       </div>
 
-      <Card className="bg-secondary/5">
+      <Card className="bg-secondary/5 mb-8">
         <CardContent className="p-4">
           <div className="flex items-center justify-between">
             <Label className="font-bold">Global Discount (%)</Label>
