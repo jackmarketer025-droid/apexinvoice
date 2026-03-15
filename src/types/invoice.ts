@@ -2,8 +2,7 @@ export interface ProductLine {
   productId: string;
   description: string;
   packSize: string;
-  unitTp: number;
-  vatRate: number;
+  unitTpVat: number;
   quantity: number;
 }
 

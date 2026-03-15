@@ -18,33 +18,32 @@ export type DraftInvoiceInput = z.infer<typeof DraftInvoiceInputSchema>;
 
 // 2. Define Output Schema
 const ProductLineSchema = z.object({
-  description: z.string().describe("The name and specific details of the product (e.g., \"Apocal-D Tablet 15's\")."),
-  packSize: z.string().optional().describe("The package size of the product (e.g., \"15's\")."),
-  unitTp: z.number().describe('The Unit Trade Price (TP) of the product.'),
-  vatRate: z.number().optional().describe('The VAT Rate in percentage (e.g., 17.4).'),
+  description: z.string().describe("The name and specific details of the product (e.g., 'Acorex Syp 100 ml')."),
+  packSize: z.string().optional().describe("The package size of the product (e.g., '3x10s')."),
+  unitTpVat: z.number().describe('The Unit Price including TP and VAT.'),
   quantity: z.number().int().positive().describe('The quantity of the product being purchased.'),
-  productId: z.string().optional().describe('The product ID, if specified.'),
+  productId: z.string().optional().describe('The product ID (e.g. 10023).'),
 });
 
 const DraftInvoiceOutputSchema = z.object({
   customer: z.object({
     customerId: z.string().optional().describe('The customer ID.'),
-    name: z.string().optional().describe("The customer's name (e.g., \"PARVEZ PHARMACY\")."),
-    address: z.string().optional().describe("The customer's address (e.g., \"NOSRATPUR\")."),
+    name: z.string().optional().describe("The customer's name (e.g., 'PARVEZ PHARMACY')."),
+    address: z.string().optional().describe("The customer's address (e.g., 'NOSRATPUR')."),
     phone: z.string().optional().describe("The customer's phone number."),
-    route: z.string().optional().describe("The customer's sales route (e.g., \"BAZAR ROAD\")."),
+    route: z.string().optional().describe("The customer's sales route (e.g., 'BAZAR ROAD')."),
   }).optional().describe('Details about the customer.'),
 
   mpo: z.object({
-    depot: z.string().optional().describe('The depot name (e.g., "Dinajpur Depot").'),
+    depot: z.string().optional().describe("The depot name (e.g., 'Dinajpur Depot')."),
     mpoId: z.string().optional().describe('The MPO ID.'),
-    name: z.string().optional().describe("The MPO's name (e.g., \"KHAYRUL ISLAM\")."),
+    name: z.string().optional().describe("The MPO's name (e.g., 'KHAYRUL ISLAM')."),
     summary: z.string().optional().describe('MPO summary/code.'),
     sumDate: z.string().optional().describe('MPO summary date in DD-MM-YYYY format.'),
   }).optional().describe('Details about the Medical Promotion Officer (MPO).'),
 
   invoice: z.object({
-    category: z.string().optional().describe('The invoice category (e.g., "General").'),
+    category: z.string().optional().describe("The invoice category (e.g., 'General')."),
     invoiceNo: z.string().optional().describe('The invoice number.'),
     invoiceDate: z.string().optional().describe('The invoice date in DD-MM-YYYY format.'),
     orderBookNo: z.string().optional().describe('The order book number.'),

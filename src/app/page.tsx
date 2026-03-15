@@ -40,10 +40,9 @@ const DEFAULT_INVOICE: InvoiceData = {
   productLines: [
     {
       productId: '10729',
-      description: "Apocal-D Tablet (15's)",
+      description: "Apocal-D Tab",
       packSize: "15's",
-      unitTp: 56.25,
-      vatRate: 17.4,
+      unitTpVat: 56.25,
       quantity: 20
     }
   ],
@@ -118,7 +117,7 @@ export default function Home() {
         </div>
 
         {/* Live Preview Section */}
-        <div className="flex flex-col items-center min-w-0">
+        <div className="flex flex-col items-center min-w-0 overflow-hidden">
           <div className="mb-4 w-full flex items-center justify-between px-2">
             <span className="text-xs md:text-sm font-semibold text-gray-500 uppercase flex items-center gap-2">
               <FileText className="w-4 h-4" /> Live Preview
@@ -126,16 +125,14 @@ export default function Home() {
             <span className="text-[10px] md:text-xs text-muted-foreground">A4 Professional Layout</span>
           </div>
           
-          {/* Enhanced Scaling and Overflow Handling */}
-          <div className="w-full flex justify-center overflow-x-auto lg:overflow-visible py-4 custom-scrollbar">
-            <div className="origin-top scale-[0.38] min-[400px]:scale-[0.45] sm:scale-[0.6] md:scale-[0.7] lg:scale-[0.75] xl:scale-[0.85] 2xl:scale-100 transition-transform duration-300">
+          <div className="w-full flex justify-center py-4 overflow-hidden">
+             <div className="origin-top scale-[0.35] sm:scale-[0.5] md:scale-[0.6] lg:scale-[0.7] xl:scale-[0.8] 2xl:scale-100 transition-transform duration-300">
               <InvoicePreview data={invoiceData} />
             </div>
           </div>
         </div>
       </main>
 
-      {/* Hidden for screen, shown for print */}
       <div className="print-only hidden">
         <InvoicePreview data={invoiceData} />
       </div>
