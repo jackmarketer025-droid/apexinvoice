@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { InvoiceData } from '@/types/invoice';
 import { calculateLineTotals, formatCurrency, numberToWords } from '@/lib/invoice-utils';
+import Image from 'next/image';
 
 interface InvoicePreviewProps {
   data: InvoiceData;
@@ -30,15 +31,24 @@ export function InvoicePreview({ data }: InvoicePreviewProps) {
         {/* Header Section */}
         <div className="flex justify-between items-start mb-2">
           <div className="w-1/4">
-            <h1 className="text-4xl font-black text-primary italic tracking-tighter leading-none">Apex<span className="text-xs align-top font-normal">™</span></h1>
-            <p className="text-[7.5px] font-bold text-gray-500 uppercase">A Seed Marine Flake Enterprise</p>
+            <div className="mb-1">
+              <Image 
+                src="https://res.cloudinary.com/dd3eekw7h/image/upload/v1773604830/Apex_logo_p5tupb.png" 
+                alt="Apex Logo" 
+                width={140} 
+                height={50}
+                className="object-contain"
+                priority
+              />
+            </div>
+            <p className="text-[7.5px] font-bold text-gray-800 uppercase tracking-tighter leading-none">A SEED MARINE FLAKE ENTERPRISE</p>
           </div>
-          <div className="w-2/4 text-center">
+          <div className="w-2/4 text-center pt-2">
             <h2 className="text-3xl font-extrabold text-primary">Apex Pharma Ltd.</h2>
             <p className="text-[9px]">House # 06, Road # 137, Block # SE(D) Gulshan-1, Dhaka-1212, Bangladesh.</p>
             <p className="text-[9px]">Tel: +88(02)55044834-37, Fax: 880-2-55044839</p>
           </div>
-          <div className="w-1/4 text-right font-semibold text-gray-600">
+          <div className="w-1/4 text-right font-semibold text-gray-600 pt-2">
             <p>Customer Copy</p>
             <p>Customer Copy</p>
           </div>
