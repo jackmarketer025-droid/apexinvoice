@@ -33,8 +33,8 @@ export function InvoicePreview({ data }: InvoicePreviewProps) {
 
   return (
     <div className="invoice-a4 font-body text-[10px] leading-tight text-gray-800 flex flex-col min-h-[297mm] bg-white relative shadow-2xl" id="print-area">
-      {/* Top Content Area */}
-      <div className="flex-grow p-10 print:p-5">
+      {/* Top Content Area - Reduced horizontal padding to match user screenshot */}
+      <div className="flex-grow px-2 py-6 print:px-2 print:py-4">
         {/* Header Section */}
         <div className="flex justify-between items-start mb-2">
           <div className="w-1/3">
@@ -70,7 +70,7 @@ export function InvoicePreview({ data }: InvoicePreviewProps) {
           <div className="absolute top-7 left-0 w-full h-[1px] bg-primary opacity-40"></div>
         </div>
 
-        {/* Info Grid */}
+        {/* Info Grid - Adjusted labels and layout for tighter feel */}
         <div className="grid grid-cols-3 gap-6 mb-4 px-1 border-b border-gray-100 pb-2 text-[9.5px]">
           <div className="space-y-0.5">
             <p><span className="w-14 inline-block">Cust ID</span>: {data.customer.customerId}</p>
@@ -154,8 +154,8 @@ export function InvoicePreview({ data }: InvoicePreviewProps) {
         </div>
       </div>
 
-      {/* Footer Section - Fixed at the very bottom of A4 */}
-      <div className="mt-auto p-10 pt-0 print:p-5">
+      {/* Footer Section - Fixed at the very bottom of A4 with reduced horizontal padding */}
+      <div className="mt-auto px-2 pb-10 print:px-2 print:pb-5">
         {/* Signature Area */}
         <div className="flex justify-between items-end mb-12 mt-10">
           <div className="grid grid-cols-5 gap-8 flex-1 text-[9.5px] text-center font-bold">
@@ -178,7 +178,7 @@ export function InvoicePreview({ data }: InvoicePreviewProps) {
           </div>
           
           {/* Current Date/Time on the right of signatures */}
-          <div className="text-[9px] text-right font-bold leading-tight pl-4">
+          <div className="text-[9px] text-right font-bold leading-tight pl-4 min-w-[80px]">
             <p>{data.header.invoiceDate}</p>
             <p>{currentTime?.split(', ')[1]}</p>
           </div>

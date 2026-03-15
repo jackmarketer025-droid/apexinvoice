@@ -76,7 +76,7 @@
 .invoice-a4 {
   width: 210mm;
   min-height: 297mm;
-  padding: 10mm;
+  padding: 5mm; /* Reduced from 10mm to decrease overall side margins */
   margin: auto;
   background: white;
   box-shadow: 0 0 10px rgba(0,0,0,0.1);
@@ -88,7 +88,7 @@
     height: 100%;
     box-shadow: none;
     margin: 0;
-    padding: 10mm;
+    padding: 5mm;
   }
 }
 
