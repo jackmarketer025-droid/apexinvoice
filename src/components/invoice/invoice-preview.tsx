@@ -77,7 +77,7 @@ export function InvoicePreview({ data }: InvoicePreviewProps) {
       {/* Info Grid - Aligned colons and fixed one line */}
       <div className="grid grid-cols-3 gap-6 mb-4 px-1 border-b-[1px] border-gray-300 pb-2">
         {/* Customer Column */}
-        <div className="space-y-0.5 text-[10.5px]">
+        <div className="space-y-0.5 text-[12px]">
           {[
             { label: 'Cust ID', value: data.customer.customerId, bold: false },
             { label: 'Name', value: data.customer.name, bold: true },
@@ -94,7 +94,7 @@ export function InvoicePreview({ data }: InvoicePreviewProps) {
         </div>
 
         {/* MPO Column */}
-        <div className="space-y-0.5 text-[10.5px]">
+        <div className="space-y-0.5 text-[12px]">
           {[
             { label: 'Depot', value: data.mpo.depot, bold: false },
             { label: 'MPO ID', value: data.mpo.mpoId, bold: false },
@@ -111,7 +111,7 @@ export function InvoicePreview({ data }: InvoicePreviewProps) {
         </div>
 
         {/* Invoice Column */}
-        <div className="space-y-0.5 text-[10.5px]">
+        <div className="space-y-0.5 text-[12px]">
           {[
             { label: 'Category', value: data.header.category, bold: false },
             { label: 'Invoice No.', value: data.header.invoiceNo, bold: true },
