@@ -1,3 +1,4 @@
+
 "use client"
 
 import React, { useState, useEffect } from 'react';
@@ -64,26 +65,29 @@ export function InvoicePreview({ data }: InvoicePreviewProps) {
       {/* ৩. আসল ইনভয়েস কন্টেন্ট (z-10 দিয়ে জলছাপের উপরে রাখা হয়েছে) */}
       <div className="relative z-10 flex flex-col flex-grow">
         {/* Header Section */}
-        <div className="flex justify-between items-start pt-8 px-1">
-          <div className="w-[30%]">
-            <Image 
-              src="https://res.cloudinary.com/dd3eekw7h/image/upload/v1773604830/Apex_logo_p5tupb.png" 
-              alt="Apex Logo" 
-              width={160} 
-              height={52}
-              style={{ height: 'auto' }}
-              className="object-contain"
-              priority
-            />
-            <p className="text-[9.5px] font-black text-gray-900 uppercase tracking-tighter leading-none mt-2">A SEED MARINE FLAKE ENTERPRISE</p>
+        <div className="flex flex-col items-center pt-8 px-1">
+          <div className="w-full flex justify-between items-start mb-2">
+            <div className="w-[30%]">
+              <Image 
+                src="https://res.cloudinary.com/dd3eekw7h/image/upload/v1773604830/Apex_logo_p5tupb.png" 
+                alt="Apex Logo" 
+                width={160} 
+                height={52}
+                style={{ height: 'auto' }}
+                className="object-contain"
+                priority
+              />
+              <p className="text-[9.5px] font-black text-gray-900 uppercase tracking-tighter leading-none mt-2">A SEED MARINE FLAKE ENTERPRISE</p>
+            </div>
+            <div className="w-[20%] text-right pt-1 font-black">
+              <p className="text-[12.5px] uppercase">Customer Copy</p>
+            </div>
           </div>
-          <div className="w-[50%] text-center flex flex-col items-center pt-4">
+          
+          <div className="text-center flex flex-col items-center">
             <h2 className="text-[38px] font-black text-[#E31E24] whitespace-nowrap leading-none mb-2 uppercase tracking-tighter">Apex Pharma Ltd.</h2>
             <p className="text-[12px] font-bold whitespace-nowrap leading-normal">House # 06, Road # 137, Block # SE(D) Gulshan-1, Dhaka-1212, Bangladesh.</p>
             <p className="text-[12px] font-bold whitespace-nowrap leading-normal">Tel: +88(02)55044834-37, Fax: 880-2-55044839</p>
-          </div>
-          <div className="w-[20%] text-right pt-1 font-black">
-            <p className="text-[12.5px] uppercase">Customer Copy</p>
           </div>
         </div>
 
