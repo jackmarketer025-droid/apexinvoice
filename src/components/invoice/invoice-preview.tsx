@@ -75,26 +75,26 @@ export function InvoicePreview({ data }: InvoicePreviewProps) {
 
       {/* Info Grid */}
       <div className="grid grid-cols-3 gap-8 mb-6 px-1 border-b-[1.5px] border-gray-300 pb-4">
-        <div className="space-y-1.5 text-[11.8px]">
-          <p><span className="w-22 inline-block font-bold">Cust ID</span>: {data.customer.customerId}</p>
-          <p className="font-black text-[12.5px]"><span className="w-22 inline-block">Name</span>: {data.customer.name}</p>
-          <p><span className="w-22 inline-block font-bold">Address</span>: {data.customer.address}</p>
-          <p><span className="w-22 inline-block font-bold">Phone</span>: {data.customer.phone}</p>
-          <p className="font-black"><span className="w-22 inline-block">Route</span>: {data.customer.route}</p>
+        <div className="space-y-1 text-[11.8px]">
+          <p><span className="w-20 inline-block font-bold">Cust ID</span>: {data.customer.customerId}</p>
+          <p className="font-black text-[12.5px]"><span className="w-20 inline-block">Name</span>: {data.customer.name}</p>
+          <p><span className="w-20 inline-block font-bold">Address</span>: {data.customer.address}</p>
+          <p><span className="w-20 inline-block font-bold">Phone</span>: {data.customer.phone}</p>
+          <p className="font-black"><span className="w-20 inline-block">Route</span>: {data.customer.route}</p>
         </div>
-        <div className="space-y-1.5 text-[11.8px]">
-          <p><span className="w-22 inline-block font-bold">Depot</span>: {data.mpo.depot}</p>
-          <p><span className="w-22 inline-block font-bold">MPO ID</span>: {data.mpo.mpoId}</p>
-          <p className="font-black text-[12.5px]"><span className="w-22 inline-block">Name</span>: {data.mpo.name}</p>
-          <p><span className="w-22 inline-block font-bold">Summary</span>: {data.mpo.summary}</p>
-          <p><span className="w-22 inline-block font-bold">Sum Date</span>: {data.mpo.sumDate}</p>
+        <div className="space-y-1 text-[11.8px]">
+          <p><span className="w-20 inline-block font-bold">Depot</span>: {data.mpo.depot}</p>
+          <p><span className="w-20 inline-block font-bold">MPO ID</span>: {data.mpo.mpoId}</p>
+          <p className="font-black text-[12.5px]"><span className="w-20 inline-block">Name</span>: {data.mpo.name}</p>
+          <p><span className="w-20 inline-block font-bold">Summary</span>: {data.mpo.summary}</p>
+          <p><span className="w-20 inline-block font-bold">Sum Date</span>: {data.mpo.sumDate}</p>
         </div>
-        <div className="space-y-1.5 text-right text-[11.8px]">
-          <p><span className="inline-block w-28 text-left font-bold">Category</span>: {data.header.category}</p>
-          <p><span className="inline-block w-28 text-left font-bold">Invoice No.</span>: <span className="font-black">{data.header.invoiceNo}</span></p>
-          <p><span className="inline-block w-28 text-left font-bold">Invoice Date</span>: {data.header.invoiceDate}</p>
-          <p><span className="inline-block w-28 text-left font-bold">Order Book No.</span>: {data.header.orderBookNo}</p>
-          <p><span className="inline-block w-28 text-left font-bold">Delivery Date</span>: {data.header.deliveryDate}</p>
+        <div className="space-y-0.5 text-right text-[11.8px]">
+          <p><span className="inline-block w-24 text-left font-bold">Category</span>: {data.header.category}</p>
+          <p><span className="inline-block w-24 text-left font-bold">Invoice No</span>: <span className="font-black">{data.header.invoiceNo}</span></p>
+          <p><span className="inline-block w-24 text-left font-bold">Invoice Date</span>: {data.header.invoiceDate}</p>
+          <p><span className="inline-block w-24 text-left font-bold">Order Book No</span>: {data.header.orderBookNo}</p>
+          <p><span className="inline-block w-24 text-left font-bold">Delivery Date</span>: {data.header.deliveryDate}</p>
         </div>
       </div>
 
@@ -168,7 +168,7 @@ export function InvoicePreview({ data }: InvoicePreviewProps) {
               </div>
               <div className="flex justify-between pt-1">
                 <span className="font-black text-[13px]">Net Payable Amount</span>
-                <span className="font-black text-[15px]">
+                <span className="font-black text-[15px] text-[#E31E24]">
                   {totals.totalPrice.toFixed(2)}
                 </span>
               </div>
@@ -185,7 +185,7 @@ export function InvoicePreview({ data }: InvoicePreviewProps) {
 
         {/* Bengali Special Note */}
         <div className="mt-6 px-1">
-          <p className="font-black text-[14px] py-1 border-b-[1px] border-black text-left text-black inline-block">
+          <p className="font-bold text-[12.5px] py-1 border-b-[1px] border-black text-left text-black inline-block">
             বিশেষ দ্রষ্টব্য : আপনার স্বাক্ষরিত রিসিভ ইনভয়েস ব্যতীত কাউকে টাকা / ঔষধ প্রদান করবেন না।
           </p>
         </div>
@@ -221,7 +221,7 @@ export function InvoicePreview({ data }: InvoicePreviewProps) {
         </div>
 
         {/* Final Warranty Section */}
-        <div className="border-t-[1px] border-black pt-4 space-y-1.5">
+        <div className="border-t-[1px] border-black pt-4 space-y-1">
           <p className="text-[10.5px] leading-none whitespace-nowrap tracking-tighter font-medium text-gray-900">
             Warranty : We do hereby give this warranty that products sold under this invoice do not contravene to any provisions of section 18 of the drugs act 1940
           </p>
