@@ -142,8 +142,8 @@ export function InvoicePreview({ data }: InvoicePreviewProps) {
           </tbody>
           <tfoot>
             <tr className="border-t-[1.5px] border-gray-900 font-bold bg-white text-[12px]">
-              <td colSpan={9} className="p-2 text-left">
-                <span className="bg-[#4a77cc] text-white px-2 py-0.5 uppercase inline-block">TOTAL AMOUNT :</span>
+              <td colSpan={9} className="p-2 text-right">
+                <span className="bg-[#4a77cc] text-white px-2 py-0.5 uppercase inline-block whitespace-nowrap">TOTAL AMOUNT :</span>
               </td>
               <td className="p-2 text-center text-gray-900">{formatCurrency(totals.totalTp)}</td>
               <td className="p-2 text-center text-gray-900">{formatCurrency(totals.totalVat)}</td>
@@ -176,14 +176,14 @@ export function InvoicePreview({ data }: InvoicePreviewProps) {
           </div>
         </div>
 
-        {/* In Words - Matched to Screenshot */}
+        {/* In Words */}
         <div className="mt-8 px-1">
           <p className="font-black uppercase text-[12.5px] text-black leading-tight">
             IN WORD: {numberToWords(totals.totalPrice)}
           </p>
         </div>
 
-        {/* Bengali Special Note - Matched to Screenshot */}
+        {/* Bengali Special Note */}
         <div className="mt-6 px-1">
           <p className="font-black text-[15.5px] py-1 border-b-[1px] border-black text-left text-black">
             विशेष দ্রষ্টव्य : আপনার স্বাক্ষরিত রিসিভ ইনভয়েস ব্যতীত কাউকে টাকা / ঔষধ প্রদান করবেন না।
@@ -223,14 +223,13 @@ export function InvoicePreview({ data }: InvoicePreviewProps) {
         {/* Final Warranty Section */}
         <div className="border-t-[1px] border-black pt-4 space-y-1.5">
           <p className="text-[10.5px] leading-none whitespace-nowrap tracking-tighter font-medium text-gray-900">
-            <span className="font-bold">Warranty :</span> We do hereby give this warranty that products sold under this invoice do not contravene to any provisions of section 18 of the drugs act 1940
+            Warranty : We do hereby give this warranty that products sold under this invoice do not contravene to any provisions of section 18 of the drugs act 1940
           </p>
           <p className="text-[10.5px] leading-none whitespace-nowrap tracking-tighter font-medium text-gray-900">
-            <span className="font-bold">Note :</span> Received the goods in full and good condition.
+            Note : Received the goods in full and good condition.
           </p>
         </div>
       </div>
     </div>
   );
 }
-
