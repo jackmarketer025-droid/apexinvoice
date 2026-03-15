@@ -148,28 +148,28 @@ export function InvoicePreview({ data }: InvoicePreviewProps) {
               <td className="p-2 text-center text-gray-900">{formatCurrency(totals.totalTp)}</td>
               <td className="p-2 text-center text-gray-900">{formatCurrency(totals.totalVat)}</td>
               <td className="p-2 text-center text-gray-900">{formatCurrency(totals.specialDis)}</td>
-              <td className="p-2 text-right text-[14px] text-[#E31E24] font-black">{formatCurrency(totals.totalPrice)}</td>
+              <td className="p-2 text-right text-[12px] text-gray-900">{formatCurrency(totals.totalPrice)}</td>
             </tr>
           </tfoot>
         </table>
 
         {/* Note and Discount Area */}
-        <div className="mt-8 px-1 space-y-3">
+        <div className="mt-4 px-1">
           <div className="flex justify-between items-start">
-            <div className="space-y-1.5">
-              <p className="font-black text-[14px] uppercase">Note :</p>
-              <p className="text-[14px] font-black uppercase tracking-tight text-gray-900">FIFTY BRAND OFFER, PAYMENT OPTION: CASH/CHEQUE</p>
+            <div className="space-y-1">
+              <p className="font-black text-[12px] uppercase">Note :</p>
+              <p className="text-[12px] font-black uppercase tracking-tight text-gray-900">FIFTY BRAND OFFER, PAYMENT OPTION: CASH/CHEQUE</p>
             </div>
-            <div className="w-80 space-y-3">
-              <div className="flex justify-between border-b-[1.5px] border-gray-400 pb-2">
-                <span className="font-black text-[13px] uppercase">Discount On TP :</span>
-                <span className="font-bold text-[13px]">0 %</span>
-                <span className="font-bold text-[13px]">0.00</span>
+            <div className="w-80">
+              <div className="flex justify-between border-t border-gray-400 py-1">
+                <span className="font-bold text-[12px]">Discount On TP :</span>
+                <span className="font-bold text-[12px] pr-20">0%</span>
+                <span className="font-bold text-[12px]">0</span>
               </div>
-              <div className="flex justify-between items-center pt-1">
-                <span className="font-black text-[16px] uppercase">Net Payable Amount</span>
-                <span className="font-black text-[24px] border-[2.5px] border-black px-8 py-2 bg-white shadow-sm min-w-[150px] text-center">
-                  {Math.round(totals.totalPrice).toLocaleString()}
+              <div className="flex justify-between pt-1">
+                <span className="font-black text-[13px]">Net Payable Amount</span>
+                <span className="font-black text-[15px]">
+                  {totals.totalPrice.toFixed(2)}
                 </span>
               </div>
             </div>
@@ -233,3 +233,4 @@ export function InvoicePreview({ data }: InvoicePreviewProps) {
     </div>
   );
 }
+
