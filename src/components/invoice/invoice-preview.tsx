@@ -173,9 +173,8 @@ export function InvoicePreview({ data }: InvoicePreviewProps) {
           </tbody>
           <tfoot>
             <tr className="bg-white text-[12px]">
-              {/* Reduced colSpan of empty space and increased colSpan of label to prevent overlap */}
-              <td colSpan={5} className="p-0"></td>
-              <td colSpan={4} className="p-2 text-right border-t-[1.5px] border-gray-900 pr-4">
+              <td colSpan={4} className="p-0"></td>
+              <td colSpan={5} className="p-2 text-right border-t-[1.5px] border-gray-900 pr-4">
                 <span className="font-bold uppercase inline-block whitespace-nowrap">TOTAL AMOUNT :</span>
               </td>
               <td className="p-2 text-center font-bold text-gray-900 border-t-[1.5px] border-gray-900">{formatCurrency(totals.totalTp)}</td>
@@ -224,21 +223,21 @@ export function InvoicePreview({ data }: InvoicePreviewProps) {
         </div>
       </div>
 
-      {/* Footer Area - Signatures */}
+      {/* Footer Area - Signatures - Increased font size */}
       <div className="mt-auto px-1 pb-6">
         <div className="flex justify-between items-end mb-8 pt-16">
-          <div className="grid grid-cols-6 gap-6 flex-1 text-[9.5px] font-medium text-gray-900">
+          <div className="grid grid-cols-6 gap-6 flex-1 text-[11px] font-medium text-gray-900">
             <div className="flex flex-col">
               <div className="border-t-[0.5px] border-black pt-1.5">Prepared By</div>
-              <div className="text-[9px] mt-0.5">razzak</div>
+              <div className="text-[10px] mt-0.5">razzak</div>
             </div>
             <div className="flex flex-col">
               <div className="border-t-[0.5px] border-black pt-1.5">Authorised by</div>
-              <div className="text-[9px] mt-0.5">Date:....................</div>
+              <div className="text-[10px] mt-0.5">Date:....................</div>
             </div>
             <div className="flex flex-col">
               <div className="border-t-[0.5px] border-black pt-1.5">Delivered by</div>
-              <div className="text-[9px] mt-0.5 uppercase">MAHEDY HASAN</div>
+              <div className="text-[10px] mt-0.5 uppercase">MAHEDY HASAN</div>
             </div>
             <div className="flex flex-col">
               <div className="border-t-[0.5px] border-black pt-1.5">Collection by</div>
@@ -246,7 +245,7 @@ export function InvoicePreview({ data }: InvoicePreviewProps) {
             <div className="flex flex-col">
               <div className="border-t-[0.5px] border-black pt-1.5">Customer's Signature</div>
             </div>
-            <div className="flex flex-col text-right justify-end font-bold text-[9px]">
+            <div className="flex flex-col text-right justify-end font-bold text-[10px]">
               <p>{currentDate}</p>
               <p>{currentTime}</p>
             </div>
