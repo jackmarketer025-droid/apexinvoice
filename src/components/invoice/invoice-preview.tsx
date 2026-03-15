@@ -5,6 +5,7 @@ import React, { useState, useEffect } from 'react';
 import { InvoiceData } from '@/types/invoice';
 import { calculateLineTotals, formatCurrency, numberToWords } from '@/lib/invoice-utils';
 import Image from 'next/image';
+import { cn } from "@/lib/utils";
 
 interface InvoicePreviewProps {
   data: InvoiceData;
@@ -73,78 +74,63 @@ export function InvoicePreview({ data }: InvoicePreviewProps) {
         </div>
       </div>
 
-      {/* Info Grid */}
-      <div className="grid grid-cols-3 gap-8 mb-6 px-1 border-b-[1.5px] border-gray-300 pb-4">
+      {/* Info Grid - Fixed to match screenshot precisely */}
+      <div className="grid grid-cols-3 gap-6 mb-4 px-1 border-b-[1px] border-gray-300 pb-2">
         {/* Customer Column */}
-        <div className="space-y-0.5 text-[11.8px]">
-          <div className="flex">
-            <span className="w-[85px] font-bold">Cust ID</span>
-            <span>: {data.customer.customerId}</span>
-          </div>
-          <div className="flex font-black text-[12.5px]">
-            <span className="w-[85px]">Name</span>
-            <span>: {data.customer.name}</span>
-          </div>
-          <div className="flex">
-            <span className="w-[85px] font-bold">Address</span>
-            <span>: {data.customer.address}</span>
-          </div>
-          <div className="flex">
-            <span className="w-[85px] font-bold">Phone</span>
-            <span>: {data.customer.phone}</span>
-          </div>
-          <div className="flex font-black">
-            <span className="w-[85px]">Route</span>
-            <span>: {data.customer.route}</span>
-          </div>
+        <div className="space-y-0 text-[10.5px]">
+          {[
+            { label: 'Cust ID', value: data.customer.customerId },
+            { label: 'Name', value: data.customer.name, bold: true },
+            { label: 'Address', value: data.customer.address },
+            { label: 'Phone', value: data.customer.phone },
+            { label: 'Route', value: data.customer.route, bold: true },
+          ].map((item, i) => (
+            <div key={i} className="flex leading-tight py-[1px]">
+              <span className="w-[60px] font-bold">{item.label}</span>
+              <span className="w-[10px] text-center">:</span>
+              <span className={cn("flex-1 whitespace-nowrap", item.bold && "font-black")}>
+                {item.value}
+              </span>
+            </div>
+          ))}
         </div>
 
         {/* MPO Column */}
-        <div className="space-y-0.5 text-[11.8px]">
-          <div className="flex">
-            <span className="w-[85px] font-bold">Depot</span>
-            <span>: {data.mpo.depot}</span>
-          </div>
-          <div className="flex">
-            <span className="w-[85px] font-bold">MPO ID</span>
-            <span>: {data.mpo.mpoId}</span>
-          </div>
-          <div className="flex font-black text-[12.5px]">
-            <span className="w-[85px]">Name</span>
-            <span>: {data.mpo.name}</span>
-          </div>
-          <div className="flex">
-            <span className="w-[85px] font-bold">Summary</span>
-            <span>: {data.mpo.summary}</span>
-          </div>
-          <div className="flex">
-            <span className="w-[85px] font-bold">Sum Date</span>
-            <span>: {data.mpo.sumDate}</span>
-          </div>
+        <div className="space-y-0 text-[10.5px]">
+          {[
+            { label: 'Depot', value: data.mpo.depot },
+            { label: 'MPO ID', value: data.mpo.mpoId },
+            { label: 'Name', value: data.mpo.name, bold: true },
+            { label: 'Summary', value: data.mpo.summary },
+            { label: 'Sum Date', value: data.mpo.sumDate },
+          ].map((item, i) => (
+            <div key={i} className="flex leading-tight py-[1px]">
+              <span className="w-[60px] font-bold">{item.label}</span>
+              <span className="w-[10px] text-center">:</span>
+              <span className={cn("flex-1 whitespace-nowrap", item.bold && "font-black")}>
+                {item.value}
+              </span>
+            </div>
+          ))}
         </div>
 
         {/* Invoice Column */}
-        <div className="space-y-0.5 text-[11.8px] flex flex-col items-end">
-          <div className="flex w-full justify-end">
-            <span className="w-[105px] text-left font-bold">Category</span>
-            <span className="w-[115px]">: {data.header.category}</span>
-          </div>
-          <div className="flex w-full justify-end font-black">
-            <span className="w-[105px] text-left">Invoice No.</span>
-            <span className="w-[115px]">: {data.header.invoiceNo}</span>
-          </div>
-          <div className="flex w-full justify-end">
-            <span className="w-[105px] text-left font-bold">Invoice Date</span>
-            <span className="w-[115px]">: {data.header.invoiceDate}</span>
-          </div>
-          <div className="flex w-full justify-end">
-            <span className="w-[105px] text-left font-bold">Order Book No.</span>
-            <span className="w-[115px]">: {data.header.orderBookNo}</span>
-          </div>
-          <div className="flex w-full justify-end">
-            <span className="w-[105px] text-left font-bold">Delivery Date</span>
-            <span className="w-[115px]">: {data.header.deliveryDate}</span>
-          </div>
+        <div className="space-y-0 text-[10.5px]">
+          {[
+            { label: 'Category', value: data.header.category },
+            { label: 'Invoice No.', value: data.header.invoiceNo, bold: true },
+            { label: 'Invoice Date', value: data.header.invoiceDate },
+            { label: 'Order Book No.', value: data.header.orderBookNo },
+            { label: 'Delivery Date', value: data.header.deliveryDate },
+          ].map((item, i) => (
+            <div key={i} className="flex leading-tight py-[1px]">
+              <span className="w-[85px] font-bold">{item.label}</span>
+              <span className="w-[10px] text-center">:</span>
+              <span className={cn("flex-1 whitespace-nowrap", item.bold && "font-black")}>
+                {item.value}
+              </span>
+            </div>
+          ))}
         </div>
       </div>
 
@@ -192,8 +178,8 @@ export function InvoicePreview({ data }: InvoicePreviewProps) {
           </tbody>
           <tfoot>
             <tr className="font-bold bg-white text-[12px]">
-              <td colSpan={6} className="p-2"></td>
-              <td colSpan={3} className="p-2 text-right border-t-[1.5px] border-gray-900 pr-4">
+              <td colSpan={7} className="p-0"></td>
+              <td colSpan={2} className="p-2 text-right border-t-[1.5px] border-gray-900 pr-6">
                 <span className="font-black uppercase inline-block whitespace-nowrap">TOTAL AMOUNT :</span>
               </td>
               <td className="p-2 text-center text-gray-900 border-t-[1.5px] border-gray-900">{formatCurrency(totals.totalTp)}</td>
@@ -205,21 +191,21 @@ export function InvoicePreview({ data }: InvoicePreviewProps) {
         </table>
 
         {/* Note and Discount Area */}
-        <div className="mt-4 px-1">
+        <div className="mt-2 px-1">
           <div className="flex justify-between items-start">
             <div className="space-y-1">
-              <p className="font-black text-[12px] uppercase">Note :</p>
-              <p className="text-[12px] font-black uppercase tracking-tight text-gray-900">FIFTY BRAND OFFER, PAYMENT OPTION: CASH/CHEQUE</p>
+              <p className="font-black text-[11px] uppercase">Note :</p>
+              <p className="text-[11px] font-black uppercase tracking-tight text-gray-900">FIFTY BRAND OFFER, PAYMENT OPTION: CASH/CHEQUE</p>
             </div>
-            <div className="w-80">
-              <div className="flex justify-between border-t border-gray-400 py-1">
-                <span className="font-bold text-[12px]">Discount On TP :</span>
-                <span className="font-bold text-[12px] pr-20">0%</span>
-                <span className="font-bold text-[12px]">0</span>
+            <div className="w-72">
+              <div className="flex justify-between border-t border-gray-400 py-1 text-[12px]">
+                <span className="font-bold">Discount On TP :</span>
+                <span className="font-bold">0%</span>
+                <span className="font-bold">0.00</span>
               </div>
-              <div className="flex justify-between pt-1">
+              <div className="flex justify-between pt-0.5">
                 <span className="font-black text-[13px]">Net Payable Amount</span>
-                <span className="font-black text-[15px] text-black">
+                <span className="font-black text-[14px] text-black">
                   {totals.totalPrice.toFixed(2)}
                 </span>
               </div>
@@ -228,15 +214,15 @@ export function InvoicePreview({ data }: InvoicePreviewProps) {
         </div>
 
         {/* In Words */}
-        <div className="mt-8 px-1">
-          <p className="font-black uppercase text-[12.5px] text-black leading-tight">
+        <div className="mt-6 px-1">
+          <p className="font-black uppercase text-[12px] text-black leading-tight">
             IN WORD: {numberToWords(totals.totalPrice)}
           </p>
         </div>
 
         {/* Bengali Special Note */}
-        <div className="mt-6 px-1 text-left">
-          <p className="font-bold text-[10px] border-b-[1px] border-black text-black inline-block leading-tight">
+        <div className="mt-4 px-1 text-left">
+          <p className="font-bold text-[9.5px] border-b-[0.5px] border-black text-black inline-block leading-tight">
             বিশেষ দ্রষ্টব্য : আপনার স্বাক্ষরিত রিসিভ ইনভয়েস ব্যতীত কাউকে টাকা / ঔষধ প্রদান করবেন না।
           </p>
         </div>
@@ -244,7 +230,7 @@ export function InvoicePreview({ data }: InvoicePreviewProps) {
 
       {/* Footer Area - Signatures */}
       <div className="mt-auto px-1 pb-6">
-        <div className="flex justify-between items-end mb-8 pt-20">
+        <div className="flex justify-between items-end mb-8 pt-16">
           <div className="grid grid-cols-6 gap-6 flex-1 text-[9.5px] font-medium text-gray-900">
             <div className="flex flex-col">
               <div className="border-t-[0.5px] border-black pt-1.5">Prepared By</div>
@@ -272,11 +258,11 @@ export function InvoicePreview({ data }: InvoicePreviewProps) {
         </div>
 
         {/* Final Warranty Section */}
-        <div className="border-t-[1px] border-black pt-4 space-y-1">
-          <p className="text-[10.5px] leading-none whitespace-nowrap tracking-tighter font-medium text-gray-900">
+        <div className="border-t-[0.5px] border-black pt-3 space-y-1">
+          <p className="text-[10px] leading-none whitespace-nowrap tracking-tighter font-medium text-gray-900">
             Warranty : We do hereby give this warranty that products sold under this invoice do not contravene to any provisions of section 18 of the drugs act 1940
           </p>
-          <p className="text-[10.5px] leading-none whitespace-nowrap tracking-tighter font-medium text-gray-900">
+          <p className="text-[10px] leading-none whitespace-nowrap tracking-tighter font-medium text-gray-900">
             Note : Received the goods in full and good condition.
           </p>
         </div>
@@ -284,3 +270,4 @@ export function InvoicePreview({ data }: InvoicePreviewProps) {
     </div>
   );
 }
+
