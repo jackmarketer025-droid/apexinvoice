@@ -216,7 +216,7 @@ export function InvoicePreview({ data }: InvoicePreviewProps) {
 
         {/* Bengali Special Note - Corrected and Sized down */}
         <div className="mt-4 px-1 text-left">
-          <p className="text-[10px] font-bold border-b-[0.5px] border-black text-black inline-block leading-tight">
+          <p className="text-[13px] font-bold border-b-[0.5px] border-black text-black inline-block leading-tight">
             বিশেষ দ্রষ্টব্য : আপনার স্বাক্ষরিত রিসিভ ইনভয়েস ব্যতীত কাউকে টাকা / ঔষধ প্রদান করবেন না।
           </p>
         </div>
