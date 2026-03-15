@@ -218,7 +218,7 @@ export function InvoicePreview({ data }: InvoicePreviewProps) {
               </div>
               <div className="flex justify-between pt-1">
                 <span className="font-black text-[13px]">Net Payable Amount</span>
-                <span className="font-black text-[15px] text-[#E31E24]">
+                <span className="font-black text-[15px] text-black">
                   {totals.totalPrice.toFixed(2)}
                 </span>
               </div>
@@ -234,8 +234,8 @@ export function InvoicePreview({ data }: InvoicePreviewProps) {
         </div>
 
         {/* Bengali Special Note */}
-        <div className="mt-6 px-1">
-          <p className="font-bold text-[12px] py-0.5 border-b-[1px] border-black text-left text-black inline-block">
+        <div className="mt-6 px-1 text-left">
+          <p className="font-bold text-[11px] py-0.5 border-b-[1px] border-black text-black inline-block leading-tight">
             বিশেষ দ্রষ্টব্য : আপনার স্বাক্ষরিত রিসিভ ইনভয়েস ব্যতীত কাউকে টাকা / ঔষধ প্রদান করবেন না।
           </p>
         </div>
