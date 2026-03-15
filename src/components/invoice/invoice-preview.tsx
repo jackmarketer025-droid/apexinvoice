@@ -58,7 +58,7 @@ export function InvoicePreview({ data }: InvoicePreviewProps) {
         </div>
         <div className="w-[50%] text-center">
           <h2 className="text-[38px] font-black text-[#E31E24] whitespace-nowrap leading-none mb-1 uppercase tracking-tighter">Apex Pharma Ltd.</h2>
-          <p className="text-[12px] font-bold">House # 06, Road # 137, Block # SE(D) Gulshan-1, Dhaka-1212, Bangladesh.</p>
+          <p className="text-[12px] font-bold whitespace-nowrap">House # 06, Road # 137, Block # SE(D) Gulshan-1, Dhaka-1212, Bangladesh.</p>
           <p className="text-[12px] font-bold">Tel: +88(02)55044834-37, Fax: 880-2-55044839</p>
         </div>
         <div className="w-[20%] text-right pt-1 font-black">
@@ -173,8 +173,7 @@ export function InvoicePreview({ data }: InvoicePreviewProps) {
           </tbody>
           <tfoot>
             <tr className="bg-white text-[12px]">
-              <td colSpan={4} className="p-0"></td>
-              <td colSpan={5} className="p-2 text-right border-t-[1.5px] border-gray-900 pr-4">
+              <td colSpan={9} className="p-2 text-right border-t-[1.5px] border-gray-900 pr-6">
                 <span className="font-bold uppercase inline-block whitespace-nowrap">TOTAL AMOUNT :</span>
               </td>
               <td className="p-2 text-center font-bold text-gray-900 border-t-[1.5px] border-gray-900">{formatCurrency(totals.totalTp)}</td>
