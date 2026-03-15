@@ -152,9 +152,9 @@ export function InvoicePreview({ data }: InvoicePreviewProps) {
             {data.productLines.map((line, idx) => {
               const { unitVat, totalTp, totalVat, totalPrice } = calculateLineTotals(line);
               return (
-                <tr key={idx} className="border-b border-gray-200 align-top hover:bg-gray-50/50">
+                <tr key={idx} className="border-b border-gray-200 align-top">
                   <td className="p-1.5">{line.productId}</td>
-                  <td className="p-1.5 leading-tight font-medium">{line.description}</td>
+                  <td className="p-1.5 leading-tight font-bold">{line.description}</td>
                   <td className="p-1.5 text-center">{line.packSize}</td>
                   <td className="p-1.5 text-center">{formatCurrency(line.unitTp)}</td>
                   <td className="p-1.5 text-center">{line.vatRate}</td>
@@ -251,12 +251,12 @@ export function InvoicePreview({ data }: InvoicePreviewProps) {
           </div>
         </div>
 
-        {/* Final Warranty Section - Now Bolded as requested */}
-        <div className="border-t-[0.5px] border-black pt-3 space-y-1">
-          <p className="text-[10px] leading-none whitespace-nowrap tracking-tighter font-bold text-gray-900">
+        {/* Final Warranty Section - Now Bolded and Larger as requested */}
+        <div className="border-t-[0.5px] border-black pt-3 space-y-1.5">
+          <p className="text-[11.5px] leading-none whitespace-nowrap tracking-tighter font-bold text-gray-900 w-full">
             Warranty : We do hereby give this warranty that products sold under this invoice do not contravene to any provisions of section 18 of the drugs act 1940
           </p>
-          <p className="text-[10px] leading-none whitespace-nowrap tracking-tighter font-bold text-gray-900">
+          <p className="text-[11.5px] leading-none whitespace-nowrap tracking-tighter font-bold text-gray-900 w-full">
             Note : Received the goods in full and good condition.
           </p>
         </div>
