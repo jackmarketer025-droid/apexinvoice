@@ -13,7 +13,6 @@ export function InvoicePreview({ data }: InvoicePreviewProps) {
   const [currentTime, setCurrentTime] = useState<string | null>(null);
 
   useEffect(() => {
-    // Prevent Hydration error by setting dynamic time after mount
     setCurrentTime(new Date().toLocaleString());
   }, []);
 
@@ -84,15 +83,15 @@ export function InvoicePreview({ data }: InvoicePreviewProps) {
         </div>
 
         {/* Table Section */}
-        <table className="w-full text-[9px] border-collapse mb-1">
+        <table className="w-full text-[9.5px] border-collapse mb-1">
           <thead>
             <tr className="border-y border-gray-400 font-bold bg-gray-50">
-              <th className="p-1 text-left border-r w-16">P Id</th>
-              <th className="p-1 text-left border-r">Description</th>
-              <th className="p-1 border-r text-center">Pack Size</th>
-              <th className="p-1 border-r text-center">Unit TP+VAT</th>
-              <th className="p-1 border-r w-14 text-center">QTY</th>
-              <th className="p-1 text-right">Total Price</th>
+              <th className="p-1.5 text-left border-r w-16">P Id</th>
+              <th className="p-1.5 text-left border-r">Description</th>
+              <th className="p-1.5 border-r text-center">Pack Size</th>
+              <th className="p-1.5 border-r text-center">Unit TP+VAT</th>
+              <th className="p-1.5 border-r w-14 text-center">QTY</th>
+              <th className="p-1.5 text-right">Total Price</th>
             </tr>
           </thead>
           <tbody>
@@ -100,12 +99,12 @@ export function InvoicePreview({ data }: InvoicePreviewProps) {
               const { totalPrice } = calculateLineTotals(line);
               return (
                 <tr key={idx} className="border-b border-gray-100">
-                  <td className="p-1">{line.productId}</td>
-                  <td className="p-1 font-semibold">{line.description}</td>
-                  <td className="p-1 text-center">{line.packSize}</td>
-                  <td className="p-1 text-center">{formatCurrency(line.unitTpVat)}</td>
-                  <td className="p-1 text-center">{line.quantity}</td>
-                  <td className="p-1 text-right font-bold">{formatCurrency(totalPrice)}</td>
+                  <td className="p-1.5">{line.productId}</td>
+                  <td className="p-1.5 font-semibold">{line.description}</td>
+                  <td className="p-1.5 text-center">{line.packSize}</td>
+                  <td className="p-1.5 text-center">{formatCurrency(line.unitTpVat)}</td>
+                  <td className="p-1.5 text-center">{line.quantity}</td>
+                  <td className="p-1.5 text-right font-bold">{formatCurrency(totalPrice)}</td>
                 </tr>
               );
             })}
@@ -136,7 +135,7 @@ export function InvoicePreview({ data }: InvoicePreviewProps) {
       {/* Footer Section - Fixed at the very bottom of A4 */}
       <div className="mt-auto p-10 pt-0 print:p-5">
         {/* Signature Area */}
-        <div className="grid grid-cols-5 gap-4 text-[8px] text-center uppercase font-bold mb-10 mt-10">
+        <div className="grid grid-cols-5 gap-4 text-[8.5px] text-center uppercase font-bold mb-10 mt-10">
           <div className="border-t border-black pt-1">Prepared By</div>
           <div className="border-t border-black pt-1">Authorised By</div>
           <div className="border-t border-black pt-1">Delivered By</div>
@@ -145,9 +144,14 @@ export function InvoicePreview({ data }: InvoicePreviewProps) {
         </div>
 
         {/* Final Disclaimer */}
-        <div className="border-t pt-2 text-[7.5px] text-gray-400 italic flex justify-between">
-          <p>Warranty: This product complies with section 18 of the Drugs Act 1940. Received the goods in full and good condition.</p>
-          <p>Print Time: {currentTime || '--:--:--'}</p>
+        <div className="border-t pt-2 text-[8.5px] text-gray-700 italic">
+          <div className="flex justify-between items-start">
+            <div className="space-y-1">
+              <p><span className="font-bold not-italic">Warranty :</span> We do hereby give this warranty that products sold under this invoice do not contravene to any provisions of section 18 of the drugs act 1940</p>
+              <p><span className="font-bold not-italic">Note :</span> Received the goods in full and good condition.</p>
+            </div>
+            <p className="whitespace-nowrap ml-4 text-gray-400">Print Time: {currentTime || '--:--:--'}</p>
+          </div>
         </div>
       </div>
     </div>
