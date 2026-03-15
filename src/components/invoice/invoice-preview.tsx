@@ -183,7 +183,7 @@ export function InvoicePreview({ data }: InvoicePreviewProps) {
 
         {/* Bengali Special Note */}
         <div className="mt-10 px-1">
-          <p className="font-black text-[15.5px] py-3 border-y-[1px] border-black text-center italic text-black">
+          <p className="font-black text-[15.5px] py-3 border-b-[1px] border-black text-center italic text-black">
             বিশেষ দ্রষ্টব্য : আপনার স্বাক্ষরিত রিসিভ ইনভয়েস ব্যতীত কাউকে টাকা / ঔষধ প্রদান করবেন না।
           </p>
         </div>
