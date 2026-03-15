@@ -6,8 +6,16 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Plus, Trash2 } from 'lucide-react';
+import { Plus, Trash2, Search } from 'lucide-react';
 import { AIDraftDialog } from './ai-draft-dialog';
+import { PREDEFINED_PRODUCTS } from '@/lib/invoice-utils';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
 
 interface InvoiceEditorProps {
   data: InvoiceData;
@@ -57,10 +65,26 @@ export function InvoiceEditor({ data, onChange }: InvoiceEditorProps) {
     onChange({ ...data, productLines: newLines });
   };
 
+  const handleProductSelect = (index: number, productId: string) => {
+    const product = PREDEFINED_PRODUCTS.find(p => p.id === productId);
+    if (product) {
+      const newLines = [...data.productLines];
+      newLines[index] = {
+        ...newLines[index],
+        productId: product.id,
+        description: product.name,
+        packSize: product.packSize,
+        unitTp: product.unitTp,
+        vatRate: product.vatRate,
+      };
+      onChange({ ...data, productLines: newLines });
+    }
+  };
+
   return (
     <div className="space-y-6 max-h-full overflow-y-auto pb-10 px-1 custom-scrollbar">
       <div className="flex flex-col sm:flex-row gap-4 justify-between items-start sm:items-center sticky top-0 bg-[#FAF8F8] py-2 z-10 border-b mb-4">
-        <h2 className="text-xl md:text-2xl font-bold font-headline text-secondary">Edit Invoice</h2>
+        <h2 className="text-xl md:text-2xl font-bold text-secondary">Edit Invoice</h2>
         <AIDraftDialog onDraft={(draft) => onChange(draft)} currentData={data} />
       </div>
 
@@ -82,10 +106,6 @@ export function InvoiceEditor({ data, onChange }: InvoiceEditorProps) {
             <Input value={data.customer.address} onChange={(e) => handleCustomerChange('address', e.target.value)} />
           </div>
           <div className="space-y-2">
-            <Label>Phone</Label>
-            <Input value={data.customer.phone} onChange={(e) => handleCustomerChange('phone', e.target.value)} />
-          </div>
-          <div className="space-y-2">
             <Label>Route</Label>
             <Input value={data.customer.route} onChange={(e) => handleCustomerChange('route', e.target.value)} />
           </div>
@@ -94,7 +114,7 @@ export function InvoiceEditor({ data, onChange }: InvoiceEditorProps) {
 
       <Card>
         <CardHeader className="py-3 px-4">
-          <CardTitle className="text-xs font-bold uppercase tracking-wider text-muted-foreground">MPO & Depot</CardTitle>
+          <CardTitle className="text-xs font-bold uppercase tracking-wider text-muted-foreground">MPO & Invoice Metadata</CardTitle>
         </CardHeader>
         <CardContent className="grid grid-cols-1 sm:grid-cols-2 gap-4 p-4">
           <div className="space-y-2">
@@ -102,28 +122,8 @@ export function InvoiceEditor({ data, onChange }: InvoiceEditorProps) {
             <Input value={data.mpo.depot} onChange={(e) => handleMpoChange('depot', e.target.value)} />
           </div>
           <div className="space-y-2">
-            <Label>MPO ID</Label>
-            <Input value={data.mpo.mpoId} onChange={(e) => handleMpoChange('mpoId', e.target.value)} />
-          </div>
-          <div className="space-y-2">
-            <Label>Name</Label>
+            <Label>MPO Name</Label>
             <Input value={data.mpo.name} onChange={(e) => handleMpoChange('name', e.target.value)} />
-          </div>
-          <div className="space-y-2">
-            <Label>Summary Code</Label>
-            <Input value={data.mpo.summary} onChange={(e) => handleMpoChange('summary', e.target.value)} />
-          </div>
-        </CardContent>
-      </Card>
-
-      <Card>
-        <CardHeader className="py-3 px-4">
-          <CardTitle className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Invoice Metadata</CardTitle>
-        </CardHeader>
-        <CardContent className="grid grid-cols-1 sm:grid-cols-2 gap-4 p-4">
-          <div className="space-y-2">
-            <Label>Category</Label>
-            <Input value={data.header.category} onChange={(e) => handleHeaderChange('category', e.target.value)} />
           </div>
           <div className="space-y-2">
             <Label>Invoice No</Label>
@@ -132,10 +132,6 @@ export function InvoiceEditor({ data, onChange }: InvoiceEditorProps) {
           <div className="space-y-2">
             <Label>Invoice Date</Label>
             <Input type="text" placeholder="DD-MM-YYYY" value={data.header.invoiceDate} onChange={(e) => handleHeaderChange('invoiceDate', e.target.value)} />
-          </div>
-          <div className="space-y-2">
-            <Label>Order Book No</Label>
-            <Input value={data.header.orderBookNo} onChange={(e) => handleHeaderChange('orderBookNo', e.target.value)} />
           </div>
         </CardContent>
       </Card>
@@ -161,11 +157,24 @@ export function InvoiceEditor({ data, onChange }: InvoiceEditorProps) {
               </Button>
               <CardContent className="p-4 pt-10">
                 <div className="grid grid-cols-1 sm:grid-cols-12 gap-3">
-                  <div className="sm:col-span-3 space-y-1">
-                    <Label className="text-[10px]">ID</Label>
+                  <div className="sm:col-span-4 space-y-1">
+                    <Label className="text-[10px]">Select Product (Quick Add)</Label>
+                    <Select onValueChange={(val) => handleProductSelect(idx, val)} value={line.productId}>
+                      <SelectTrigger className="h-8 text-xs">
+                        <SelectValue placeholder="Quick select..." />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {PREDEFINED_PRODUCTS.map(p => (
+                          <SelectItem key={p.id} value={p.id}>{p.id} - {p.name}</SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  <div className="sm:col-span-2 space-y-1">
+                    <Label className="text-[10px]">P Id</Label>
                     <Input className="h-8 text-xs" value={line.productId} onChange={(e) => handleLineChange(idx, 'productId', e.target.value)} />
                   </div>
-                  <div className="sm:col-span-9 space-y-1">
+                  <div className="sm:col-span-6 space-y-1">
                     <Label className="text-[10px]">Description</Label>
                     <Input className="h-8 text-xs" value={line.description} onChange={(e) => handleLineChange(idx, 'description', e.target.value)} />
                   </div>
@@ -191,20 +200,6 @@ export function InvoiceEditor({ data, onChange }: InvoiceEditorProps) {
           ))}
         </div>
       </div>
-
-      <Card className="bg-secondary/5 mb-8">
-        <CardContent className="p-4">
-          <div className="flex items-center justify-between">
-            <Label className="font-bold">Global Discount (%)</Label>
-            <Input 
-              className="w-24" 
-              type="number" 
-              value={data.discountRate} 
-              onChange={(e) => onChange({ ...data, discountRate: parseFloat(e.target.value) || 0 })} 
-            />
-          </div>
-        </CardContent>
-      </Card>
     </div>
   );
 }

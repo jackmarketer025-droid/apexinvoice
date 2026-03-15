@@ -64,16 +64,8 @@ const draftInvoicePrompt = ai.definePrompt({
   prompt: `You are an AI assistant tasked with drafting an invoice based on a natural language description.
 Your goal is to extract all relevant information from the user's request and structure it into a JSON object according to the provided schema.
 
-The invoice details typically include:
-- Customer information (ID, Name, Address, Phone, Route)
-- MPO (Medical Promotion Officer) information (Depot, MPO ID, Name, Summary, Summary Date)
-- General invoice details (Category, Invoice Number, Invoice Date, Order Book Number, Delivery Date)
-- A list of product line items, each with: Description, Pack Size, Unit Trade Price (TP), VAT Rate (as a percentage), Quantity, and optionally Product ID.
-
 Dates should be extracted in DD-MM-YYYY format.
-If a piece of information is not explicitly mentioned in the description, you should omit that field from the output JSON or provide an empty string/null if the schema allows it. Do NOT make up information.
-Focus on extracting the numerical values for prices, VAT rates, and quantities.
-For product lines, always try to extract 'description', 'unitTp', and 'quantity'. 'packSize', 'vatRate', and 'productId' are optional.
+If a piece of information is not explicitly mentioned, omit that field or provide an empty string. Do NOT make up information.
 
 Natural language invoice description: {{{this}}}`,
 });

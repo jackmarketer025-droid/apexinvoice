@@ -12,8 +12,8 @@ export function InvoicePreview({ data }: InvoicePreviewProps) {
   const [currentTime, setCurrentTime] = useState<string | null>(null);
 
   useEffect(() => {
-    // Hydration fix: Only set client-specific time after mount
-    setCurrentTime(new Date().toLocaleTimeString());
+    // Hydration fix
+    setCurrentTime(new Date().toLocaleString());
   }, []);
 
   const totals = data.productLines.reduce((acc, line) => {
@@ -29,21 +29,21 @@ export function InvoicePreview({ data }: InvoicePreviewProps) {
   const netPayable = totalAmount - discountAmount;
 
   return (
-    <div className="invoice-a4 font-body text-[10px] leading-tight text-gray-800 flex flex-col min-h-[297mm]" id="print-area">
-      {/* 1. Top Section - Body Content */}
+    <div className="invoice-a4 font-body text-[10px] leading-tight text-gray-800 flex flex-col min-h-[297mm] bg-white" id="print-area">
+      {/* Top Content Area */}
       <div className="flex-grow">
         {/* Header Section */}
         <div className="flex justify-between items-start mb-2">
           <div className="w-1/4">
-            <h1 className="text-4xl font-black text-primary italic tracking-tighter">Apex<span className="text-xs align-top font-normal">™</span></h1>
-            <p className="text-[7.5px] font-bold text-gray-500 -mt-1 uppercase">A Seed Marine Flake Enterprise</p>
+            <h1 className="text-4xl font-black text-primary italic tracking-tighter leading-none">Apex<span className="text-xs align-top font-normal">™</span></h1>
+            <p className="text-[7.5px] font-bold text-gray-500 uppercase">A Seed Marine Flake Enterprise</p>
           </div>
           <div className="w-2/4 text-center">
             <h2 className="text-3xl font-extrabold text-primary">Apex Pharma Ltd.</h2>
             <p className="text-[9px]">House # 06, Road # 137, Block # SE(D) Gulshan-1, Dhaka-1212, Bangladesh.</p>
             <p className="text-[9px]">Tel: +88(02)55044834-37, Fax: 880-2-55044839</p>
           </div>
-          <div className="w-1/4 text-right font-semibold text-gray-600 leading-[1.1]">
+          <div className="w-1/4 text-right font-semibold text-gray-600">
             <p>Customer Copy</p>
             <p>Customer Copy</p>
           </div>
@@ -59,62 +59,47 @@ export function InvoicePreview({ data }: InvoicePreviewProps) {
         </div>
 
         {/* Info Grid */}
-        <div className="grid grid-cols-3 gap-8 mb-4 px-1">
+        <div className="grid grid-cols-3 gap-6 mb-4 px-1 border-b border-gray-100 pb-2">
           <div className="space-y-0.5">
             <p><span className="w-14 inline-block">Cust ID</span>: {data.customer.customerId}</p>
             <p className="font-bold"><span className="w-14 inline-block">Name</span>: {data.customer.name}</p>
-            <p><span className="w-14 inline-block text-gray-600">Address</span>: {data.customer.address}</p>
-            <p><span className="w-14 inline-block">Phone</span>: {data.customer.phone}</p>
+            <p><span className="w-14 inline-block">Address</span>: {data.customer.address}</p>
             <p className="font-bold"><span className="w-14 inline-block">Route</span>: {data.customer.route}</p>
           </div>
-          <div className="space-y-0.5 border-l border-gray-100 pl-4">
+          <div className="space-y-0.5 pl-4">
             <p><span className="w-16 inline-block">Depot</span>: {data.mpo.depot}</p>
             <p><span className="w-16 inline-block">MPO ID</span>: {data.mpo.mpoId}</p>
             <p className="font-bold"><span className="w-16 inline-block">Name</span>: {data.mpo.name}</p>
-            <p><span className="w-16 inline-block text-gray-600">Summary</span>: {data.mpo.summary}</p>
-            <p><span className="w-16 inline-block">Sum Date</span>: {data.mpo.sumDate}</p>
           </div>
-          <div className="space-y-0.5 border-l border-gray-100 pl-4 text-right">
-            <p><span className="w-24 inline-block text-left">Category</span>: {data.header.category}</p>
-            <p className="font-bold"><span className="w-24 inline-block text-left">Invoice No</span>: {data.header.invoiceNo}</p>
-            <p><span className="w-24 inline-block text-left">Invoice Date</span>: {data.header.invoiceDate}</p>
-            <p><span className="w-24 inline-block text-left">Order Book No</span>: {data.header.orderBookNo}</p>
-            <p><span className="w-24 inline-block text-left text-gray-600">Delivery Date</span>: {data.header.deliveryDate}</p>
+          <div className="space-y-0.5 text-right">
+            <p>Invoice No : {data.header.invoiceNo}</p>
+            <p>Invoice Date : {data.header.invoiceDate}</p>
+            <p>Delivery Date : {data.header.deliveryDate}</p>
           </div>
         </div>
 
         {/* Table Section */}
-        <table className="w-full text-[9px] border-collapse mb-4">
+        <table className="w-full text-[9px] border-collapse mb-1">
           <thead>
-            <tr className="border-y border-gray-400 font-bold text-center">
-              <th className="p-1 text-left border-r w-[60px]">P Id</th>
-              <th className="p-1 text-left border-r w-[180px]">Description</th>
-              <th className="p-1 border-r">Pack Size</th>
-              <th className="p-1 border-r">Unit TP</th>
-              <th className="p-1 border-r">VAT Rate%</th>
-              <th className="p-1 border-r">Unit VAT</th>
-              <th className="p-1 border-r">Unit Dis</th>
-              <th className="p-1 border-r">QTY</th>
-              <th className="p-1 border-r">Total TP</th>
-              <th className="p-1 border-r">Total VAT</th>
-              <th className="p-1">Total Price</th>
+            <tr className="border-y border-gray-400 font-bold bg-gray-50">
+              <th className="p-1 text-left border-r w-16">P Id</th>
+              <th className="p-1 text-left border-r">Description</th>
+              <th className="p-1 border-r text-center">Pack Size</th>
+              <th className="p-1 border-r text-center">Unit TP+VAT</th>
+              <th className="p-1 border-r w-14 text-center">QTY</th>
+              <th className="p-1 text-right">Total Price</th>
             </tr>
           </thead>
           <tbody>
             {data.productLines.map((line, idx) => {
-              const { totalTp, totalVat, totalPrice, unitVat } = calculateLineTotals(line);
+              const { totalPrice, unitTpVat } = calculateLineTotals(line);
               return (
-                <tr key={idx} className="border-b border-gray-100 text-center align-middle">
-                  <td className="p-1 text-left">{line.productId}</td>
-                  <td className="p-1 text-left font-semibold">{line.description}</td>
-                  <td className="p-1">{line.packSize}</td>
-                  <td className="p-1">{formatCurrency(line.unitTp)}</td>
-                  <td className="p-1">{line.vatRate}</td>
-                  <td className="p-1">{formatCurrency(unitVat)}</td>
-                  <td className="p-1">-</td>
-                  <td className="p-1 font-bold">{line.quantity}</td>
-                  <td className="p-1 text-right">{formatCurrency(totalTp)}</td>
-                  <td className="p-1 text-right">{formatCurrency(totalVat)}</td>
+                <tr key={idx} className="border-b border-gray-100">
+                  <td className="p-1">{line.productId}</td>
+                  <td className="p-1 font-semibold">{line.description}</td>
+                  <td className="p-1 text-center">{line.packSize}</td>
+                  <td className="p-1 text-center">{formatCurrency(unitTpVat)}</td>
+                  <td className="p-1 text-center">{line.quantity}</td>
                   <td className="p-1 text-right font-bold">{formatCurrency(totalPrice)}</td>
                 </tr>
               );
@@ -122,64 +107,42 @@ export function InvoicePreview({ data }: InvoicePreviewProps) {
           </tbody>
         </table>
 
-        {/* Summary & Totals */}
-        <div className="flex justify-end mb-4">
-          <div className="w-72 text-[9px]">
-            <div className="flex justify-between border-b py-0.5">
-              <span className="font-bold uppercase">Total Amount :</span>
-              <span className="font-bold underline underline-offset-2">{formatCurrency(totalAmount)}</span>
-            </div>
-            <div className="flex justify-between py-0.5">
-              <span className="font-semibold text-gray-700">Discount On TP ({data.discountRate}%) :</span>
-              <span>{formatCurrency(discountAmount)}</span>
-            </div>
-            <div className="flex justify-between font-bold text-[11px] bg-gray-50 p-1">
-              <span>Net Payable Amount :</span>
+        {/* Summary Area */}
+        <div className="flex justify-end mt-4">
+          <div className="w-64">
+            <div className="flex justify-between font-bold text-sm border-t-2 border-black pt-1">
+              <span>Net Payable Amount:</span>
               <span>{formatCurrency(netPayable)}</span>
             </div>
           </div>
         </div>
 
-        {/* In Words & Note */}
-        <div className="mb-4">
-          <p className="font-bold uppercase text-[9px]">In Word: {numberToWords(netPayable)}</p>
-          <p className="font-bold text-[10px] mt-2 border-l-4 border-primary pl-2 py-1 bg-red-50">
+        {/* In Words */}
+        <p className="font-bold uppercase text-[9px] mt-2">In Word: {numberToWords(netPayable)}</p>
+
+        {/* Note Area */}
+        <div className="mt-8">
+          <p className="font-bold text-[10px] border-l-4 border-primary pl-2 py-1 bg-red-50 italic">
             বিশেষ দ্রষ্টব্য: আপনার স্বাক্ষরিত রিসিভ ইনভয়েস ব্যতীত কাউকে টাকা/ঔষধ প্রদান করবেন না।
           </p>
         </div>
       </div>
 
-      {/* 2. Footer Section - Fixed at bottom */}
-      <div className="mt-auto">
-        <div className="grid grid-cols-5 gap-4 mt-8 text-[8px] relative pb-8">
-          <div className="border-t border-black pt-1 text-center">
-             <p className="font-bold uppercase">Prepared By</p>
-             <p className="mt-1">razzak</p>
-          </div>
-          <div className="border-t border-black pt-1 text-center">
-             <p className="font-bold uppercase">Authorised By</p>
-             <p className="mt-1">Date: .................</p>
-          </div>
-          <div className="border-t border-black pt-1 text-center">
-             <p className="font-bold uppercase">Delivered By</p>
-             <p className="mt-1 font-semibold uppercase">MAHEDY HASAN</p>
-          </div>
-          <div className="border-t border-black pt-1 text-center">
-             <p className="font-bold uppercase">Collection by</p>
-          </div>
-          <div className="border-t border-black pt-1 text-center">
-             <p className="font-bold uppercase">Customer's Signature</p>
-          </div>
-
-          <div className="absolute -bottom-2 right-0 text-right opacity-70">
-             <p>{data.header.invoiceDate}</p>
-             <p>{currentTime || '--:--:--'}</p>
-          </div>
+      {/* Footer Section - Always at Bottom */}
+      <div className="mt-auto pt-10">
+        {/* Signature Area */}
+        <div className="grid grid-cols-5 gap-4 text-[8px] text-center uppercase font-bold mb-10">
+          <div className="border-t border-black pt-1">Prepared By</div>
+          <div className="border-t border-black pt-1">Authorised By</div>
+          <div className="border-t border-black pt-1">Delivered By</div>
+          <div className="border-t border-black pt-1">Collection By</div>
+          <div className="border-t border-black pt-1">Customer Signature</div>
         </div>
 
-        <div className="border-t border-gray-300 pt-2 text-[7.5px] text-gray-500 italic space-y-0.5">
-          <p>Warranty: We do hereby give this warranty that products sold under this invoice do not contravene to any provisions of section 18 of the drugs act 1940.</p>
-          <p>Note: Received the goods in full and good condition.</p>
+        {/* Final Disclaimer */}
+        <div className="border-t pt-2 text-[7.5px] text-gray-400 italic flex justify-between">
+          <p>Warranty: This product complies with section 18 of the Drugs Act 1940. Received the goods in full and good condition.</p>
+          <p>Print Time: {currentTime || '--:--:--'}</p>
         </div>
       </div>
     </div>

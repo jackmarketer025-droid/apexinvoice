@@ -1,16 +1,25 @@
 import { ProductLine } from "@/types/invoice";
 
+export const PREDEFINED_PRODUCTS = [
+  { id: '10023', name: 'Acorex Syp 100 ml', packSize: '100 ml', unitTp: 35.00, vatRate: 15.65 }, // Example VAT added back for internal calc
+  { id: '11111', name: 'Adnor-3 Tab', packSize: "3x10's", unitTp: 112.50, vatRate: 17.4 },
+  { id: '19013', name: 'Alafree-120 Tab', packSize: "3x10's", unitTp: 180.00, vatRate: 17.34 },
+  { id: '51213', name: 'Moxigram Eye Drops', packSize: "1's", unitTp: 108.69, vatRate: 17.4 },
+];
+
 export function calculateLineTotals(line: ProductLine) {
   const totalTp = line.unitTp * line.quantity;
   const totalVat = totalTp * (line.vatRate / 100);
   const totalPrice = totalTp + totalVat;
   const unitVat = line.unitTp * (line.vatRate / 100);
+  const unitTpVat = line.unitTp + unitVat;
   
   return {
     totalTp,
     totalVat,
     totalPrice,
-    unitVat
+    unitVat,
+    unitTpVat
   };
 }
 
