@@ -12,21 +12,26 @@ interface InvoicePreviewProps {
 
 export function InvoicePreview({ data }: InvoicePreviewProps) {
   const [currentTime, setCurrentTime] = useState<string | null>(null);
+  const [currentDate, setCurrentDate] = useState<string | null>(null);
 
   useEffect(() => {
-    setCurrentTime(new Date().toLocaleString('en-GB', {
+    const now = new Date();
+    setCurrentDate(now.toLocaleDateString('en-GB', {
       day: '2-digit',
       month: '2-digit',
-      year: 'numeric',
+      year: 'numeric'
+    }).replace(/\//g, '-'));
+    
+    setCurrentTime(now.toLocaleTimeString('en-GB', {
       hour: 'numeric',
       minute: '2-digit',
       second: '2-digit',
       hour12: true
-    }));
+    }).replace(/\s/g, ''));
   }, []);
 
   const totals = data.productLines.reduce((acc, line) => {
-    const { totalTp, totalVat, totalPrice, totalUnitDis } = calculateLineTotals(line);
+    const { totalTp, totalVat, totalPrice } = calculateLineTotals(line);
     return {
       totalTp: acc.totalTp + totalTp,
       totalVat: acc.totalVat + totalVat,
@@ -69,7 +74,7 @@ export function InvoicePreview({ data }: InvoicePreviewProps) {
       </div>
 
       {/* Info Grid */}
-      <div className="grid grid-cols-3 gap-10 mb-6 px-2 border-b-2 border-gray-300 pb-4">
+      <div className="grid grid-cols-3 gap-10 mb-6 px-2 border-b-[1.5px] border-gray-300 pb-4">
         <div className="space-y-1.5 text-[11.5px]">
           <p><span className="w-22 inline-block font-bold">Cust ID</span>: {data.customer.customerId}</p>
           <p className="font-black text-[12px]"><span className="w-22 inline-block">Name</span>: {data.customer.name}</p>
@@ -97,7 +102,7 @@ export function InvoicePreview({ data }: InvoicePreviewProps) {
       <div className="px-1 flex-grow">
         <table className="w-full text-[11px] border-collapse table-fixed">
           <thead>
-            <tr className="border-y-[2px] border-gray-900 font-black bg-gray-50 text-[10px] uppercase">
+            <tr className="border-y-[1px] border-gray-900 font-black bg-gray-50 text-[10px] uppercase">
               <th className="p-1 text-left w-[5%]">P Id</th>
               <th className="p-1 text-left w-[18%]">Description</th>
               <th className="p-1 text-center w-[8%]">Pack Size</th>
@@ -136,7 +141,7 @@ export function InvoicePreview({ data }: InvoicePreviewProps) {
             })}
           </tbody>
           <tfoot>
-            <tr className="border-t-[2.5px] border-gray-900 font-black bg-gray-50 text-[12.5px]">
+            <tr className="border-t-[1.5px] border-gray-900 font-black bg-gray-50 text-[12.5px]">
               <td colSpan={9} className="p-2.5 text-left uppercase">Total Amount :</td>
               <td className="p-2.5 text-center">{formatCurrency(totals.totalTp)}</td>
               <td className="p-2.5 text-center">{formatCurrency(totals.totalVat)}</td>
@@ -154,14 +159,14 @@ export function InvoicePreview({ data }: InvoicePreviewProps) {
               <p className="text-[13.5px] font-black uppercase tracking-tight text-gray-900">FIFTY BRAND OFFER, PAYMENT OPTION: CASH/CHEQUE</p>
             </div>
             <div className="w-80 space-y-3">
-              <div className="flex justify-between border-b-[2.5px] border-gray-400 pb-2">
+              <div className="flex justify-between border-b-[1.5px] border-gray-400 pb-2">
                 <span className="font-black text-[12.5px] uppercase">Discount On TP :</span>
                 <span className="font-bold text-[12.5px]">0 %</span>
                 <span className="font-bold text-[12.5px]">0.00</span>
               </div>
               <div className="flex justify-between items-center pt-1">
                 <span className="font-black text-[15px] uppercase">Net Payable Amount</span>
-                <span className="font-black text-[22px] border-[3.5px] border-black px-6 py-1.5 bg-white shadow-sm min-w-[140px] text-center">
+                <span className="font-black text-[22px] border-[2.5px] border-black px-6 py-1.5 bg-white shadow-sm min-w-[140px] text-center">
                   {Math.round(totals.totalPrice).toLocaleString()}
                 </span>
               </div>
@@ -178,7 +183,7 @@ export function InvoicePreview({ data }: InvoicePreviewProps) {
 
         {/* Bengali Special Note */}
         <div className="mt-10 px-2">
-          <p className="font-black text-[15px] py-3 border-y-[2.5px] border-gray-400 bg-gray-50 text-center italic text-[#E31E24]">
+          <p className="font-black text-[15px] py-3 border-y-[1.5px] border-gray-400 bg-gray-50 text-center italic text-[#E31E24]">
             বিশেষ দ্রষ্টব্য : আপনার স্বাক্ষরিত রিসিভ ইনভয়েস ব্যতীত কাউকে টাকা / ঔষধ প্রদান করবেন না।
           </p>
         </div>
@@ -186,34 +191,40 @@ export function InvoicePreview({ data }: InvoicePreviewProps) {
 
       {/* Footer Area - Signatures */}
       <div className="mt-auto px-2 pb-6">
-        <div className="flex justify-between items-end mb-12 pt-20">
-          <div className="grid grid-cols-5 gap-6 flex-1 text-[12.5px] text-center font-black uppercase">
+        <div className="flex justify-between items-end mb-8 pt-16">
+          <div className="grid grid-cols-6 gap-4 flex-1 text-[11px] font-medium">
             <div className="flex flex-col">
-              <div className="border-t-[2.5px] border-black pt-2.5">Prepared By</div>
+              <div className="border-t-[0.5px] border-black pt-1.5">Prepared By</div>
+              <div className="text-[10px] mt-0.5">razzak</div>
             </div>
             <div className="flex flex-col">
-              <div className="border-t-[2.5px] border-black pt-2.5">Authorised by</div>
-              <div className="text-[10px] font-bold mt-1.5">Date:....................</div>
+              <div className="border-t-[0.5px] border-black pt-1.5">Authorised by</div>
+              <div className="text-[10px] mt-0.5">Date:....................</div>
             </div>
             <div className="flex flex-col">
-              <div className="border-t-[2.5px] border-black pt-2.5">Delivered by</div>
+              <div className="border-t-[0.5px] border-black pt-1.5">Delivered by</div>
+              <div className="text-[10px] mt-0.5 uppercase">MAHEDY HASAN</div>
             </div>
             <div className="flex flex-col">
-              <div className="border-t-[2.5px] border-black pt-2.5">Collection by</div>
+              <div className="border-t-[0.5px] border-black pt-1.5">Collection by</div>
             </div>
             <div className="flex flex-col">
-              <div className="border-t-[2.5px] border-black pt-2.5">Customer's Signature</div>
+              <div className="border-t-[0.5px] border-black pt-1.5">Customer's Signature</div>
+            </div>
+            <div className="flex flex-col text-right justify-end font-bold text-[10px]">
+              <p>{currentDate}</p>
+              <p>{currentTime}</p>
             </div>
           </div>
         </div>
 
         {/* Final Warranty Section */}
-        <div className="border-t-[3.5px] border-black pt-4 space-y-3">
-          <p className="text-[10.5px] font-black leading-none whitespace-nowrap tracking-tighter">
-            <span>Warranty :</span> We do hereby give this warranty that products sold under this invoice do not contravene to any provisions of section 18 of the drugs act 1940
+        <div className="border-t-[1px] border-black pt-4 space-y-2">
+          <p className="text-[10.5px] leading-none whitespace-nowrap tracking-tight font-medium">
+            <span className="font-bold">Warranty :</span> We do hereby give this warranty that products sold under this invoice do not contravene to any provisions of section 18 of the drugs act 1940
           </p>
-          <p className="text-[10.5px] font-black leading-none">
-            <span>Note :</span> Received the goods in full and good condition.
+          <p className="text-[10.5px] leading-none font-medium">
+            <span className="font-bold">Note :</span> Received the goods in full and good condition.
           </p>
         </div>
       </div>
