@@ -174,16 +174,16 @@ export function InvoicePreview({ data }: InvoicePreviewProps) {
           </div>
         </div>
 
-        {/* In Words */}
+        {/* In Words - Matched to Screenshot */}
         <div className="mt-8 px-1">
-          <p className="font-black uppercase text-[12.5px] text-black">
+          <p className="font-black uppercase text-[12.5px] text-black leading-tight">
             IN WORD: {numberToWords(totals.totalPrice)}
           </p>
         </div>
 
-        {/* Bengali Special Note */}
-        <div className="mt-10 px-1">
-          <p className="font-black text-[15.5px] py-3 border-b-[1px] border-black text-center italic text-black">
+        {/* Bengali Special Note - Matched to Screenshot */}
+        <div className="mt-6 px-1">
+          <p className="font-black text-[15.5px] py-2 border-b-[1px] border-black text-left text-black">
             বিশেষ দ্রষ্টব্য : আপনার স্বাক্ষরিত রিসিভ ইনভয়েস ব্যতীত কাউকে টাকা / ঔষধ প্রদান করবেন না।
           </p>
         </div>
