@@ -33,45 +33,46 @@ export function InvoicePreview({ data }: InvoicePreviewProps) {
 
   return (
     <div className="invoice-a4 font-body text-[10px] leading-tight text-gray-800 flex flex-col min-h-[297mm] bg-white relative shadow-2xl" id="print-area">
-      {/* Top Content Area - Reduced horizontal padding to match user screenshot */}
-      <div className="flex-grow px-2 py-6 print:px-2 print:py-4">
+      {/* Top Content Area - Removed extra horizontal padding to use full width */}
+      <div className="flex-grow px-1 py-4 print:px-1 print:py-2">
         {/* Header Section */}
-        <div className="flex justify-between items-start mb-2">
-          <div className="w-1/3">
-            <div className="mb-1">
+        <div className="flex justify-between items-start mb-1">
+          <div className="w-1/4">
+            <div className="mb-0">
               <Image 
                 src="https://res.cloudinary.com/dd3eekw7h/image/upload/v1773604830/Apex_logo_p5tupb.png" 
                 alt="Apex Logo" 
-                width={140} 
-                height={50}
+                width={130} 
+                height={45}
                 className="object-contain"
                 priority
               />
             </div>
             <p className="text-[8.5px] font-bold text-gray-800 uppercase tracking-tighter leading-none mt-1">A SEED MARINE FLAKE ENTERPRISE</p>
           </div>
-          <div className="w-1/3 text-center pt-2">
-            <h2 className="text-3xl font-extrabold text-primary">Apex Pharma Ltd.</h2>
-            <p className="text-[9px]">House # 06, Road # 137, Block # SE(D) Gulshan-1, Dhaka-1212, Bangladesh.</p>
-            <p className="text-[9px]">Tel: +88(02)55044834-37, Fax: 880-2-55044839</p>
+          <div className="w-2/4 text-center">
+            {/* Set Company Name to 1 line as requested */}
+            <h2 className="text-3xl font-black text-primary whitespace-nowrap">Apex Pharma Ltd.</h2>
+            <p className="text-[9.5px]">House # 06, Road # 137, Block # SE(D) Gulshan-1, Dhaka-1212, Bangladesh.</p>
+            <p className="text-[9.5px]">Tel: +88(02)55044834-37, Fax: 880-2-55044839</p>
           </div>
-          <div className="w-1/3 text-right font-semibold text-gray-600 pt-2 text-[9px]">
+          <div className="w-1/4 text-right font-semibold text-gray-600 pt-1 text-[9.5px]">
             <p>Customer Copy</p>
             <p>Customer Copy</p>
           </div>
         </div>
 
         {/* Invoice Label Area */}
-        <div className="relative text-center mb-6">
-          <p className="text-[8.5px] text-blue-800 italic mb-1">Plot No - 19, Block - 1, Sadar, Dinajpur. Mobile No: 01755573378</p>
-          <div className="inline-block bg-primary text-white px-10 py-0.5 rounded-full font-bold uppercase text-sm tracking-widest shadow-sm relative z-10">
+        <div className="relative text-center mb-5">
+          <p className="text-[9px] text-blue-800 italic mb-1">Plot No - 19, Block - 1, Sadar, Dinajpur. Mobile No: 01755573378</p>
+          <div className="inline-block bg-primary text-white px-12 py-0.5 rounded-full font-bold uppercase text-sm tracking-widest shadow-sm relative z-10">
             INVOICE
           </div>
           <div className="absolute top-7 left-0 w-full h-[1px] bg-primary opacity-40"></div>
         </div>
 
-        {/* Info Grid - Adjusted labels and layout for tighter feel */}
-        <div className="grid grid-cols-3 gap-6 mb-4 px-1 border-b border-gray-100 pb-2 text-[9.5px]">
+        {/* Info Grid - Tighter feel, font slightly larger */}
+        <div className="grid grid-cols-3 gap-4 mb-3 px-1 border-b border-gray-100 pb-2 text-[10px]">
           <div className="space-y-0.5">
             <p><span className="w-14 inline-block">Cust ID</span>: {data.customer.customerId}</p>
             <p className="font-bold"><span className="w-14 inline-block">Name</span>: {data.customer.name}</p>
@@ -91,10 +92,10 @@ export function InvoicePreview({ data }: InvoicePreviewProps) {
         </div>
 
         {/* Table Section */}
-        <div className="overflow-x-auto">
-          <table className="w-full text-[8px] border-collapse mb-1 table-fixed">
+        <div className="overflow-hidden">
+          <table className="w-full text-[8.5px] border-collapse mb-1 table-fixed">
             <thead>
-              <tr className="border-y border-gray-400 font-bold bg-gray-50 uppercase text-[7.5px]">
+              <tr className="border-y border-gray-400 font-bold bg-gray-50 uppercase text-[8px]">
                 <th className="p-1 text-left border-r w-[6%]">P Id</th>
                 <th className="p-1 text-left border-r w-[18%]">Description</th>
                 <th className="p-1 border-r text-center w-[8%]">Pack Size</th>
@@ -136,7 +137,7 @@ export function InvoicePreview({ data }: InvoicePreviewProps) {
         {/* Summary Area */}
         <div className="flex justify-end mt-4">
           <div className="w-64">
-            <div className="flex justify-between font-bold text-[13px] border-t-2 border-black pt-1">
+            <div className="flex justify-between font-bold text-[14px] border-t-2 border-black pt-1">
               <span>Net Payable Amount:</span>
               <span>{formatCurrency(netPayable)}</span>
             </div>
@@ -144,27 +145,27 @@ export function InvoicePreview({ data }: InvoicePreviewProps) {
         </div>
 
         {/* In Words */}
-        <p className="font-bold uppercase text-[9.5px] mt-2">In Word: {numberToWords(netPayable)}</p>
+        <p className="font-bold uppercase text-[10.5px] mt-2">In Word: {numberToWords(netPayable)}</p>
 
         {/* Note Area */}
-        <div className="mt-8">
-          <p className="font-bold text-[10.5px] border-l-4 border-primary pl-2 py-1 bg-red-50 italic">
+        <div className="mt-6">
+          <p className="font-bold text-[11px] border-l-4 border-primary pl-2 py-1 bg-red-50 italic">
             বিশেষ দ্রষ্টব্য: আপনার স্বাক্ষরিত রিসিভ ইনভয়েস ব্যতীত কাউকে টাকা/ঔষধ প্রদান করবেন না।
           </p>
         </div>
       </div>
 
-      {/* Footer Section - Fixed at the very bottom of A4 with reduced horizontal padding */}
-      <div className="mt-auto px-2 pb-10 print:px-2 print:pb-5">
+      {/* Footer Section - Fixed at bottom, maximized width */}
+      <div className="mt-auto px-1 pb-8 print:px-1 print:pb-4">
         {/* Signature Area */}
-        <div className="flex justify-between items-end mb-12 mt-10">
-          <div className="grid grid-cols-5 gap-8 flex-1 text-[9.5px] text-center font-bold">
+        <div className="flex justify-between items-end mb-10 mt-6">
+          <div className="grid grid-cols-5 gap-4 flex-1 text-[10.5px] text-center font-bold">
             <div className="flex flex-col gap-1">
               <div className="border-t border-black pt-1">Prepared By</div>
             </div>
             <div className="flex flex-col gap-1">
               <div className="border-t border-black pt-1">Authorised by</div>
-              <div className="text-[8px] font-normal">Date:....................</div>
+              <div className="text-[8.5px] font-normal">Date:....................</div>
             </div>
             <div className="flex flex-col gap-1">
               <div className="border-t border-black pt-1">Delivered by</div>
@@ -177,15 +178,14 @@ export function InvoicePreview({ data }: InvoicePreviewProps) {
             </div>
           </div>
           
-          {/* Current Date/Time on the right of signatures */}
-          <div className="text-[9px] text-right font-bold leading-tight pl-4 min-w-[80px]">
+          <div className="text-[10px] text-right font-bold leading-tight pl-4 min-w-[80px]">
             <p>{data.header.invoiceDate}</p>
             <p>{currentTime?.split(', ')[1]}</p>
           </div>
         </div>
 
-        {/* Final Disclaimer */}
-        <div className="border-t border-black pt-2 text-[11px] text-gray-800">
+        {/* Final Disclaimer - Big and clear font */}
+        <div className="border-t border-black pt-2 text-[12px] text-gray-800">
           <div className="space-y-1">
             <p className="leading-tight">
               <span className="font-bold">Warranty :</span> We do hereby give this warranty that products sold under this invoice do not contravene to any provisions of section 18 of the drugs act 1940
