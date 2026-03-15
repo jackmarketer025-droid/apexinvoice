@@ -172,8 +172,8 @@ export function InvoicePreview({ data }: InvoicePreviewProps) {
           </tbody>
           <tfoot>
             <tr className="bg-white text-[12px]">
-              <td colSpan={7} className="p-0"></td>
-              <td colSpan={2} className="p-2 text-right border-t-[1.5px] border-gray-900 pr-4">
+              <td colSpan={5} className="p-0"></td>
+              <td colSpan={4} className="p-2 text-right border-t-[1.5px] border-gray-900 pr-4">
                 <span className="font-bold uppercase inline-block whitespace-nowrap">TOTAL AMOUNT :</span>
               </td>
               <td className="p-2 text-center font-bold text-gray-900 border-t-[1.5px] border-gray-900">{formatCurrency(totals.totalTp)}</td>
