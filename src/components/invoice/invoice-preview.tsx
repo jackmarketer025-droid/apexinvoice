@@ -43,13 +43,14 @@ export function InvoicePreview({ data }: InvoicePreviewProps) {
   return (
     <div className="invoice-a4 font-body text-[11px] leading-tight text-gray-900 flex flex-col min-h-[297mm] bg-white relative" id="print-area">
       {/* Header Section */}
-      <div className="flex justify-between items-start pt-4 px-1">
+      <div className="flex justify-between items-start pt-6 px-1">
         <div className="w-[30%]">
           <Image 
             src="https://res.cloudinary.com/dd3eekw7h/image/upload/v1773604830/Apex_logo_p5tupb.png" 
             alt="Apex Logo" 
             width={160} 
             height={52}
+            style={{ height: 'auto' }}
             className="object-contain"
             priority
           />
