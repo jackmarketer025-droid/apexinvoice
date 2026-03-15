@@ -6,6 +6,7 @@ export interface ProductLine {
   vatRate: number;      // VAT Rate in %
   unitDis: number;      // Unit Discount
   quantity: number;
+  bonus: number;        // Bonus quantity
   specialDis: number;   // Special Discount (Total for the line)
 }
 

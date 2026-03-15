@@ -57,7 +57,7 @@ export function InvoiceEditor({ data, onChange }: InvoiceEditorProps) {
       ...data,
       productLines: [
         ...data.productLines,
-        { productId: '', description: '', packSize: '', unitTp: 0, vatRate: 17.4, unitDis: 0, quantity: 1, specialDis: 0 }
+        { productId: '', description: '', packSize: '', unitTp: 0, vatRate: 17.4, unitDis: 0, quantity: 1, bonus: 0, specialDis: 0 }
       ]
     });
   };
@@ -76,8 +76,8 @@ export function InvoiceEditor({ data, onChange }: InvoiceEditorProps) {
         productId: product.id,
         description: product.name,
         packSize: product.packSize,
-        unitTp: product.unitTp,
-        vatRate: product.vatRate,
+        unitTp: (product as any).tpVat / (1 + 17.4 / 100), // Approximate TP from tpVat
+        vatRate: 17.4,
       };
       onChange({ ...data, productLines: newLines });
     }
@@ -170,11 +170,11 @@ export function InvoiceEditor({ data, onChange }: InvoiceEditorProps) {
                 <CardContent className="p-4 pt-8">
                   <div className="grid grid-cols-1 sm:grid-cols-12 gap-4">
                     <div className="sm:col-span-12 space-y-1.5">
-                      <Label className="text-[10px] font-bold text-gray-500 uppercase">Search and Select Product (Code or Name)</Label>
+                      <Label className="text-[10px] font-bold text-gray-500 uppercase">Search and Select Product</Label>
                       <Popover>
                         <PopoverTrigger asChild>
                           <Button variant="outline" role="combobox" className="w-full justify-between h-10 font-medium text-left">
-                            {line.productId ? `${line.productId} - ${line.description}` : "Find product by code or name..."}
+                            {line.productId ? `${line.productId} - ${line.description}` : "Find product..."}
                             <Search className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                           </Button>
                         </PopoverTrigger>
@@ -183,16 +183,13 @@ export function InvoiceEditor({ data, onChange }: InvoiceEditorProps) {
                             <Search className="mr-2 h-4 w-4 shrink-0 opacity-50" />
                             <input
                               className="flex h-11 w-full rounded-md bg-transparent py-3 text-sm outline-none placeholder:text-muted-foreground"
-                              placeholder="Type ID (e.g. 10023) or Name (e.g. Acorex)..."
+                              placeholder="Type ID or Name..."
                               value={searchQuery}
                               onChange={(e) => setSearchQuery(e.target.value)}
                             />
                           </div>
                           <ScrollArea className="h-72">
                             <div className="p-1">
-                              {filteredProducts.length === 0 && (
-                                <p className="p-4 text-center text-sm text-muted-foreground">No product matched your search.</p>
-                              )}
                               {filteredProducts.map((p) => (
                                 <button
                                   key={p.id}
@@ -207,7 +204,7 @@ export function InvoiceEditor({ data, onChange }: InvoiceEditorProps) {
                                       <span className="font-bold text-primary">{p.id}</span>
                                       <span className="font-semibold">{p.name}</span>
                                     </div>
-                                    <span className="text-[10px] text-muted-foreground uppercase">{p.packSize} • {p.unitTp} TP • {p.vatRate}% VAT</span>
+                                    <span className="text-[10px] text-muted-foreground uppercase">{p.packSize}</span>
                                   </div>
                                   {line.productId === p.id && <Check className="ml-auto h-4 w-4 text-primary" />}
                                 </button>
@@ -226,17 +223,17 @@ export function InvoiceEditor({ data, onChange }: InvoiceEditorProps) {
                       <Label className="text-[10px] font-bold">VAT RATE %</Label>
                       <Input className="h-9 text-sm" type="number" step="0.1" value={line.vatRate} onChange={(e) => handleLineChange(idx, 'vatRate', parseFloat(e.target.value) || 0)} />
                     </div>
-                    <div className="sm:col-span-3 space-y-1">
-                      <Label className="text-[10px] font-bold">UNIT DIS</Label>
-                      <Input className="h-9 text-sm" type="number" step="0.01" value={line.unitDis} onChange={(e) => handleLineChange(idx, 'unitDis', parseFloat(e.target.value) || 0)} />
-                    </div>
-                    <div className="sm:col-span-3 space-y-1">
+                    <div className="sm:col-span-2 space-y-1">
                       <Label className="text-[10px] font-bold">QTY</Label>
                       <Input className="h-9 text-sm" type="number" min="1" value={line.quantity} onChange={(e) => handleLineChange(idx, 'quantity', parseInt(e.target.value) || 0)} />
                     </div>
-                    <div className="sm:col-span-12 space-y-1">
-                      <Label className="text-[10px] font-bold text-blue-600">SPECIAL DISCOUNT (Total for line)</Label>
-                      <Input className="h-9 text-sm border-blue-200" type="number" step="0.01" value={line.specialDis} onChange={(e) => handleLineChange(idx, 'specialDis', parseFloat(e.target.value) || 0)} />
+                    <div className="sm:col-span-2 space-y-1">
+                      <Label className="text-[10px] font-bold">BONUS</Label>
+                      <Input className="h-9 text-sm" type="number" min="0" value={line.bonus} onChange={(e) => handleLineChange(idx, 'bonus', parseInt(e.target.value) || 0)} />
+                    </div>
+                    <div className="sm:col-span-2 space-y-1">
+                      <Label className="text-[10px] font-bold">SPEC. DIS</Label>
+                      <Input className="h-9 text-sm" type="number" step="0.01" value={line.specialDis} onChange={(e) => handleLineChange(idx, 'specialDis', parseFloat(e.target.value) || 0)} />
                     </div>
                   </div>
                 </CardContent>
