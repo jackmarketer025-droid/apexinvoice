@@ -33,10 +33,10 @@ export function InvoicePreview({ data }: InvoicePreviewProps) {
 
   return (
     <div className="invoice-a4 font-body text-[10px] leading-tight text-gray-800 flex flex-col min-h-[297mm] bg-white relative shadow-2xl" id="print-area">
-      {/* Top Content Area - Removed extra horizontal padding to use full width */}
-      <div className="flex-grow px-1 py-4 print:px-1 print:py-2">
+      {/* Top Content Area */}
+      <div className="flex-grow py-4 print:py-2">
         {/* Header Section */}
-        <div className="flex justify-between items-start mb-1">
+        <div className="flex justify-between items-start mb-2">
           <div className="w-1/4">
             <div className="mb-0">
               <Image 
@@ -72,7 +72,7 @@ export function InvoicePreview({ data }: InvoicePreviewProps) {
         </div>
 
         {/* Info Grid - Tighter feel, font slightly larger */}
-        <div className="grid grid-cols-3 gap-4 mb-3 px-1 border-b border-gray-100 pb-2 text-[10px]">
+        <div className="grid grid-cols-3 gap-4 mb-3 border-b border-gray-100 pb-2 text-[10px]">
           <div className="space-y-0.5">
             <p><span className="w-14 inline-block">Cust ID</span>: {data.customer.customerId}</p>
             <p className="font-bold"><span className="w-14 inline-block">Name</span>: {data.customer.name}</p>
@@ -155,8 +155,8 @@ export function InvoicePreview({ data }: InvoicePreviewProps) {
         </div>
       </div>
 
-      {/* Footer Section - Fixed at bottom, maximized width */}
-      <div className="mt-auto px-1 pb-8 print:px-1 print:pb-4">
+      {/* Footer Section - Fixed at bottom */}
+      <div className="mt-auto pb-8 print:pb-4">
         {/* Signature Area */}
         <div className="flex justify-between items-end mb-10 mt-6">
           <div className="grid grid-cols-5 gap-4 flex-1 text-[10.5px] text-center font-bold">

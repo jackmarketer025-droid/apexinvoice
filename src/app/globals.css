@@ -76,7 +76,7 @@
 .invoice-a4 {
   width: 210mm;
   min-height: 297mm;
-  padding: 2mm; /* Significantly reduced to meet the red-marked boundary request */
+  padding: 8mm; /* Increased from 2mm to 8mm for a safe print margin */
   margin: auto;
   background: white;
   box-shadow: 0 0 10px rgba(0,0,0,0.1);
@@ -88,7 +88,7 @@
     height: 100%;
     box-shadow: none;
     margin: 0;
-    padding: 2mm;
+    padding: 8mm; /* Safe print margin */
   }
 }
 
