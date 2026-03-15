@@ -48,14 +48,14 @@ export function InvoicePreview({ data }: InvoicePreviewProps) {
                 priority
               />
             </div>
-            <p className="text-[8px] font-bold text-gray-800 uppercase tracking-tighter leading-none mt-1">A SEED MARINE FLAKE ENTERPRISE</p>
+            <p className="text-[8.5px] font-bold text-gray-800 uppercase tracking-tighter leading-none mt-1">A SEED MARINE FLAKE ENTERPRISE</p>
           </div>
           <div className="w-1/3 text-center pt-2">
             <h2 className="text-3xl font-extrabold text-primary">Apex Pharma Ltd.</h2>
             <p className="text-[9px]">House # 06, Road # 137, Block # SE(D) Gulshan-1, Dhaka-1212, Bangladesh.</p>
             <p className="text-[9px]">Tel: +88(02)55044834-37, Fax: 880-2-55044839</p>
           </div>
-          <div className="w-1/3 text-right font-semibold text-gray-600 pt-2">
+          <div className="w-1/3 text-right font-semibold text-gray-600 pt-2 text-[9px]">
             <p>Customer Copy</p>
             <p>Customer Copy</p>
           </div>
@@ -63,7 +63,7 @@ export function InvoicePreview({ data }: InvoicePreviewProps) {
 
         {/* Invoice Label Area */}
         <div className="relative text-center mb-6">
-          <p className="text-[8px] text-blue-800 italic mb-1">Plot No - 19, Block - 1, Sadar, Dinajpur. Mobile No: 01755573378</p>
+          <p className="text-[8.5px] text-blue-800 italic mb-1">Plot No - 19, Block - 1, Sadar, Dinajpur. Mobile No: 01755573378</p>
           <div className="inline-block bg-primary text-white px-10 py-0.5 rounded-full font-bold uppercase text-sm tracking-widest shadow-sm relative z-10">
             INVOICE
           </div>
@@ -71,7 +71,7 @@ export function InvoicePreview({ data }: InvoicePreviewProps) {
         </div>
 
         {/* Info Grid */}
-        <div className="grid grid-cols-3 gap-6 mb-4 px-1 border-b border-gray-100 pb-2">
+        <div className="grid grid-cols-3 gap-6 mb-4 px-1 border-b border-gray-100 pb-2 text-[9.5px]">
           <div className="space-y-0.5">
             <p><span className="w-14 inline-block">Cust ID</span>: {data.customer.customerId}</p>
             <p className="font-bold"><span className="w-14 inline-block">Name</span>: {data.customer.name}</p>
@@ -92,9 +92,9 @@ export function InvoicePreview({ data }: InvoicePreviewProps) {
 
         {/* Table Section */}
         <div className="overflow-x-auto">
-          <table className="w-full text-[7.5px] border-collapse mb-1 table-fixed">
+          <table className="w-full text-[8px] border-collapse mb-1 table-fixed">
             <thead>
-              <tr className="border-y border-gray-400 font-bold bg-gray-50 uppercase text-[7px]">
+              <tr className="border-y border-gray-400 font-bold bg-gray-50 uppercase text-[7.5px]">
                 <th className="p-1 text-left border-r w-[6%]">P Id</th>
                 <th className="p-1 text-left border-r w-[18%]">Description</th>
                 <th className="p-1 border-r text-center w-[8%]">Pack Size</th>
@@ -136,7 +136,7 @@ export function InvoicePreview({ data }: InvoicePreviewProps) {
         {/* Summary Area */}
         <div className="flex justify-end mt-4">
           <div className="w-64">
-            <div className="flex justify-between font-bold text-sm border-t-2 border-black pt-1">
+            <div className="flex justify-between font-bold text-[13px] border-t-2 border-black pt-1">
               <span>Net Payable Amount:</span>
               <span>{formatCurrency(netPayable)}</span>
             </div>
@@ -144,11 +144,11 @@ export function InvoicePreview({ data }: InvoicePreviewProps) {
         </div>
 
         {/* In Words */}
-        <p className="font-bold uppercase text-[9px] mt-2">In Word: {numberToWords(netPayable)}</p>
+        <p className="font-bold uppercase text-[9.5px] mt-2">In Word: {numberToWords(netPayable)}</p>
 
         {/* Note Area */}
         <div className="mt-8">
-          <p className="font-bold text-[10px] border-l-4 border-primary pl-2 py-1 bg-red-50 italic">
+          <p className="font-bold text-[10.5px] border-l-4 border-primary pl-2 py-1 bg-red-50 italic">
             বিশেষ দ্রষ্টব্য: আপনার স্বাক্ষরিত রিসিভ ইনভয়েস ব্যতীত কাউকে টাকা/ঔষধ প্রদান করবেন না।
           </p>
         </div>
@@ -158,13 +158,13 @@ export function InvoicePreview({ data }: InvoicePreviewProps) {
       <div className="mt-auto p-10 pt-0 print:p-5">
         {/* Signature Area */}
         <div className="flex justify-between items-end mb-12 mt-10">
-          <div className="grid grid-cols-5 gap-8 flex-1 text-[8.5px] text-center font-bold">
+          <div className="grid grid-cols-5 gap-8 flex-1 text-[9.5px] text-center font-bold">
             <div className="flex flex-col gap-1">
               <div className="border-t border-black pt-1">Prepared By</div>
             </div>
             <div className="flex flex-col gap-1">
               <div className="border-t border-black pt-1">Authorised by</div>
-              <div className="text-[7px] font-normal">Date:....................</div>
+              <div className="text-[8px] font-normal">Date:....................</div>
             </div>
             <div className="flex flex-col gap-1">
               <div className="border-t border-black pt-1">Delivered by</div>
@@ -178,14 +178,14 @@ export function InvoicePreview({ data }: InvoicePreviewProps) {
           </div>
           
           {/* Current Date/Time on the right of signatures */}
-          <div className="text-[8px] text-right font-bold leading-tight pl-4">
+          <div className="text-[9px] text-right font-bold leading-tight pl-4">
             <p>{data.header.invoiceDate}</p>
             <p>{currentTime?.split(', ')[1]}</p>
           </div>
         </div>
 
         {/* Final Disclaimer */}
-        <div className="border-t border-black pt-2 text-[10.5px] text-gray-800">
+        <div className="border-t border-black pt-2 text-[11px] text-gray-800">
           <div className="space-y-1">
             <p className="leading-tight">
               <span className="font-bold">Warranty :</span> We do hereby give this warranty that products sold under this invoice do not contravene to any provisions of section 18 of the drugs act 1940
