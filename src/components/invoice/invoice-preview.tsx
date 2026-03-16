@@ -41,7 +41,7 @@ export function InvoicePreview({ data }: InvoicePreviewProps) {
   }, { totalTp: 0, totalVat: 0, totalPrice: 0, specialDis: 0 });
 
   return (
-    <div className="invoice-a4 font-body text-[11px] leading-tight text-gray-900 flex flex-col min-h-[297mm] bg-white relative overflow-hidden apex-invoice-bg" id="print-area">
+    <div className="invoice-a4 font-body text-[11px] leading-tight text-gray-900 flex flex-col min-h-[297mm] bg-white relative overflow-hidden" id="print-area">
       <div className="relative z-10 flex flex-col flex-grow">
         {/* Header Section */}
         <div className="pt-1 px-1">
