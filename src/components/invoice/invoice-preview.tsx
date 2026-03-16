@@ -1,4 +1,3 @@
-
 "use client"
 
 import React, { useState, useEffect } from 'react';
@@ -47,7 +46,6 @@ export function InvoicePreview({ data }: InvoicePreviewProps) {
         {/* Header Section */}
         <div className="pt-1 px-1">
           <div className="flex justify-between items-start">
-            {/* Left: Logo */}
             <div className="w-[200px]">
               <Image 
                 src="https://res.cloudinary.com/dd3eekw7h/image/upload/v1773604830/Apex_logo_p5tupb.png" 
@@ -61,20 +59,17 @@ export function InvoicePreview({ data }: InvoicePreviewProps) {
               <p className="text-[9.5px] font-black text-gray-900 uppercase tracking-tighter leading-none mt-1">A SEED MARINE FLAKE ENTERPRISE</p>
             </div>
 
-            {/* Center: Company Name & Address */}
             <div className="flex-1 text-center mt-2">
               <h2 className="text-[36px] font-black text-[#E31E24] whitespace-nowrap leading-none mb-1 uppercase tracking-tighter">Apex Pharma Ltd.</h2>
               <p className="text-[12.5px] font-bold text-gray-800 leading-tight">House # 06, Road # 137, Block # SE(D) Gulshan-1, Dhaka-1212, Bangladesh.</p>
               <p className="text-[12.5px] font-bold text-gray-800 leading-tight">Tel: +88(02)55044834-37, Fax: 880-2-55044839</p>
             </div>
 
-            {/* Right: Customer Copy */}
             <div className="w-[200px] text-right pt-2">
               <p className="text-[13px] font-black uppercase text-gray-900 leading-tight">Customer Copy</p>
             </div>
           </div>
           
-          {/* Invoice Badge Section */}
           <div className="relative text-center mt-6">
             <p className="text-[12.5px] font-bold italic mb-2 text-gray-700">Plot No - 19, Block - 1, Sadar, Dinajpur. Mobile No: 01755573378</p>
             <div className="inline-block bg-[#E31E24] text-white px-12 py-1.5 rounded-full font-black uppercase text-[15px] tracking-[0.1em] shadow-sm">
@@ -84,15 +79,14 @@ export function InvoicePreview({ data }: InvoicePreviewProps) {
           </div>
         </div>
 
-        {/* Info Grid */}
+        {/* Information Grid */}
         <div className="grid grid-cols-3 gap-6 mb-4 px-1 mt-4 border-b-[1px] border-gray-300 pb-2">
-          {/* Customer Column */}
           <div className="space-y-0.5 text-[12px]">
             {[
-              { label: 'Cust ID', value: data.customer.customerId, bold: false },
+              { label: 'Cust ID', value: data.customer.customerId },
               { label: 'Name', value: data.customer.name, bold: true },
-              { label: 'Address', value: data.customer.address, bold: false },
-              { label: 'Phone', value: data.customer.phone, bold: false },
+              { label: 'Address', value: data.customer.address },
+              { label: 'Phone', value: data.customer.phone },
               { label: 'Route', value: data.customer.route, bold: true },
             ].map((item, i) => (
               <div key={i} className="flex leading-tight py-[0.5px] items-baseline">
@@ -103,14 +97,13 @@ export function InvoicePreview({ data }: InvoicePreviewProps) {
             ))}
           </div>
 
-          {/* MPO Column */}
           <div className="space-y-0.5 text-[12px]">
             {[
-              { label: 'Depot', value: data.mpo.depot, bold: false },
-              { label: 'MPO ID', value: data.mpo.mpoId, bold: false },
+              { label: 'Depot', value: data.mpo.depot },
+              { label: 'MPO ID', value: data.mpo.mpoId },
               { label: 'Name', value: data.mpo.name, bold: true },
-              { label: 'Summary', value: data.mpo.summary, bold: false },
-              { label: 'Sum Date', value: data.mpo.sumDate, bold: false },
+              { label: 'Summary', value: data.mpo.summary },
+              { label: 'Sum Date', value: data.mpo.sumDate },
             ].map((item, i) => (
               <div key={i} className="flex leading-tight py-[0.5px] items-baseline">
                 <span className="w-[55px] font-bold shrink-0">{item.label}</span>
@@ -120,14 +113,13 @@ export function InvoicePreview({ data }: InvoicePreviewProps) {
             ))}
           </div>
 
-          {/* Invoice Column */}
           <div className="space-y-0.5 text-[12px]">
             {[
-              { label: 'Category', value: data.header.category, bold: false },
+              { label: 'Category', value: data.header.category },
               { label: 'Invoice No.', value: data.header.invoiceNo, bold: true },
-              { label: 'Invoice Date', value: data.header.invoiceDate, bold: false },
-              { label: 'Order Book No.', value: data.header.orderBookNo, bold: false },
-              { label: 'Delivery Date', value: data.header.deliveryDate, bold: false },
+              { label: 'Invoice Date', value: data.header.invoiceDate },
+              { label: 'Order Book No.', value: data.header.orderBookNo },
+              { label: 'Delivery Date', value: data.header.deliveryDate, bold: true },
             ].map((item, i) => (
               <div key={i} className="flex leading-tight py-[0.5px] items-baseline">
                 <span className="w-[80px] font-bold shrink-0">{item.label}</span>
@@ -138,7 +130,7 @@ export function InvoicePreview({ data }: InvoicePreviewProps) {
           </div>
         </div>
 
-        {/* Table Section */}
+        {/* Line Items Table */}
         <div className="px-0.5 flex-grow">
           <table className="w-full text-[11.2px] border-collapse table-fixed">
             <thead>
@@ -193,7 +185,6 @@ export function InvoicePreview({ data }: InvoicePreviewProps) {
             </tfoot>
           </table>
 
-          {/* Note and Discount Area */}
           <div className="mt-2 px-1">
             <div className="flex justify-between items-start">
               <div className="space-y-1">
@@ -216,14 +207,12 @@ export function InvoicePreview({ data }: InvoicePreviewProps) {
             </div>
           </div>
 
-          {/* In Words */}
           <div className="mt-6 px-1">
             <p className="font-bold uppercase text-[12px] text-black leading-tight">
               IN WORD: {numberToWords(totals.totalPrice)}
             </p>
           </div>
 
-          {/* Bengali Special Note */}
           <div className="mt-4 px-1 text-left">
             <p className="text-[13.5px] font-bold border-b-[0.5px] border-black text-black inline-block leading-tight">
               বিশেষ দ্রষ্টব্য : আপনার স্বাক্ষরিত রিসিভ ইনভয়েস ব্যতীত কাউকে টাকা / ঔষধ প্রদান করবেন না।
@@ -231,7 +220,7 @@ export function InvoicePreview({ data }: InvoicePreviewProps) {
           </div>
         </div>
 
-        {/* Footer Area - Signatures */}
+        {/* Signature Area */}
         <div className="mt-auto px-1 pb-6">
           <div className="flex justify-between items-end mb-8 pt-16">
             <div className="grid grid-cols-6 gap-6 flex-1 text-[13.5px] font-bold text-gray-900">
@@ -260,12 +249,11 @@ export function InvoicePreview({ data }: InvoicePreviewProps) {
             </div>
           </div>
 
-          {/* Final Warranty Section */}
           <div className="border-t-[0.5px] border-black pt-3 space-y-1.5">
-            <p className="text-[10.8px] leading-none whitespace-nowrap tracking-tighter font-bold text-gray-900 w-full">
+            <p className="text-[10.8px] font-bold text-gray-900 w-full">
               Warranty : We do hereby give this warranty that products sold under this invoice do not contravene to any provisions of section 18 of the drugs act 1940
             </p>
-            <p className="text-[10.8px] leading-none whitespace-nowrap tracking-tighter font-bold text-gray-900 w-full">
+            <p className="text-[10.8px] font-bold text-gray-900 w-full">
               Note : Received the goods in full and good condition.
             </p>
           </div>

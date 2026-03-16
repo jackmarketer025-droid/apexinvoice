@@ -73,7 +73,7 @@ export function InvoiceEditor({ data, onChange }: InvoiceEditorProps) {
         productId: product.productId,
         description: product.productName,
         packSize: product.packSize,
-        unitTp: product.tpVat / (1 + 17.4 / 100), // Approximate TP before VAT
+        unitTp: product.tpVat / (1 + 17.4 / 100), // Base trade price
         vatRate: 17.4,
       });
     }
@@ -90,7 +90,7 @@ export function InvoiceEditor({ data, onChange }: InvoiceEditorProps) {
     setDraftItem({ ...EMPTY_LINE });
   };
 
-  // Dual search logic: Filters by Product ID or Product Name with safety checks
+  // Safe Dual Search logic to prevent toLowerCase() errors
   const filteredProducts = PREDEFINED_PRODUCTS.filter(p => {
     const pid = String(p.productId || "").toLowerCase();
     const pname = String(p.productName || "").toLowerCase();
@@ -102,7 +102,7 @@ export function InvoiceEditor({ data, onChange }: InvoiceEditorProps) {
     <div className="space-y-6 h-full flex flex-col min-w-0">
       <div className="flex flex-col sm:flex-row gap-4 justify-between items-start sm:items-center py-2 z-10 border-b no-print">
         <div className="flex items-center gap-3">
-          <h2 className="text-xl md:text-2xl font-bold text-secondary">Editor</h2>
+          <h2 className="text-xl md:text-2xl font-bold text-secondary">Invoice Editor</h2>
           <AIDraftDialog onDraft={(draft) => onChange(draft)} currentData={data} />
         </div>
       </div>
@@ -111,11 +111,11 @@ export function InvoiceEditor({ data, onChange }: InvoiceEditorProps) {
         {/* Customer Section */}
         <Card className="shadow-sm border-none bg-gray-50/50">
           <CardHeader className="py-2 px-4 border-b">
-            <CardTitle className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">Customer Info</CardTitle>
+            <CardTitle className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">Customer Information</CardTitle>
           </CardHeader>
           <CardContent className="grid grid-cols-1 sm:grid-cols-2 gap-3 p-4">
             <div className="space-y-1">
-              <Label className="text-[10px] uppercase font-bold text-gray-500">Cust ID</Label>
+              <Label className="text-[10px] uppercase font-bold text-gray-500">Customer ID</Label>
               <Input className="h-8 text-sm" value={data.customer.customerId} onChange={(e) => handleCustomerChange('customerId', e.target.value)} />
             </div>
             <div className="space-y-1">
@@ -137,65 +137,53 @@ export function InvoiceEditor({ data, onChange }: InvoiceEditorProps) {
           </CardContent>
         </Card>
 
-        {/* MPO & Invoice Info Section */}
+        {/* MPO & Header Section (Editable Fields) */}
         <Card className="shadow-sm border-none bg-gray-50/50">
           <CardHeader className="py-2 px-4 border-b">
-            <CardTitle className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">MPO & Invoice Info</CardTitle>
+            <CardTitle className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">Invoice Details</CardTitle>
           </CardHeader>
           <CardContent className="grid grid-cols-1 sm:grid-cols-2 gap-3 p-4">
             <div className="space-y-1">
-              <Label className="text-[10px] uppercase font-bold text-gray-500">Summary</Label>
-              <Input className="h-8 text-sm font-bold" value={data.mpo.summary} onChange={(e) => handleMpoChange('summary', e.target.value)} />
+              <Label className="text-[10px] uppercase font-bold text-gray-500">Invoice No</Label>
+              <Input className="h-8 text-sm font-bold" value={data.header.invoiceNo} onChange={(e) => handleHeaderChange('invoiceNo', e.target.value)} />
             </div>
             <div className="space-y-1">
-              <Label className="text-[10px] uppercase font-bold text-gray-500">Sum Date</Label>
-              <Input className="h-8 text-sm font-bold text-red-600" value={data.mpo.sumDate} onChange={(e) => handleMpoChange('sumDate', e.target.value)} />
-            </div>
-            <div className="space-y-1">
-              <Label className="text-[10px] uppercase font-bold text-gray-500">MPO Name</Label>
-              <Input className="h-8 text-sm font-bold" value={data.mpo.name} onChange={(e) => handleMpoChange('name', e.target.value)} />
-            </div>
-            <div className="space-y-1">
-              <Label className="text-[10px] uppercase font-bold text-gray-500">Depot</Label>
-              <Input className="h-8 text-sm" value={data.mpo.depot} onChange={(e) => handleMpoChange('depot', e.target.value)} />
+              <Label className="text-[10px] uppercase font-bold text-gray-500">Order Book No</Label>
+              <Input className="h-8 text-sm font-bold" value={data.header.orderBookNo} onChange={(e) => handleHeaderChange('orderBookNo', e.target.value)} />
             </div>
             <div className="space-y-1">
               <Label className="text-[10px] uppercase font-bold text-gray-500">Category</Label>
               <Input className="h-8 text-sm" value={data.header.category} onChange={(e) => handleHeaderChange('category', e.target.value)} />
             </div>
             <div className="space-y-1">
-              <Label className="text-[10px] uppercase font-bold text-gray-500">Invoice No</Label>
-              <Input className="h-8 text-sm font-bold" value={data.header.invoiceNo} onChange={(e) => handleHeaderChange('invoiceNo', e.target.value)} />
-            </div>
-            <div className="space-y-1">
-              <Label className="text-[10px] uppercase font-bold text-gray-500">Invoice Date</Label>
-              <Input className="h-8 text-sm" value={data.header.invoiceDate} onChange={(e) => handleHeaderChange('invoiceDate', e.target.value)} />
-            </div>
-            <div className="space-y-1">
-              <Label className="text-[10px] uppercase font-bold text-gray-500">Order Book No</Label>
-              <Input className="h-8 text-sm" value={data.header.orderBookNo} onChange={(e) => handleHeaderChange('orderBookNo', e.target.value)} />
-            </div>
-            <div className="space-y-1">
               <Label className="text-[10px] uppercase font-bold text-primary">Delivery Date</Label>
               <Input className="h-8 text-sm font-black border-primary/50 text-primary" value={data.header.deliveryDate} onChange={(e) => handleHeaderChange('deliveryDate', e.target.value)} />
+            </div>
+            <div className="space-y-1">
+              <Label className="text-[10px] uppercase font-bold text-gray-500">MPO Name</Label>
+              <Input className="h-8 text-sm" value={data.mpo.name} onChange={(e) => handleMpoChange('name', e.target.value)} />
+            </div>
+            <div className="space-y-1">
+              <Label className="text-[10px] uppercase font-bold text-gray-500">Depot</Label>
+              <Input className="h-8 text-sm" value={data.mpo.depot} onChange={(e) => handleMpoChange('depot', e.target.value)} />
             </div>
           </CardContent>
         </Card>
 
-        {/* Add Product Section */}
+        {/* Live Search & Add Section */}
         <div className="space-y-4">
           <div className="flex justify-between items-center py-2 border-b">
-            <h3 className="font-black text-lg text-secondary uppercase tracking-tight">Add New Product</h3>
+            <h3 className="font-black text-lg text-secondary uppercase tracking-tight">Search & Add Products</h3>
           </div>
           
           <Card className="border-2 border-primary/20 shadow-md">
             <CardContent className="p-4 space-y-4">
               <div className="space-y-1.5">
-                <Label className="text-[10px] font-black text-primary uppercase">1. Search & Select Product (Dual Search)</Label>
+                <Label className="text-[10px] font-black text-primary uppercase">Find by ID or Name</Label>
                 <Popover open={popoverOpen} onOpenChange={setPopoverOpen}>
                   <PopoverTrigger asChild>
                     <Button variant="outline" className="w-full justify-between h-10 text-left bg-white border-primary/30">
-                      {draftItem.productId ? `${draftItem.productId} - ${draftItem.description}` : "Find product by ID or Name..."}
+                      {draftItem.productId ? `${draftItem.productId} - ${draftItem.description}` : "Start typing ID or Product Name..."}
                       <Search className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                     </Button>
                   </PopoverTrigger>
@@ -204,7 +192,7 @@ export function InvoiceEditor({ data, onChange }: InvoiceEditorProps) {
                       <Search className="mr-2 h-4 w-4 shrink-0 opacity-50" />
                       <input
                         className="flex h-11 w-full rounded-md bg-transparent py-3 text-sm outline-none placeholder:text-muted-foreground"
-                        placeholder="Type ID (e.g. 10729) or Name (e.g. Apocal)..."
+                        placeholder="Search products..."
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
                         autoFocus
@@ -247,10 +235,6 @@ export function InvoiceEditor({ data, onChange }: InvoiceEditorProps) {
               {draftItem.productId && (
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 animate-in fade-in slide-in-from-top-2 duration-300">
                   <div className="space-y-1">
-                    <Label className="text-[10px] font-bold">UNIT TP</Label>
-                    <Input className="h-9" type="number" step="0.01" value={draftItem.unitTp} onChange={(e) => setDraftItem({...draftItem, unitTp: parseFloat(e.target.value) || 0})} />
-                  </div>
-                  <div className="space-y-1">
                     <Label className="text-[10px] font-bold">QTY</Label>
                     <Input className="h-9 font-bold" type="number" value={draftItem.quantity} onChange={(e) => setDraftItem({...draftItem, quantity: parseInt(e.target.value) || 0})} />
                   </div>
@@ -258,13 +242,9 @@ export function InvoiceEditor({ data, onChange }: InvoiceEditorProps) {
                     <Label className="text-[10px] font-bold">BONUS</Label>
                     <Input className="h-9" type="number" value={draftItem.bonus} onChange={(e) => setDraftItem({...draftItem, bonus: parseInt(e.target.value) || 0})} />
                   </div>
-                  <div className="space-y-1">
-                    <Label className="text-[10px] font-bold">SPEC. DIS</Label>
-                    <Input className="h-9" type="number" step="0.01" value={draftItem.specialDis} onChange={(e) => setDraftItem({...draftItem, specialDis: parseFloat(e.target.value) || 0})} />
-                  </div>
-                  <div className="col-span-2 sm:col-span-4 pt-2">
+                  <div className="col-span-2 sm:col-span-2 pt-2 flex items-end">
                     <Button onClick={addToInvoice} className="w-full bg-primary hover:bg-primary/90 font-bold uppercase tracking-wider">
-                      <Save className="w-4 h-4 mr-2" /> Add to Invoice
+                      Add to List
                     </Button>
                   </div>
                 </div>
@@ -273,7 +253,7 @@ export function InvoiceEditor({ data, onChange }: InvoiceEditorProps) {
           </Card>
         </div>
 
-        {/* Existing Items List */}
+        {/* Item List */}
         <div className="space-y-4 pt-4">
           <div className="flex justify-between items-center border-b pb-2">
             <h3 className="font-black text-lg text-secondary uppercase tracking-tight">Invoice Items ({data.productLines.length})</h3>
@@ -287,10 +267,9 @@ export function InvoiceEditor({ data, onChange }: InvoiceEditorProps) {
                   <div className="flex gap-4 text-[10px] text-muted-foreground mt-1">
                     <span>QTY: <b className="text-gray-900">{line.quantity}</b></span>
                     <span>BONUS: <b className="text-gray-900">{line.bonus}</b></span>
-                    <span>TP: <b className="text-gray-900">{line.unitTp.toFixed(2)}</b></span>
                   </div>
                 </div>
-                <Button variant="ghost" size="icon" className="text-destructive opacity-0 group-hover:opacity-100 transition-opacity" onClick={() => removeLine(idx)}>
+                <Button variant="ghost" size="icon" className="text-destructive" onClick={() => removeLine(idx)}>
                   <Trash2 className="w-4 h-4" />
                 </Button>
               </div>
