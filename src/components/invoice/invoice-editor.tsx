@@ -1,4 +1,3 @@
-
 "use client"
 
 import React, { useState } from 'react';
@@ -141,10 +140,12 @@ export function InvoiceEditor({ data, onChange }: InvoiceEditorProps) {
     setManualItem(EMPTY_MANUAL_ITEM);
   };
 
+  // Hybrid Search Logic: Searches by PID OR Name
   const filteredProducts = PREDEFINED_PRODUCTS.filter(p => {
-    const pid = String(p.pid || "").toLowerCase();
     const query = (searchQuery || "").toLowerCase();
-    return pid.startsWith(query);
+    const pid = String(p.pid || "").toLowerCase();
+    const name = (p.name || "").toLowerCase();
+    return pid.includes(query) || name.includes(query);
   });
 
   return (
@@ -211,17 +212,17 @@ export function InvoiceEditor({ data, onChange }: InvoiceEditorProps) {
 
         <div className="space-y-4">
           <div className="flex justify-between items-center py-2 border-b">
-            <h3 className="font-black text-lg text-secondary uppercase tracking-tight">Search Product by ID</h3>
+            <h3 className="font-black text-lg text-secondary uppercase tracking-tight">Search Product (ID or Name)</h3>
           </div>
           
           <Card className="border-2 border-primary/20 shadow-md">
             <CardContent className="p-4 space-y-4">
               <div className="space-y-1.5">
-                <Label className="text-[10px] font-black text-primary uppercase">Enter Product ID</Label>
+                <Label className="text-[10px] font-black text-primary uppercase">Enter ID or Medicine Name</Label>
                 <Popover open={popoverOpen} onOpenChange={setPopoverOpen}>
                   <PopoverTrigger asChild>
                     <Button variant="outline" className="w-full justify-between h-10 text-left bg-white border-primary/30">
-                      {draftItem.productId ? `${draftItem.productId} - ${draftItem.description}` : "Start typing Product ID..."}
+                      {draftItem.productId ? `${draftItem.productId} - ${draftItem.description}` : "Start typing to search..."}
                       <Search className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                     </Button>
                   </PopoverTrigger>
@@ -230,7 +231,7 @@ export function InvoiceEditor({ data, onChange }: InvoiceEditorProps) {
                       <Search className="mr-2 h-4 w-4 shrink-0 opacity-50" />
                       <input
                         className="flex h-11 w-full rounded-md bg-transparent py-3 text-sm outline-none placeholder:text-muted-foreground"
-                        placeholder="Search by ID..."
+                        placeholder="Search by ID or Name..."
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
                         autoFocus
@@ -263,7 +264,7 @@ export function InvoiceEditor({ data, onChange }: InvoiceEditorProps) {
                           ))
                         ) : (
                           <div className="p-4 text-center">
-                            <p className="text-sm text-muted-foreground">ID "{searchQuery}" not found.</p>
+                            <p className="text-sm text-muted-foreground">No matches found for "{searchQuery}".</p>
                             <Button 
                               variant="link" 
                               onClick={handleOpenManualAdd}
