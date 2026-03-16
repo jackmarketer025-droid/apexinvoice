@@ -45,6 +45,20 @@ export function InvoiceEditor({ data, onChange }: InvoiceEditorProps) {
     });
   };
 
+  const handleMpoChange = (field: keyof InvoiceData['mpo'], value: string) => {
+    onChange({
+      ...data,
+      mpo: { ...data.mpo, [field]: value }
+    });
+  };
+
+  const handleHeaderChange = (field: keyof InvoiceData['header'], value: string) => {
+    onChange({
+      ...data,
+      header: { ...data.header, [field]: value }
+    });
+  };
+
   const removeLine = (index: number) => {
     const newLines = data.productLines.filter((_, i) => i !== index);
     onChange({ ...data, productLines: newLines });
@@ -110,6 +124,43 @@ export function InvoiceEditor({ data, onChange }: InvoiceEditorProps) {
             <div className="space-y-1">
               <Label className="text-[10px] uppercase font-bold text-gray-500">Phone</Label>
               <Input className="h-8 text-sm" value={data.customer.phone} onChange={(e) => handleCustomerChange('phone', e.target.value)} />
+            </div>
+            <div className="space-y-1">
+              <Label className="text-[10px] uppercase font-bold text-gray-500">Route</Label>
+              <Input className="h-8 text-sm font-bold" value={data.customer.route} onChange={(e) => handleCustomerChange('route', e.target.value)} />
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* MPO Info Section */}
+        <Card className="shadow-sm border-none bg-gray-50/50">
+          <CardHeader className="py-2 px-4 border-b">
+            <CardTitle className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">MPO & Invoice Info</CardTitle>
+          </CardHeader>
+          <CardContent className="grid grid-cols-1 sm:grid-cols-2 gap-3 p-4">
+            <div className="space-y-1">
+              <Label className="text-[10px] uppercase font-bold text-gray-500">Summary</Label>
+              <Input className="h-8 text-sm font-bold" value={data.mpo.summary} onChange={(e) => handleMpoChange('summary', e.target.value)} />
+            </div>
+            <div className="space-y-1">
+              <Label className="text-[10px] uppercase font-bold text-gray-500">Sum Date</Label>
+              <Input className="h-8 text-sm font-bold text-red-600" value={data.mpo.sumDate} onChange={(e) => handleMpoChange('sumDate', e.target.value)} />
+            </div>
+            <div className="space-y-1">
+              <Label className="text-[10px] uppercase font-bold text-gray-500">MPO Name</Label>
+              <Input className="h-8 text-sm font-bold" value={data.mpo.name} onChange={(e) => handleMpoChange('name', e.target.value)} />
+            </div>
+            <div className="space-y-1">
+              <Label className="text-[10px] uppercase font-bold text-gray-500">Depot</Label>
+              <Input className="h-8 text-sm" value={data.mpo.depot} onChange={(e) => handleMpoChange('depot', e.target.value)} />
+            </div>
+            <div className="space-y-1">
+              <Label className="text-[10px] uppercase font-bold text-gray-500">Invoice No</Label>
+              <Input className="h-8 text-sm font-bold" value={data.header.invoiceNo} onChange={(e) => handleHeaderChange('invoiceNo', e.target.value)} />
+            </div>
+            <div className="space-y-1">
+              <Label className="text-[10px] uppercase font-bold text-gray-500">Invoice Date</Label>
+              <Input className="h-8 text-sm" value={data.header.invoiceDate} onChange={(e) => handleHeaderChange('invoiceDate', e.target.value)} />
             </div>
           </CardContent>
         </Card>
