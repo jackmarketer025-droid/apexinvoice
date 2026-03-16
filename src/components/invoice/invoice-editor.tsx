@@ -137,7 +137,7 @@ export function InvoiceEditor({ data, onChange }: InvoiceEditorProps) {
           </CardContent>
         </Card>
 
-        {/* MPO Info Section */}
+        {/* MPO & Invoice Info Section */}
         <Card className="shadow-sm border-none bg-gray-50/50">
           <CardHeader className="py-2 px-4 border-b">
             <CardTitle className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">MPO & Invoice Info</CardTitle>
@@ -160,12 +160,24 @@ export function InvoiceEditor({ data, onChange }: InvoiceEditorProps) {
               <Input className="h-8 text-sm" value={data.mpo.depot} onChange={(e) => handleMpoChange('depot', e.target.value)} />
             </div>
             <div className="space-y-1">
+              <Label className="text-[10px] uppercase font-bold text-gray-500">Category</Label>
+              <Input className="h-8 text-sm" value={data.header.category} onChange={(e) => handleHeaderChange('category', e.target.value)} />
+            </div>
+            <div className="space-y-1">
               <Label className="text-[10px] uppercase font-bold text-gray-500">Invoice No</Label>
               <Input className="h-8 text-sm font-bold" value={data.header.invoiceNo} onChange={(e) => handleHeaderChange('invoiceNo', e.target.value)} />
             </div>
             <div className="space-y-1">
               <Label className="text-[10px] uppercase font-bold text-gray-500">Invoice Date</Label>
               <Input className="h-8 text-sm" value={data.header.invoiceDate} onChange={(e) => handleHeaderChange('invoiceDate', e.target.value)} />
+            </div>
+            <div className="space-y-1">
+              <Label className="text-[10px] uppercase font-bold text-gray-500">Order Book No</Label>
+              <Input className="h-8 text-sm" value={data.header.orderBookNo} onChange={(e) => handleHeaderChange('orderBookNo', e.target.value)} />
+            </div>
+            <div className="space-y-1">
+              <Label className="text-[10px] uppercase font-bold text-primary">Delivery Date</Label>
+              <Input className="h-8 text-sm font-black border-primary/50 text-primary" value={data.header.deliveryDate} onChange={(e) => handleHeaderChange('deliveryDate', e.target.value)} />
             </div>
           </CardContent>
         </Card>
