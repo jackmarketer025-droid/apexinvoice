@@ -144,9 +144,9 @@ export function InvoicePreview({ data }: InvoicePreviewProps) {
 
         {/* Line Items Table */}
         <div className="px-0.5 flex-grow">
-          <table className="w-full text-[11.2px] border-collapse table-fixed">
+          <table className="w-full text-[11.2px] border-collapse table-fixed bg-transparent">
             <thead>
-              <tr className="border-y-[1px] border-gray-900 bg-gray-50 text-[10.5px] uppercase">
+              <tr className="border-y-[1px] border-gray-900 bg-transparent text-[10.5px] uppercase">
                 <th className="p-1 text-left w-[5%] font-bold">P Id</th>
                 <th className="p-1 text-left w-[18%] font-bold">Description</th>
                 <th className="p-1 text-center w-[8%] font-bold">Pack Size</th>
@@ -162,11 +162,11 @@ export function InvoicePreview({ data }: InvoicePreviewProps) {
                 <th className="p-1 text-right w-[10%] font-bold">Total Price</th>
               </tr>
             </thead>
-            <tbody>
+            <tbody className="bg-transparent">
               {data.productLines.map((line, idx) => {
                 const { unitVat, totalTp, totalVat, totalPrice } = calculateLineTotals(line);
                 return (
-                  <tr key={idx} className="border-b border-gray-200 align-top">
+                  <tr key={idx} className="border-b border-gray-200 align-top bg-transparent">
                     <td className="p-1.5">{line.productId}</td>
                     <td className="p-1.5 leading-tight font-bold">{line.description}</td>
                     <td className="p-1.5 text-center">{line.packSize}</td>
@@ -184,8 +184,8 @@ export function InvoicePreview({ data }: InvoicePreviewProps) {
                 );
               })}
             </tbody>
-            <tfoot>
-              <tr className="bg-white text-[12px]">
+            <tfoot className="bg-transparent">
+              <tr className="bg-transparent text-[12px]">
                 <td colSpan={9} className="p-2 text-right border-t-[1.5px] border-gray-900 pr-10">
                   <span className="font-bold uppercase inline-block whitespace-nowrap">TOTAL AMOUNT :</span>
                 </td>
