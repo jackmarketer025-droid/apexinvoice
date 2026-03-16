@@ -144,9 +144,9 @@ export function InvoicePreview({ data }: InvoicePreviewProps) {
 
         {/* Line Items Table */}
         <div className="px-0.5 flex-grow">
-          <table className="w-full text-[11.2px] border-collapse table-fixed bg-transparent">
+          <table className="w-full text-[12.5px] border-collapse table-fixed bg-transparent">
             <thead>
-              <tr className="border-y-[1px] border-gray-900 bg-transparent text-[10.5px]">
+              <tr className="border-y-[1px] border-gray-900 bg-transparent text-[11.5px]">
                 <th className="p-1 text-left w-[5%] font-bold">P Id</th>
                 <th className="p-1 text-left w-[18%] font-bold">Description</th>
                 <th className="p-1 text-center w-[8%] font-bold">Pack Size</th>
@@ -185,14 +185,14 @@ export function InvoicePreview({ data }: InvoicePreviewProps) {
               })}
             </tbody>
             <tfoot className="bg-transparent">
-              <tr className="bg-transparent text-[12px]">
+              <tr className="bg-transparent text-[13.5px]">
                 <td colSpan={9} className="p-2 text-right border-t-[1.5px] border-gray-900 pr-10">
                   <span className="font-bold uppercase inline-block whitespace-nowrap">TOTAL AMOUNT :</span>
                 </td>
                 <td className="p-2 text-center font-bold text-gray-900 border-t-[1.5px] border-gray-900">{formatCurrency(totals.totalTp)}</td>
                 <td className="p-2 text-center font-bold text-gray-900 border-t-[1.5px] border-gray-900">{formatCurrency(totals.totalVat)}</td>
                 <td className="p-2 text-center font-bold text-gray-900 border-t-[1.5px] border-gray-900">{formatCurrency(totals.specialDis)}</td>
-                <td className="p-2 text-right text-[12.5px] font-bold text-gray-900 border-t-[1.5px] border-gray-900">{formatCurrency(totals.totalPrice)}</td>
+                <td className="p-2 text-right text-[14.5px] font-bold text-gray-900 border-t-[1.5px] border-gray-900">{formatCurrency(totals.totalPrice)}</td>
               </tr>
             </tfoot>
           </table>
