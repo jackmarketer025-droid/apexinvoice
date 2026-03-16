@@ -1,4 +1,3 @@
-
 "use client"
 
 import React, { useState } from 'react';
@@ -38,26 +37,11 @@ const EMPTY_LINE: ProductLine = {
 export function InvoiceEditor({ data, onChange }: InvoiceEditorProps) {
   const [searchQuery, setSearchQuery] = useState("");
   const [draftItem, setDraftItem] = useState<ProductLine>({ ...EMPTY_LINE });
-  const [isAdding, setIsAdding] = useState(false);
 
   const handleCustomerChange = (field: keyof InvoiceData['customer'], value: string) => {
     onChange({
       ...data,
       customer: { ...data.customer, [field]: value }
-    });
-  };
-
-  const handleMpoChange = (field: keyof InvoiceData['mpo'], value: string) => {
-    onChange({
-      ...data,
-      mpo: { ...data.mpo, [field]: value }
-    });
-  };
-
-  const handleHeaderChange = (field: keyof InvoiceData['header'], value: string) => {
-    onChange({
-      ...data,
-      header: { ...data.header, [field]: value }
     });
   };
 
@@ -74,7 +58,7 @@ export function InvoiceEditor({ data, onChange }: InvoiceEditorProps) {
         productId: product.id,
         description: product.name,
         packSize: product.packSize,
-        unitTp: product.tpVat / (1 + 17.4 / 100), // Default to approx TP
+        unitTp: product.tpVat / (1 + 17.4 / 100),
         vatRate: 17.4,
       });
     }
@@ -88,7 +72,6 @@ export function InvoiceEditor({ data, onChange }: InvoiceEditorProps) {
       productLines: [...data.productLines, { ...draftItem }]
     });
     setDraftItem({ ...EMPTY_LINE });
-    setIsAdding(false);
   };
 
   const filteredProducts = PREDEFINED_PRODUCTS.filter(p => 
@@ -120,30 +103,13 @@ export function InvoiceEditor({ data, onChange }: InvoiceEditorProps) {
               <Label className="text-[10px] uppercase font-bold text-gray-500">Name</Label>
               <Input className="h-8 text-sm font-bold" value={data.customer.name} onChange={(e) => handleCustomerChange('name', e.target.value)} />
             </div>
-            <div className="space-y-1 sm:col-span-2">
+            <div className="space-y-1">
               <Label className="text-[10px] uppercase font-bold text-gray-500">Address</Label>
               <Input className="h-8 text-sm" value={data.customer.address} onChange={(e) => handleCustomerChange('address', e.target.value)} />
             </div>
-          </CardContent>
-        </Card>
-
-        {/* Info Grid Section */}
-        <Card className="shadow-sm border-none bg-gray-50/50">
-          <CardHeader className="py-2 px-4 border-b">
-            <CardTitle className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">Logistics & Dates</CardTitle>
-          </CardHeader>
-          <CardContent className="grid grid-cols-1 sm:grid-cols-3 gap-3 p-4">
             <div className="space-y-1">
-              <Label className="text-[10px] uppercase font-bold text-gray-500">Invoice No</Label>
-              <Input className="h-8 text-sm font-bold" value={data.header.invoiceNo} onChange={(e) => handleHeaderChange('invoiceNo', e.target.value)} />
-            </div>
-            <div className="space-y-1">
-              <Label className="text-[10px] uppercase font-bold text-gray-500">Invoice Date</Label>
-              <Input className="h-8 text-sm" value={data.header.invoiceDate} onChange={(e) => handleHeaderChange('invoiceDate', e.target.value)} />
-            </div>
-            <div className="space-y-1">
-              <Label className="text-[10px] uppercase font-bold text-gray-500">Delivery Date</Label>
-              <Input className="h-8 text-sm" value={data.header.deliveryDate} onChange={(e) => handleHeaderChange('deliveryDate', e.target.value)} />
+              <Label className="text-[10px] uppercase font-bold text-gray-500">Phone</Label>
+              <Input className="h-8 text-sm" value={data.customer.phone} onChange={(e) => handleCustomerChange('phone', e.target.value)} />
             </div>
           </CardContent>
         </Card>
@@ -253,11 +219,6 @@ export function InvoiceEditor({ data, onChange }: InvoiceEditorProps) {
                 </Button>
               </div>
             ))}
-            {data.productLines.length === 0 && (
-              <div className="text-center py-10 border-2 border-dashed rounded-lg text-muted-foreground">
-                No items added to the invoice yet.
-              </div>
-            )}
           </div>
         </div>
       </div>

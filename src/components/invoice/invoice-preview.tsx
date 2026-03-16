@@ -1,4 +1,3 @@
-
 "use client"
 
 import React, { useState, useEffect } from 'react';
@@ -42,25 +41,7 @@ export function InvoicePreview({ data }: InvoicePreviewProps) {
   }, { totalTp: 0, totalVat: 0, totalPrice: 0, specialDis: 0 });
 
   return (
-    <div className="invoice-a4 font-body text-[11px] leading-tight text-gray-900 flex flex-col min-h-[297mm] bg-white relative overflow-hidden" id="print-area">
-      {/* ১. ছোট ছোট ফন্টের রিপিটেড প্যাটার্ন (পুরো পেজ জুড়ে) - নতুন স্টাইল */}
-      <div 
-        className="absolute inset-0 pointer-events-none select-none opacity-[0.05]"
-        style={{
-          backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='150' viewBox='0 0 200 150'%3E%3Ctext x='20' y='60' font-family='sans-serif' font-size='12' font-weight='600' fill='gray' transform='rotate(-35, 20, 60)'%3EApex Pharma Ltd.%3C/text%3E%3C/svg%3E")`,
-          backgroundRepeat: 'repeat',
-          zIndex: 0
-        }}
-      ></div>
-
-      {/* ২. মাঝখানের বড় মেইন জলছাপ (ডায়াগোনাল) - নতুন স্টাইল: হালকা লাল */}
-      <div className="absolute inset-0 flex items-center justify-center pointer-events-none select-none opacity-[0.08] z-0">
-        <h1 className="text-[120px] font-black uppercase text-red-600 rotate-[-45deg] tracking-widest whitespace-nowrap">
-          Apex Pharma
-        </h1>
-      </div>
-
-      {/* ৩. আসল ইনভয়েস কন্টেন্ট (z-10 দিয়ে জলছাপের উপরে রাখা হয়েছে) */}
+    <div className="invoice-a4 font-body text-[11px] leading-tight text-gray-900 flex flex-col min-h-[297mm] bg-white relative overflow-hidden apex-invoice-bg" id="print-area">
       <div className="relative z-10 flex flex-col flex-grow">
         {/* Header Section */}
         <div className="flex flex-col items-center pt-12 px-1">
