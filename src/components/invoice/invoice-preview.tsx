@@ -42,7 +42,7 @@ export function InvoicePreview({ data }: InvoicePreviewProps) {
 
   return (
     <div className="invoice-a4 font-body text-[11px] leading-tight text-gray-900 flex flex-col min-h-[297mm] bg-white relative overflow-hidden" id="print-area">
-      {/* Full Page Watermark Background with Reduced Opacity */}
+      {/* Full Page Watermark Background */}
       <div className="absolute inset-0 z-0 pointer-events-none">
         <Image 
           src="https://res.cloudinary.com/dd3eekw7h/image/upload/v1773674231/Watermark_d4fnsl.jpg" 
@@ -146,7 +146,7 @@ export function InvoicePreview({ data }: InvoicePreviewProps) {
         <div className="px-0.5 flex-grow">
           <table className="w-full text-[11.2px] border-collapse table-fixed bg-transparent">
             <thead>
-              <tr className="border-y-[1px] border-gray-900 bg-transparent text-[10.5px] uppercase">
+              <tr className="border-y-[1px] border-gray-900 bg-transparent text-[10.5px]">
                 <th className="p-1 text-left w-[5%] font-bold">P Id</th>
                 <th className="p-1 text-left w-[18%] font-bold">Description</th>
                 <th className="p-1 text-center w-[8%] font-bold">Pack Size</th>
