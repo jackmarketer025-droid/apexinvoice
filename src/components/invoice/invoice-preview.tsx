@@ -43,8 +43,8 @@ export function InvoicePreview({ data }: InvoicePreviewProps) {
   return (
     <div className="invoice-a4 font-body text-[11px] leading-tight text-gray-900 flex flex-col min-h-[297mm] bg-white relative overflow-hidden apex-invoice-bg" id="print-area">
       <div className="relative z-10 flex flex-col flex-grow">
-        {/* Header Section */}
-        <div className="flex flex-col items-center pt-12 px-1">
+        {/* Header Section - pt reduced from 12 to 2 to close the top gap */}
+        <div className="flex flex-col items-center pt-2 px-1">
           <div className="w-full flex justify-between items-start mb-2">
             <div className="w-[30%]">
               <Image 
@@ -63,7 +63,7 @@ export function InvoicePreview({ data }: InvoicePreviewProps) {
             </div>
           </div>
           
-          <div className="text-center flex flex-col items-center">
+          <div className="text-center flex flex-col items-center mt-2">
             <h2 className="text-[38px] font-black text-[#E31E24] whitespace-nowrap leading-none mb-2 uppercase tracking-tighter">Apex Pharma Ltd.</h2>
             <p className="text-[13px] font-bold whitespace-nowrap leading-normal">House # 06, Road # 137, Block # SE(D) Gulshan-1, Dhaka-1212, Bangladesh.</p>
             <p className="text-[13px] font-bold whitespace-nowrap leading-normal">Tel: +88(02)55044834-37, Fax: 880-2-55044839</p>
