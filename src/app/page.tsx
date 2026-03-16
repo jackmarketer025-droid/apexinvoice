@@ -1,13 +1,17 @@
 "use client"
 
 import React, { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+import { useUser } from '@/firebase';
 import { InvoiceEditor } from '@/components/invoice/invoice-editor';
 import { InvoicePreview } from '@/components/invoice/invoice-preview';
 import { InvoiceData } from '@/types/invoice';
 import { Button } from '@/components/ui/button';
-import { Printer, Download, Save, FileText, Menu } from 'lucide-react';
+import { Printer, Download, Save, FileText, Menu, LogOut, Loader2 } from 'lucide-react';
 import { Toaster } from '@/components/ui/toaster';
 import { useToast } from '@/hooks/use-toast';
+import { useAuth } from '@/firebase';
+import { signOut } from 'firebase/auth';
 import {
   Sheet,
   SheetContent,
@@ -57,10 +61,18 @@ const DEFAULT_INVOICE: InvoiceData = {
 };
 
 export default function Home() {
-  const [invoiceData, setInvoiceData] = useState<InvoiceData>(DEFAULT_INVOICE);
+  const { user, isUserLoading } = useUser();
+  const auth = useAuth();
+  const router = useRouter();
   const { toast } = useToast();
+  const [invoiceData, setInvoiceData] = useState<InvoiceData>(DEFAULT_INVOICE);
 
-  // Load draft from local storage on initial mount
+  useEffect(() => {
+    if (!isUserLoading && !user) {
+      router.push('/login');
+    }
+  }, [user, isUserLoading, router]);
+
   useEffect(() => {
     const savedDraft = localStorage.getItem(STORAGE_KEY);
     if (savedDraft) {
@@ -94,6 +106,21 @@ export default function Home() {
     }, 800);
   };
 
+  const handleLogout = async () => {
+    await signOut(auth);
+    router.push('/login');
+  };
+
+  if (isUserLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+        <Loader2 className="w-8 h-8 animate-spin text-primary" />
+      </div>
+    );
+  }
+
+  if (!user) return null;
+
   return (
     <div className="min-h-screen bg-[#FAF8F8] flex flex-col">
       {/* App Bar */}
@@ -116,6 +143,9 @@ export default function Home() {
           </Button>
           <Button size="sm" className="bg-secondary hover:bg-secondary/90" onClick={handleExportPDF}>
             <Download className="w-4 h-4 mr-2" /> Export PDF
+          </Button>
+          <Button variant="ghost" size="sm" onClick={handleLogout} className="text-muted-foreground">
+            <LogOut className="w-4 h-4 mr-2" /> Logout
           </Button>
         </div>
 
@@ -140,6 +170,9 @@ export default function Home() {
                 </Button>
                 <Button className="w-full justify-start bg-secondary" onClick={handleExportPDF}>
                   <Download className="w-4 h-4 mr-2" /> Export PDF
+                </Button>
+                <Button variant="ghost" className="w-full justify-start text-destructive" onClick={handleLogout}>
+                  <LogOut className="w-4 h-4 mr-2" /> Logout
                 </Button>
               </div>
             </SheetContent>

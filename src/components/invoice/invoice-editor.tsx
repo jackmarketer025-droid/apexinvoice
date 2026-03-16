@@ -1,4 +1,3 @@
-
 "use client"
 
 import React, { useState } from 'react';
@@ -38,6 +37,7 @@ const EMPTY_LINE: ProductLine = {
 export function InvoiceEditor({ data, onChange }: InvoiceEditorProps) {
   const [searchQuery, setSearchQuery] = useState("");
   const [draftItem, setDraftItem] = useState<ProductLine>({ ...EMPTY_LINE });
+  const [popoverOpen, setPopoverOpen] = useState(false);
 
   const handleCustomerChange = (field: keyof InvoiceData['customer'], value: string) => {
     onChange({
@@ -66,18 +66,19 @@ export function InvoiceEditor({ data, onChange }: InvoiceEditorProps) {
   };
 
   const handleProductSelect = (productId: string) => {
-    const product = PREDEFINED_PRODUCTS.find(p => p.id === productId);
+    const product = PREDEFINED_PRODUCTS.find(p => p.productId === productId);
     if (product) {
       setDraftItem({
         ...draftItem,
-        productId: product.id,
-        description: product.name,
+        productId: product.productId,
+        description: product.productName,
         packSize: product.packSize,
-        unitTp: product.tpVat / (1 + 17.4 / 100),
+        unitTp: product.tpVat / (1 + 17.4 / 100), // Approximate TP before VAT
         vatRate: 17.4,
       });
     }
     setSearchQuery("");
+    setPopoverOpen(false);
   };
 
   const addToInvoice = () => {
@@ -89,10 +90,13 @@ export function InvoiceEditor({ data, onChange }: InvoiceEditorProps) {
     setDraftItem({ ...EMPTY_LINE });
   };
 
-  const filteredProducts = PREDEFINED_PRODUCTS.filter(p => 
-    p.id.toLowerCase().includes(searchQuery.toLowerCase()) || 
-    p.name.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  // Dual search logic: Filters by Product ID or Product Name with safety checks
+  const filteredProducts = PREDEFINED_PRODUCTS.filter(p => {
+    const pid = String(p.productId || "").toLowerCase();
+    const pname = String(p.productName || "").toLowerCase();
+    const query = (searchQuery || "").toLowerCase();
+    return pid.includes(query) || pname.includes(query);
+  });
 
   return (
     <div className="space-y-6 h-full flex flex-col min-w-0">
@@ -175,45 +179,53 @@ export function InvoiceEditor({ data, onChange }: InvoiceEditorProps) {
           <Card className="border-2 border-primary/20 shadow-md">
             <CardContent className="p-4 space-y-4">
               <div className="space-y-1.5">
-                <Label className="text-[10px] font-black text-primary uppercase">1. Search & Select Product</Label>
-                <Popover>
+                <Label className="text-[10px] font-black text-primary uppercase">1. Search & Select Product (Dual Search)</Label>
+                <Popover open={popoverOpen} onOpenChange={setPopoverOpen}>
                   <PopoverTrigger asChild>
                     <Button variant="outline" className="w-full justify-between h-10 text-left bg-white border-primary/30">
                       {draftItem.productId ? `${draftItem.productId} - ${draftItem.description}` : "Find product by ID or Name..."}
                       <Search className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                     </Button>
                   </PopoverTrigger>
-                  <PopoverContent className="w-[calc(100vw-32px)] sm:w-[450px] p-0" align="start">
-                    <div className="flex items-center border-b px-3">
+                  <PopoverContent className="w-[calc(100vw-32px)] sm:w-[450px] p-0 shadow-xl" align="start">
+                    <div className="flex items-center border-b px-3 bg-gray-50">
                       <Search className="mr-2 h-4 w-4 shrink-0 opacity-50" />
                       <input
                         className="flex h-11 w-full rounded-md bg-transparent py-3 text-sm outline-none placeholder:text-muted-foreground"
-                        placeholder="Type ID or Name..."
+                        placeholder="Type ID (e.g. 10729) or Name (e.g. Apocal)..."
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
+                        autoFocus
                       />
                     </div>
                     <ScrollArea className="h-72">
                       <div className="p-1">
-                        {filteredProducts.map((p) => (
-                          <button
-                            key={p.id}
-                            className={cn(
-                              "relative flex w-full cursor-default select-none items-center rounded-sm px-2 py-3 text-sm outline-none hover:bg-primary/10 border-b last:border-0",
-                              draftItem.productId === p.id && "bg-primary/5"
-                            )}
-                            onClick={() => handleProductSelect(p.id)}
-                          >
-                            <div className="flex flex-col items-start gap-0.5 text-left w-full">
-                              <div className="flex items-center gap-2">
-                                <span className="font-bold text-primary">{p.id}</span>
-                                <span className="font-semibold">{p.name}</span>
+                        {filteredProducts.length > 0 ? (
+                          filteredProducts.map((p) => (
+                            <button
+                              key={p.productId}
+                              className={cn(
+                                "relative flex w-full cursor-default select-none items-center rounded-sm px-2 py-3 text-sm outline-none hover:bg-primary/10 border-b last:border-0",
+                                draftItem.productId === p.productId && "bg-primary/5"
+                              )}
+                              onClick={() => handleProductSelect(p.productId)}
+                            >
+                              <div className="flex flex-col items-start gap-0.5 text-left w-full">
+                                <div className="flex items-center gap-2">
+                                  <span className="font-bold text-primary min-w-[50px]">{p.productId}</span>
+                                  <span className="font-semibold text-gray-900">{p.productName}</span>
+                                </div>
+                                <div className="flex items-center gap-4 text-[10px] text-muted-foreground uppercase">
+                                  <span>{p.packSize}</span>
+                                  <span>MRP: {p.mrp.toFixed(2)}</span>
+                                </div>
                               </div>
-                              <span className="text-[10px] text-muted-foreground uppercase">{p.packSize}</span>
-                            </div>
-                            {draftItem.productId === p.id && <Check className="ml-auto h-4 w-4 text-primary" />}
-                          </button>
-                        ))}
+                              {draftItem.productId === p.productId && <Check className="ml-auto h-4 w-4 text-primary" />}
+                            </button>
+                          ))
+                        ) : (
+                          <div className="p-4 text-center text-sm text-muted-foreground">No products found.</div>
+                        )}
                       </div>
                     </ScrollArea>
                   </PopoverContent>
