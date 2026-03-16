@@ -1,4 +1,3 @@
-
 import { ProductLine } from "@/types/invoice";
 
 export const PREDEFINED_PRODUCTS = [
