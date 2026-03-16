@@ -93,7 +93,7 @@
   }
 }
 
-/* Custom Watermark Classes */
+/* Custom Watermark Classes - Diagonal Gray Lines only */
 .apex-invoice-bg {
   position: relative;
   background-image: repeating-linear-gradient(

@@ -47,8 +47,8 @@ export function InvoicePreview({ data }: InvoicePreviewProps) {
         {/* Header Section */}
         <div className="pt-1 px-1">
           <div className="flex justify-between items-start">
-            {/* Left: Logo - Balanced width to ensure center centering */}
-            <div className="w-[220px]">
+            {/* Left: Logo */}
+            <div className="w-[200px]">
               <Image 
                 src="https://res.cloudinary.com/dd3eekw7h/image/upload/v1773604830/Apex_logo_p5tupb.png" 
                 alt="Apex Logo" 
@@ -68,8 +68,8 @@ export function InvoicePreview({ data }: InvoicePreviewProps) {
               <p className="text-[12.5px] font-bold text-gray-800 leading-tight">Tel: +88(02)55044834-37, Fax: 880-2-55044839</p>
             </div>
 
-            {/* Right: Customer Copy - Balanced width */}
-            <div className="w-[220px] text-right pt-2">
+            {/* Right: Customer Copy */}
+            <div className="w-[200px] text-right pt-2">
               <p className="text-[13px] font-black uppercase text-gray-900 leading-tight">Customer Copy</p>
             </div>
           </div>
