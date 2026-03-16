@@ -42,6 +42,18 @@ export function InvoicePreview({ data }: InvoicePreviewProps) {
 
   return (
     <div className="invoice-a4 font-body text-[11px] leading-tight text-gray-900 flex flex-col min-h-[297mm] bg-white relative overflow-hidden" id="print-area">
+      {/* Full Page Watermark Background */}
+      <div className="absolute inset-0 z-0 pointer-events-none">
+        <Image 
+          src="https://res.cloudinary.com/dd3eekw7h/image/upload/v1773674231/Watermark_d4fnsl.jpg" 
+          alt="Watermark" 
+          fill
+          className="object-fill"
+          priority
+          unoptimized
+        />
+      </div>
+
       <div className="relative z-10 flex flex-col flex-grow">
         {/* Header Section */}
         <div className="pt-1 px-1">
