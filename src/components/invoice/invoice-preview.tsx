@@ -144,22 +144,22 @@ export function InvoicePreview({ data }: InvoicePreviewProps) {
 
         {/* Line Items Table */}
         <div className="px-0.5 flex-grow">
-          <table className="w-full text-[12.5px] border-collapse table-fixed bg-transparent">
+          <table className="w-full text-[14px] border-collapse table-fixed bg-transparent">
             <thead>
-              <tr className="border-y-[1px] border-gray-900 bg-transparent text-[11.5px]">
-                <th className="p-1 text-left w-[5%] font-bold">P Id</th>
-                <th className="p-1 text-left w-[18%] font-bold">Description</th>
+              <tr className="border-y-[1px] border-gray-900 bg-transparent text-[13px]">
+                <th className="p-1 text-left w-[6.5%] font-bold">P Id</th>
+                <th className="p-1 text-left w-[20%] font-bold">Description</th>
                 <th className="p-1 text-center w-[8%] font-bold">Pack Size</th>
                 <th className="p-1 text-center w-[7%] font-bold">Unit TP</th>
-                <th className="p-1 text-center w-[7%] font-bold">VAT Rate%</th>
-                <th className="p-1 text-center w-[7%] font-bold">Unit VAT</th>
-                <th className="p-1 text-center w-[7%] font-bold">Unit Dis</th>
+                <th className="p-1 text-center w-[6%] font-bold">VAT Rate%</th>
+                <th className="p-1 text-center w-[6.5%] font-bold">Unit VAT</th>
+                <th className="p-1 text-center w-[6.5%] font-bold">Unit Dis</th>
                 <th className="p-1 text-center w-[5%] font-bold">QTY</th>
                 <th className="p-1 text-center w-[5%] font-bold">Bonus</th>
                 <th className="p-1 text-center w-[8%] font-bold">Total TP</th>
                 <th className="p-1 text-center w-[8%] font-bold">Total VAT</th>
-                <th className="p-1 text-center w-[7%] font-bold">Spec. Dis</th>
-                <th className="p-1 text-right w-[10%] font-bold">Total Price</th>
+                <th className="p-1 text-center w-[6%] font-bold">Spec. Dis</th>
+                <th className="p-1 text-right w-[10.5%] font-bold">Total Price</th>
               </tr>
             </thead>
             <tbody className="bg-transparent">
@@ -167,32 +167,32 @@ export function InvoicePreview({ data }: InvoicePreviewProps) {
                 const { unitVat, totalTp, totalVat, totalPrice } = calculateLineTotals(line);
                 return (
                   <tr key={idx} className="border-b border-gray-200 align-top bg-transparent">
-                    <td className="p-1.5">{line.productId}</td>
-                    <td className="p-1.5 leading-tight font-bold">{line.description}</td>
-                    <td className="p-1.5 text-center">{line.packSize}</td>
-                    <td className="p-1.5 text-center">{formatCurrency(line.unitTp)}</td>
-                    <td className="p-1.5 text-center">{line.vatRate}</td>
-                    <td className="p-1.5 text-center">{formatCurrency(unitVat)}</td>
-                    <td className="p-1.5 text-center">{formatCurrency(line.unitDis)}</td>
-                    <td className="p-1.5 text-center">{line.quantity}</td>
-                    <td className="p-1.5 text-center">{line.bonus || 0}</td>
-                    <td className="p-1.5 text-center">{formatCurrency(totalTp)}</td>
-                    <td className="p-1.5 text-center">{formatCurrency(totalVat)}</td>
-                    <td className="p-1.5 text-center">{formatCurrency(line.specialDis)}</td>
-                    <td className="p-1.5 text-right font-bold text-black">{formatCurrency(totalPrice)}</td>
+                    <td className="p-2">{line.productId}</td>
+                    <td className="p-2 leading-tight font-bold">{line.description}</td>
+                    <td className="p-2 text-center">{line.packSize}</td>
+                    <td className="p-2 text-center">{formatCurrency(line.unitTp)}</td>
+                    <td className="p-2 text-center">{line.vatRate}</td>
+                    <td className="p-2 text-center">{formatCurrency(unitVat)}</td>
+                    <td className="p-2 text-center">{formatCurrency(line.unitDis)}</td>
+                    <td className="p-2 text-center">{line.quantity}</td>
+                    <td className="p-2 text-center">{line.bonus || 0}</td>
+                    <td className="p-2 text-center">{formatCurrency(totalTp)}</td>
+                    <td className="p-2 text-center">{formatCurrency(totalVat)}</td>
+                    <td className="p-2 text-center">{formatCurrency(line.specialDis)}</td>
+                    <td className="p-2 text-right font-bold text-black">{formatCurrency(totalPrice)}</td>
                   </tr>
                 );
               })}
             </tbody>
             <tfoot className="bg-transparent">
-              <tr className="bg-transparent text-[13.5px]">
+              <tr className="bg-transparent text-[15px]">
                 <td colSpan={9} className="p-2 text-right border-t-[1.5px] border-gray-900 pr-10">
                   <span className="font-bold uppercase inline-block whitespace-nowrap">TOTAL AMOUNT :</span>
                 </td>
                 <td className="p-2 text-center font-bold text-gray-900 border-t-[1.5px] border-gray-900">{formatCurrency(totals.totalTp)}</td>
                 <td className="p-2 text-center font-bold text-gray-900 border-t-[1.5px] border-gray-900">{formatCurrency(totals.totalVat)}</td>
                 <td className="p-2 text-center font-bold text-gray-900 border-t-[1.5px] border-gray-900">{formatCurrency(totals.specialDis)}</td>
-                <td className="p-2 text-right text-[14.5px] font-bold text-gray-900 border-t-[1.5px] border-gray-900">{formatCurrency(totals.totalPrice)}</td>
+                <td className="p-2 text-right text-[16px] font-bold text-gray-900 border-t-[1.5px] border-gray-900">{formatCurrency(totals.totalPrice)}</td>
               </tr>
             </tfoot>
           </table>
