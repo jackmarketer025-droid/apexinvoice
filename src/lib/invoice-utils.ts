@@ -1,3 +1,4 @@
+
 import { ProductLine } from "@/types/invoice";
 
 export const PREDEFINED_PRODUCTS = [
@@ -123,17 +124,16 @@ export const PREDEFINED_PRODUCTS = [
 ];
 
 export function calculateLineTotals(line: ProductLine) {
-  const quantity = Number(line.quantity) || 0;
-  const unitTp = Number(line.unitTp) || 0;
-  const vatRate = Number(line.vatRate) || 0;
-  const unitDis = Number(line.unitDis) || 0;
-  const specialDis = Number(line.specialDis) || 0;
+  const unitTp = line.unitTp || 0;
+  const vatRate = line.vatRate || 17.4;
+  const unitDis = line.unitDis || 0;
+  const quantity = line.quantity || 0;
+  const specialDis = line.specialDis || 0;
 
-  const totalTp = quantity * unitTp;
   const unitVat = (unitTp * vatRate) / 100;
-  const totalVat = quantity * unitVat;
-  const unitPriceAfterDiscount = (unitTp + unitVat) - unitDis;
-  const totalPrice = (quantity * unitPriceAfterDiscount) - specialDis;
+  const totalTp = unitTp * quantity;
+  const totalVat = unitVat * quantity;
+  const totalPrice = (quantity * (unitTp + unitVat - unitDis)) - specialDis;
 
   return {
     unitVat,
@@ -144,54 +144,58 @@ export function calculateLineTotals(line: ProductLine) {
 }
 
 export function formatCurrency(amount: number): string {
-  return amount.toFixed(2);
+  return (amount || 0).toFixed(2);
 }
 
 export function numberToWords(amount: number): string {
-  const ones = ['', 'ONE', 'TWO', 'THREE', 'FOUR', 'FIVE', 'SIX', 'SEVEN', 'EIGHT', 'NINE'];
-  const tens = ['', '', 'TWENTY', 'THIRTY', 'FORTY', 'FIFTY', 'SIXTY', 'SEVENTY', 'EIGHTY', 'NINETY'];
-  const teens = ['TEN', 'ELEVEN', 'TWELVE', 'THIRTEEN', 'FOURTEEN', 'FIFTEEN', 'SIXTEEN', 'SEVENTEEN', 'EIGHTEEN', 'NINETEEN'];
+  if (amount === 0) return "ZERO TAKA ONLY";
+  
+  const singleDigits = ["", "ONE", "TWO", "THREE", "FOUR", "FIVE", "SIX", "SEVEN", "EIGHT", "NINE"];
+  const teens = ["TEN", "ELEVEN", "TWELVE", "THIRTEEN", "FOURTEEN", "FIFTEEN", "SIXTEEN", "SEVENTEEN", "EIGHTEEN", "NINETEEN"];
+  const tens = ["", "", "TWENTY", "THIRTY", "FORTY", "FIFTY", "SIXTY", "SEVENTY", "EIGHTY", "NINETY"];
 
-  function convert_less_than_thousand(n: number): string {
-    let res = '';
-    if (n >= 100) {
-      res += ones[Math.floor(n / 100)] + ' HUNDRED ';
-      n %= 100;
-    }
-    if (n >= 10 && n <= 19) {
-      res += teens[n - 10] + ' ';
-    } else if (n >= 20) {
-      res += tens[Math.floor(n / 10)] + ' ';
-      n %= 10;
-    }
-    if (n >= 1 && n <= 9) {
-      res += ones[n] + ' ';
-    }
-    return res;
+  function convert(n: number): string {
+    if (n < 10) return singleDigits[n];
+    if (n < 20) return teens[n - 10];
+    if (n < 100) return tens[Math.floor(n / 10)] + (n % 10 !== 0 ? " " + singleDigits[n % 10] : "");
+    if (n < 1000) return singleDigits[Math.floor(n / 100)] + " HUNDRED" + (n % 100 !== 0 ? " AND " + convert(n % 100) : "");
+    return "";
   }
-
-  if (amount === 0) return 'ZERO';
 
   const integerPart = Math.floor(amount);
-  const fractionalPart = Math.round((amount - integerPart) * 100);
+  const decimalPart = Math.round((amount - integerPart) * 100);
 
-  let words = '';
-  
-  if (integerPart >= 100000) {
-    words += convert_less_than_thousand(Math.floor(integerPart / 100000)) + 'LAKH ';
-    words += convert_less_than_thousand(integerPart % 100000);
-  } else if (integerPart >= 1000) {
-    words += convert_less_than_thousand(Math.floor(integerPart / 1000)) + 'THOUSAND ';
-    words += convert_less_than_thousand(integerPart % 1000);
+  let result = "";
+
+  if (integerPart >= 10000000) {
+    const crore = Math.floor(integerPart / 10000000);
+    result += convert(crore) + " CRORE ";
+    result += convertPart(integerPart % 10000000);
   } else {
-    words += convert_less_than_thousand(integerPart);
+    result += convertPart(integerPart);
   }
 
-  words += 'TAKA ';
-
-  if (fractionalPart > 0) {
-    words += 'AND ' + convert_less_than_thousand(fractionalPart) + 'PAISA ';
+  function convertPart(n: number): string {
+    let str = "";
+    if (n >= 100000) {
+      str += convert(Math.floor(n / 100000)) + " LAKH ";
+      n %= 100000;
+    }
+    if (n >= 1000) {
+      str += convert(Math.floor(n / 1000)) + " THOUSAND ";
+      n %= 1000;
+    }
+    if (n > 0) {
+      str += convert(n);
+    }
+    return str;
   }
 
-  return words + 'ONLY';
+  result = result.trim() + " TAKA";
+
+  if (decimalPart > 0) {
+    result += " AND " + convert(decimalPart) + " PAISA";
+  }
+
+  return result + " ONLY";
 }

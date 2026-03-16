@@ -1,3 +1,4 @@
+
 "use client"
 
 import React, { useState } from 'react';
@@ -10,6 +11,10 @@ import { Trash2, Search, Check, Plus } from 'lucide-react';
 import { AIDraftDialog } from './ai-draft-dialog';
 import { PREDEFINED_PRODUCTS } from '@/lib/invoice-utils';
 import { cn } from "@/lib/utils";
+import { Checkbox } from "@/components/ui/checkbox";
+import { useFirestore } from '@/firebase';
+import { doc, updateDoc, setDoc } from 'firebase/firestore';
+import { useToast } from '@/hooks/use-toast';
 import {
   Popover,
   PopoverContent,
@@ -53,10 +58,12 @@ const EMPTY_MANUAL_ITEM = {
 
 export function InvoiceEditor({ data, onChange }: InvoiceEditorProps) {
   const [searchQuery, setSearchQuery] = useState("");
-  const [draftItem, setDraftItem] = useState<ProductLine & { isPriceEditable?: boolean }>({ ...EMPTY_LINE });
+  const [draftItem, setDraftItem] = useState<ProductLine & { isPriceEditable?: boolean, updateDb?: boolean }>({ ...EMPTY_LINE });
   const [popoverOpen, setPopoverOpen] = useState(false);
   const [isManualAddOpen, setIsManualAddOpen] = useState(false);
   const [manualItem, setManualItem] = useState(EMPTY_MANUAL_ITEM);
+  const db = useFirestore();
+  const { toast } = useToast();
 
   const handleCustomerChange = (field: keyof InvoiceData['customer'], value: string) => {
     onChange({
@@ -95,15 +102,33 @@ export function InvoiceEditor({ data, onChange }: InvoiceEditorProps) {
         packSize: product.packSize,
         unitTp: product.tpVat / (1 + 17.4 / 100),
         vatRate: 17.4,
-        isPriceEditable
+        isPriceEditable,
+        updateDb: false
       });
     }
     setSearchQuery("");
     setPopoverOpen(false);
   };
 
-  const addToInvoice = () => {
+  const addToInvoice = async () => {
     if (!draftItem.productId) return;
+
+    // Handle Database Update if price was manually entered and checkbox is checked
+    if (draftItem.isPriceEditable && draftItem.updateDb && draftItem.productId) {
+      try {
+        const tpVat = draftItem.unitTp * (1 + 17.4 / 100);
+        await setDoc(doc(db, "products", draftItem.productId), {
+          pid: draftItem.productId,
+          name: draftItem.description,
+          tpVat: tpVat,
+          updatedAt: new Date().toISOString()
+        }, { merge: true });
+        toast({ title: "Database Updated", description: "Product price has been saved." });
+      } catch (e) {
+        console.error("Failed to update database", e);
+      }
+    }
+
     onChange({
       ...data,
       productLines: [...data.productLines, { ...draftItem }]
@@ -212,17 +237,17 @@ export function InvoiceEditor({ data, onChange }: InvoiceEditorProps) {
 
         <div className="space-y-4">
           <div className="flex justify-between items-center py-2 border-b">
-            <h3 className="font-black text-lg text-secondary uppercase tracking-tight">Search Product (ID or Name)</h3>
+            <h3 className="font-black text-lg text-secondary uppercase tracking-tight">Product Selection (ID or Name)</h3>
           </div>
           
           <Card className="border-2 border-primary/20 shadow-md">
             <CardContent className="p-4 space-y-4">
               <div className="space-y-1.5">
-                <Label className="text-[10px] font-black text-primary uppercase">Enter ID or Medicine Name</Label>
+                <Label className="text-[10px] font-black text-primary uppercase">Search PID or Drug Name</Label>
                 <Popover open={popoverOpen} onOpenChange={setPopoverOpen}>
                   <PopoverTrigger asChild>
                     <Button variant="outline" className="w-full justify-between h-10 text-left bg-white border-primary/30">
-                      {draftItem.productId ? `${draftItem.productId} - ${draftItem.description}` : "Start typing to search..."}
+                      {draftItem.productId ? `${draftItem.productId} - ${draftItem.description}` : "Type ID or Name..."}
                       <Search className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                     </Button>
                   </PopoverTrigger>
@@ -231,7 +256,7 @@ export function InvoiceEditor({ data, onChange }: InvoiceEditorProps) {
                       <Search className="mr-2 h-4 w-4 shrink-0 opacity-50" />
                       <input
                         className="flex h-11 w-full rounded-md bg-transparent py-3 text-sm outline-none placeholder:text-muted-foreground"
-                        placeholder="Search by ID or Name..."
+                        placeholder="Search by PID or Name..."
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
                         autoFocus
@@ -281,36 +306,58 @@ export function InvoiceEditor({ data, onChange }: InvoiceEditorProps) {
               </div>
 
               {draftItem.productId && (
-                <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 animate-in fade-in slide-in-from-top-2 duration-300">
-                  <div className="space-y-1">
-                    <Label className="text-[10px] font-bold">QTY</Label>
-                    <Input className="h-9 font-bold" type="number" value={draftItem.quantity} onChange={(e) => setDraftItem({...draftItem, quantity: parseInt(e.target.value) || 0})} />
-                  </div>
-                  <div className="space-y-1">
-                    <Label className="text-[10px] font-bold">BONUS</Label>
-                    <Input className="h-9" type="number" value={draftItem.bonus} onChange={(e) => setDraftItem({...draftItem, bonus: parseInt(e.target.value) || 0})} />
-                  </div>
-                  {draftItem.isPriceEditable && (
+                <div className="space-y-4 animate-in fade-in slide-in-from-top-2 duration-300">
+                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
                     <div className="space-y-1">
-                      <Label className="text-[10px] font-bold text-primary">TP + VAT (Required)</Label>
-                      <Input 
-                        className="h-9 border-primary/50 font-bold" 
-                        type="number" 
-                        onChange={(e) => {
-                          const tpVat = parseFloat(e.target.value) || 0;
-                          setDraftItem({
-                            ...draftItem, 
-                            unitTp: tpVat / (1 + 17.4 / 100)
-                          });
-                        }} 
+                      <Label className="text-[10px] font-bold">QTY</Label>
+                      <Input className="h-9 font-bold" type="number" value={draftItem.quantity} onChange={(e) => setDraftItem({...draftItem, quantity: parseInt(e.target.value) || 0})} />
+                    </div>
+                    <div className="space-y-1">
+                      <Label className="text-[10px] font-bold">BONUS</Label>
+                      <Input className="h-9" type="number" value={draftItem.bonus} onChange={(e) => setDraftItem({...draftItem, bonus: parseInt(e.target.value) || 0})} />
+                    </div>
+                    {draftItem.isPriceEditable ? (
+                      <div className="space-y-1">
+                        <Label className="text-[10px] font-bold text-primary">TP + VAT (Required)</Label>
+                        <Input 
+                          className="h-9 border-primary/50 font-bold" 
+                          type="number" 
+                          placeholder="Enter Price"
+                          onChange={(e) => {
+                            const tpVat = parseFloat(e.target.value) || 0;
+                            setDraftItem({
+                              ...draftItem, 
+                              unitTp: tpVat / (1 + 17.4 / 100)
+                            });
+                          }} 
+                        />
+                      </div>
+                    ) : (
+                      <div className="space-y-1">
+                        <Label className="text-[10px] font-bold text-muted-foreground">Unit TP (Auto)</Label>
+                        <div className="h-9 flex items-center px-3 bg-gray-100 rounded-md text-sm font-semibold">
+                          {((draftItem.unitTp || 0) * (1 + (draftItem.vatRate || 17.4) / 100)).toFixed(2)}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+
+                  {draftItem.isPriceEditable && (
+                    <div className="flex items-center space-x-2 bg-primary/5 p-2 rounded-md border border-primary/20">
+                      <Checkbox 
+                        id="update-db" 
+                        checked={draftItem.updateDb} 
+                        onCheckedChange={(checked) => setDraftItem({...draftItem, updateDb: !!checked})} 
                       />
+                      <label htmlFor="update-db" className="text-xs font-bold text-primary cursor-pointer">
+                        Update this price in database?
+                      </label>
                     </div>
                   )}
-                  <div className={cn("pt-2 flex items-end", draftItem.isPriceEditable ? "col-span-1" : "col-span-2")}>
-                    <Button onClick={addToInvoice} className="w-full bg-primary hover:bg-primary/90 font-bold uppercase tracking-wider">
-                      Add to List
-                    </Button>
-                  </div>
+
+                  <Button onClick={addToInvoice} className="w-full bg-primary hover:bg-primary/90 font-bold uppercase tracking-wider h-11">
+                    Add Product to List
+                  </Button>
                 </div>
               )}
             </CardContent>
@@ -374,6 +421,7 @@ export function InvoiceEditor({ data, onChange }: InvoiceEditorProps) {
                   <div className="flex gap-4 text-[10px] text-muted-foreground mt-1">
                     <span>QTY: <b className="text-gray-900">{line.quantity}</b></span>
                     <span>BONUS: <b className="text-gray-900">{line.bonus}</b></span>
+                    <span>TP: <b className="text-gray-900">{((line.unitTp || 0) * (1 + (line.vatRate || 0)/100)).toFixed(2)}</b></span>
                   </div>
                 </div>
                 <Button variant="ghost" size="icon" className="text-destructive" onClick={() => removeLine(idx)}>
