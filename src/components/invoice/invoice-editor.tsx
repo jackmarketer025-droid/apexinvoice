@@ -1,3 +1,4 @@
+
 "use client"
 
 import React, { useState } from 'react';
@@ -316,41 +317,45 @@ export function InvoiceEditor({ data, onChange }: InvoiceEditorProps) {
         </div>
         
         <Dialog open={isManualAddOpen} onOpenChange={setIsManualAddOpen}>
-            <DialogContent>
+            <DialogContent className="sm:max-w-[400px]">
                 <DialogHeader>
-                    <DialogTitle>ম্যানুয়ালি প্রোডাক্ট যোগ করুন</DialogTitle>
-                    <DialogDescription>
+                    <DialogTitle className="text-lg">ম্যানুয়ালি প্রোডাক্ট যোগ করুন</DialogTitle>
+                    <DialogDescription className="text-xs">
                         নতুন প্রোডাক্টের তথ্য দিন।
                     </DialogDescription>
                 </DialogHeader>
-                <div className="grid gap-4 py-4">
-                    <div className="grid grid-cols-4 items-center gap-4">
-                        <Label htmlFor="pid" className="text-right">Product ID</Label>
-                        <Input id="pid" value={manualItem.pid} onChange={(e) => setManualItem({...manualItem, pid: e.target.value })} className="col-span-3" />
+                <div className="grid gap-3 py-2">
+                    <div className="space-y-1">
+                        <Label htmlFor="pid" className="text-[10px] uppercase font-bold text-gray-500">Product ID</Label>
+                        <Input id="pid" value={manualItem.pid} onChange={(e) => setManualItem({...manualItem, pid: e.target.value })} className="h-8 text-sm" />
                     </div>
-                    <div className="grid grid-cols-4 items-center gap-4">
-                        <Label htmlFor="name" className="text-right">Product Name</Label>
-                        <Input id="name" value={manualItem.name} onChange={(e) => setManualItem({...manualItem, name: e.target.value })} className="col-span-3" />
+                    <div className="space-y-1">
+                        <Label htmlFor="name" className="text-[10px] uppercase font-bold text-gray-500">Product Name</Label>
+                        <Input id="name" value={manualItem.name} onChange={(e) => setManualItem({...manualItem, name: e.target.value })} className="h-8 text-sm" />
                     </div>
-                     <div className="grid grid-cols-4 items-center gap-4">
-                        <Label htmlFor="packSize" className="text-right">Pack Size</Label>
-                        <Input id="packSize" value={manualItem.packSize} onChange={(e) => setManualItem({...manualItem, packSize: e.target.value })} className="col-span-3" />
+                    <div className="grid grid-cols-2 gap-3">
+                         <div className="space-y-1">
+                            <Label htmlFor="packSize" className="text-[10px] uppercase font-bold text-gray-500">Pack Size</Label>
+                            <Input id="packSize" value={manualItem.packSize} onChange={(e) => setManualItem({...manualItem, packSize: e.target.value })} className="h-8 text-sm" />
+                        </div>
+                         <div className="space-y-1">
+                            <Label htmlFor="tpVat" className="text-[10px] uppercase font-bold text-gray-500">TP + VAT</Label>
+                            <Input id="tpVat" type="number" value={manualItem.tpVat} onChange={(e) => setManualItem({...manualItem, tpVat: parseFloat(e.target.value) || 0 })} className="h-8 text-sm" />
+                        </div>
                     </div>
-                     <div className="grid grid-cols-4 items-center gap-4">
-                        <Label htmlFor="tpVat" className="text-right">TP + VAT</Label>
-                        <Input id="tpVat" type="number" value={manualItem.tpVat} onChange={(e) => setManualItem({...manualItem, tpVat: parseFloat(e.target.value) || 0 })} className="col-span-3" />
-                    </div>
-                    <div className="grid grid-cols-4 items-center gap-4">
-                        <Label htmlFor="quantity" className="text-right">Quantity</Label>
-                        <Input id="quantity" type="number" value={manualItem.quantity} onChange={(e) => setManualItem({...manualItem, quantity: parseInt(e.target.value) || 1 })} className="col-span-3" />
-                    </div>
-                     <div className="grid grid-cols-4 items-center gap-4">
-                        <Label htmlFor="bonus" className="text-right">Bonus</Label>
-                        <Input id="bonus" type="number" value={manualItem.bonus} onChange={(e) => setManualItem({...manualItem, bonus: parseInt(e.target.value) || 0 })} className="col-span-3" />
+                    <div className="grid grid-cols-2 gap-3">
+                        <div className="space-y-1">
+                            <Label htmlFor="quantity" className="text-[10px] uppercase font-bold text-gray-500">Quantity</Label>
+                            <Input id="quantity" type="number" value={manualItem.quantity} onChange={(e) => setManualItem({...manualItem, quantity: parseInt(e.target.value) || 1 })} className="h-8 text-sm" />
+                        </div>
+                         <div className="space-y-1">
+                            <Label htmlFor="bonus" className="text-[10px] uppercase font-bold text-gray-500">Bonus</Label>
+                            <Input id="bonus" type="number" value={manualItem.bonus} onChange={(e) => setManualItem({...manualItem, bonus: parseInt(e.target.value) || 0 })} className="h-8 text-sm" />
+                        </div>
                     </div>
                 </div>
-                <DialogFooter>
-                    <Button onClick={handleManualAdd}>Add to list</Button>
+                <DialogFooter className="mt-2">
+                    <Button onClick={handleManualAdd} className="w-full h-9 text-xs font-bold uppercase tracking-wider">Add to list</Button>
                 </DialogFooter>
             </DialogContent>
         </Dialog>
