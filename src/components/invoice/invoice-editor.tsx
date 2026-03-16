@@ -6,7 +6,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Trash2, Search, Check, Save } from 'lucide-react';
+import { Trash2, Search, Check, Plus } from 'lucide-react';
 import { AIDraftDialog } from './ai-draft-dialog';
 import { PREDEFINED_PRODUCTS } from '@/lib/invoice-utils';
 import { cn } from "@/lib/utils";
@@ -14,8 +14,16 @@ import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/components/ui/popover"
-import { ScrollArea } from "@/components/ui/scroll-area"
+} from "@/components/ui/popover";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 
 interface InvoiceEditorProps {
   data: InvoiceData;
@@ -34,10 +42,21 @@ const EMPTY_LINE: ProductLine = {
   specialDis: 0
 };
 
+const EMPTY_MANUAL_ITEM = {
+  pid: '',
+  name: '',
+  packSize: '',
+  tpVat: 0,
+  quantity: 1,
+  bonus: 0,
+};
+
 export function InvoiceEditor({ data, onChange }: InvoiceEditorProps) {
   const [searchQuery, setSearchQuery] = useState("");
-  const [draftItem, setDraftItem] = useState<ProductLine>({ ...EMPTY_LINE });
+  const [draftItem, setDraftItem] = useState<ProductLine & { isPriceEditable?: boolean }>({ ...EMPTY_LINE });
   const [popoverOpen, setPopoverOpen] = useState(false);
+  const [isManualAddOpen, setIsManualAddOpen] = useState(false);
+  const [manualItem, setManualItem] = useState(EMPTY_MANUAL_ITEM);
 
   const handleCustomerChange = (field: keyof InvoiceData['customer'], value: string) => {
     onChange({
@@ -65,16 +84,18 @@ export function InvoiceEditor({ data, onChange }: InvoiceEditorProps) {
     onChange({ ...data, productLines: newLines });
   };
 
-  const handleProductSelect = (productId: string) => {
-    const product = PREDEFINED_PRODUCTS.find(p => p.productId === productId);
+  const handleProductSelect = (pid: string) => {
+    const product = PREDEFINED_PRODUCTS.find(p => p.pid === pid);
     if (product) {
+      const isPriceEditable = product.tpVat === 0;
       setDraftItem({
         ...draftItem,
-        productId: product.productId,
-        description: product.productName,
+        productId: product.pid,
+        description: product.name,
         packSize: product.packSize,
-        unitTp: product.tpVat / (1 + 17.4 / 100), // Base trade price
+        unitTp: product.tpVat / (1 + 17.4 / 100),
         vatRate: 17.4,
+        isPriceEditable
       });
     }
     setSearchQuery("");
@@ -90,12 +111,39 @@ export function InvoiceEditor({ data, onChange }: InvoiceEditorProps) {
     setDraftItem({ ...EMPTY_LINE });
   };
 
-  // Safe Dual Search logic to prevent toLowerCase() errors
+  const handleOpenManualAdd = () => {
+    setManualItem({ ...EMPTY_MANUAL_ITEM, pid: searchQuery });
+    setPopoverOpen(false);
+    setIsManualAddOpen(true);
+  };
+
+  const handleManualAdd = () => {
+    if (!manualItem.name.trim() || manualItem.tpVat <= 0) {
+      return;
+    }
+    const newLine: ProductLine = {
+      productId: manualItem.pid || `MANUAL-${Date.now()}`,
+      description: manualItem.name,
+      packSize: manualItem.packSize,
+      unitTp: manualItem.tpVat / (1 + 17.4 / 100),
+      vatRate: 17.4,
+      unitDis: 0,
+      quantity: manualItem.quantity,
+      bonus: manualItem.bonus,
+      specialDis: 0,
+    };
+    onChange({
+      ...data,
+      productLines: [...data.productLines, newLine]
+    });
+    setIsManualAddOpen(false);
+    setManualItem(EMPTY_MANUAL_ITEM);
+  };
+
   const filteredProducts = PREDEFINED_PRODUCTS.filter(p => {
-    const pid = String(p.productId || "").toLowerCase();
-    const pname = String(p.productName || "").toLowerCase();
+    const pid = String(p.pid || "").toLowerCase();
     const query = (searchQuery || "").toLowerCase();
-    return pid.includes(query) || pname.includes(query);
+    return pid.startsWith(query);
   });
 
   return (
@@ -108,7 +156,6 @@ export function InvoiceEditor({ data, onChange }: InvoiceEditorProps) {
       </div>
 
       <div className="flex-1 overflow-y-auto space-y-6 pb-20 px-1 custom-scrollbar">
-        {/* Customer Section */}
         <Card className="shadow-sm border-none bg-gray-50/50">
           <CardHeader className="py-2 px-4 border-b">
             <CardTitle className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">Customer Information</CardTitle>
@@ -137,7 +184,6 @@ export function InvoiceEditor({ data, onChange }: InvoiceEditorProps) {
           </CardContent>
         </Card>
 
-        {/* MPO & Header Section (Editable Fields) */}
         <Card className="shadow-sm border-none bg-gray-50/50">
           <CardHeader className="py-2 px-4 border-b">
             <CardTitle className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">Invoice Details</CardTitle>
@@ -159,31 +205,22 @@ export function InvoiceEditor({ data, onChange }: InvoiceEditorProps) {
               <Label className="text-[10px] uppercase font-bold text-primary">Delivery Date</Label>
               <Input className="h-8 text-sm font-black border-primary/50 text-primary" value={data.header.deliveryDate} onChange={(e) => handleHeaderChange('deliveryDate', e.target.value)} />
             </div>
-            <div className="space-y-1">
-              <Label className="text-[10px] uppercase font-bold text-gray-500">MPO Name</Label>
-              <Input className="h-8 text-sm" value={data.mpo.name} onChange={(e) => handleMpoChange('name', e.target.value)} />
-            </div>
-            <div className="space-y-1">
-              <Label className="text-[10px] uppercase font-bold text-gray-500">Depot</Label>
-              <Input className="h-8 text-sm" value={data.mpo.depot} onChange={(e) => handleMpoChange('depot', e.target.value)} />
-            </div>
           </CardContent>
         </Card>
 
-        {/* Live Search & Add Section */}
         <div className="space-y-4">
           <div className="flex justify-between items-center py-2 border-b">
-            <h3 className="font-black text-lg text-secondary uppercase tracking-tight">Search & Add Products</h3>
+            <h3 className="font-black text-lg text-secondary uppercase tracking-tight">Search Product by ID</h3>
           </div>
           
           <Card className="border-2 border-primary/20 shadow-md">
             <CardContent className="p-4 space-y-4">
               <div className="space-y-1.5">
-                <Label className="text-[10px] font-black text-primary uppercase">Find by ID or Name</Label>
+                <Label className="text-[10px] font-black text-primary uppercase">Enter Product ID</Label>
                 <Popover open={popoverOpen} onOpenChange={setPopoverOpen}>
                   <PopoverTrigger asChild>
                     <Button variant="outline" className="w-full justify-between h-10 text-left bg-white border-primary/30">
-                      {draftItem.productId ? `${draftItem.productId} - ${draftItem.description}` : "Start typing ID or Product Name..."}
+                      {draftItem.productId ? `${draftItem.productId} - ${draftItem.description}` : "Start typing Product ID..."}
                       <Search className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                     </Button>
                   </PopoverTrigger>
@@ -192,7 +229,7 @@ export function InvoiceEditor({ data, onChange }: InvoiceEditorProps) {
                       <Search className="mr-2 h-4 w-4 shrink-0 opacity-50" />
                       <input
                         className="flex h-11 w-full rounded-md bg-transparent py-3 text-sm outline-none placeholder:text-muted-foreground"
-                        placeholder="Search products..."
+                        placeholder="Search by ID..."
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
                         autoFocus
@@ -203,28 +240,37 @@ export function InvoiceEditor({ data, onChange }: InvoiceEditorProps) {
                         {filteredProducts.length > 0 ? (
                           filteredProducts.map((p) => (
                             <button
-                              key={p.productId}
+                              key={p.pid}
                               className={cn(
                                 "relative flex w-full cursor-default select-none items-center rounded-sm px-2 py-3 text-sm outline-none hover:bg-primary/10 border-b last:border-0",
-                                draftItem.productId === p.productId && "bg-primary/5"
+                                draftItem.productId === p.pid && "bg-primary/5"
                               )}
-                              onClick={() => handleProductSelect(p.productId)}
+                              onClick={() => handleProductSelect(p.pid)}
                             >
                               <div className="flex flex-col items-start gap-0.5 text-left w-full">
                                 <div className="flex items-center gap-2">
-                                  <span className="font-bold text-primary min-w-[50px]">{p.productId}</span>
-                                  <span className="font-semibold text-gray-900">{p.productName}</span>
+                                  <span className="font-bold text-primary min-w-[50px]">{p.pid}</span>
+                                  <span className="font-semibold text-gray-900">{p.name}</span>
                                 </div>
                                 <div className="flex items-center gap-4 text-[10px] text-muted-foreground uppercase">
                                   <span>{p.packSize}</span>
-                                  <span>MRP: {p.mrp.toFixed(2)}</span>
+                                  <span>TP+VAT: {p.tpVat.toFixed(2)}</span>
                                 </div>
                               </div>
-                              {draftItem.productId === p.productId && <Check className="ml-auto h-4 w-4 text-primary" />}
+                              {draftItem.productId === p.pid && <Check className="ml-auto h-4 w-4 text-primary" />}
                             </button>
                           ))
                         ) : (
-                          <div className="p-4 text-center text-sm text-muted-foreground">No products found.</div>
+                          <div className="p-4 text-center">
+                            <p className="text-sm text-muted-foreground">ID "{searchQuery}" not found.</p>
+                            <Button 
+                              variant="link" 
+                              onClick={handleOpenManualAdd}
+                              className="text-primary mt-2 flex items-center gap-1 mx-auto"
+                            >
+                              <Plus className="w-4 h-4" /> Manually add data
+                            </Button>
+                          </div>
                         )}
                       </div>
                     </ScrollArea>
@@ -242,7 +288,23 @@ export function InvoiceEditor({ data, onChange }: InvoiceEditorProps) {
                     <Label className="text-[10px] font-bold">BONUS</Label>
                     <Input className="h-9" type="number" value={draftItem.bonus} onChange={(e) => setDraftItem({...draftItem, bonus: parseInt(e.target.value) || 0})} />
                   </div>
-                  <div className="col-span-2 sm:col-span-2 pt-2 flex items-end">
+                  {draftItem.isPriceEditable && (
+                    <div className="space-y-1">
+                      <Label className="text-[10px] font-bold text-primary">TP + VAT (Required)</Label>
+                      <Input 
+                        className="h-9 border-primary/50 font-bold" 
+                        type="number" 
+                        onChange={(e) => {
+                          const tpVat = parseFloat(e.target.value) || 0;
+                          setDraftItem({
+                            ...draftItem, 
+                            unitTp: tpVat / (1 + 17.4 / 100)
+                          });
+                        }} 
+                      />
+                    </div>
+                  )}
+                  <div className={cn("pt-2 flex items-end", draftItem.isPriceEditable ? "col-span-1" : "col-span-2")}>
                     <Button onClick={addToInvoice} className="w-full bg-primary hover:bg-primary/90 font-bold uppercase tracking-wider">
                       Add to List
                     </Button>
@@ -252,8 +314,47 @@ export function InvoiceEditor({ data, onChange }: InvoiceEditorProps) {
             </CardContent>
           </Card>
         </div>
+        
+        <Dialog open={isManualAddOpen} onOpenChange={setIsManualAddOpen}>
+            <DialogContent>
+                <DialogHeader>
+                    <DialogTitle>ম্যানুয়ালি প্রোডাক্ট যোগ করুন</DialogTitle>
+                    <DialogDescription>
+                        নতুন প্রোডাক্টের তথ্য দিন।
+                    </DialogDescription>
+                </DialogHeader>
+                <div className="grid gap-4 py-4">
+                    <div className="grid grid-cols-4 items-center gap-4">
+                        <Label htmlFor="pid" className="text-right">Product ID</Label>
+                        <Input id="pid" value={manualItem.pid} onChange={(e) => setManualItem({...manualItem, pid: e.target.value })} className="col-span-3" />
+                    </div>
+                    <div className="grid grid-cols-4 items-center gap-4">
+                        <Label htmlFor="name" className="text-right">Product Name</Label>
+                        <Input id="name" value={manualItem.name} onChange={(e) => setManualItem({...manualItem, name: e.target.value })} className="col-span-3" />
+                    </div>
+                     <div className="grid grid-cols-4 items-center gap-4">
+                        <Label htmlFor="packSize" className="text-right">Pack Size</Label>
+                        <Input id="packSize" value={manualItem.packSize} onChange={(e) => setManualItem({...manualItem, packSize: e.target.value })} className="col-span-3" />
+                    </div>
+                     <div className="grid grid-cols-4 items-center gap-4">
+                        <Label htmlFor="tpVat" className="text-right">TP + VAT</Label>
+                        <Input id="tpVat" type="number" value={manualItem.tpVat} onChange={(e) => setManualItem({...manualItem, tpVat: parseFloat(e.target.value) || 0 })} className="col-span-3" />
+                    </div>
+                    <div className="grid grid-cols-4 items-center gap-4">
+                        <Label htmlFor="quantity" className="text-right">Quantity</Label>
+                        <Input id="quantity" type="number" value={manualItem.quantity} onChange={(e) => setManualItem({...manualItem, quantity: parseInt(e.target.value) || 1 })} className="col-span-3" />
+                    </div>
+                     <div className="grid grid-cols-4 items-center gap-4">
+                        <Label htmlFor="bonus" className="text-right">Bonus</Label>
+                        <Input id="bonus" type="number" value={manualItem.bonus} onChange={(e) => setManualItem({...manualItem, bonus: parseInt(e.target.value) || 0 })} className="col-span-3" />
+                    </div>
+                </div>
+                <DialogFooter>
+                    <Button onClick={handleManualAdd}>Add to list</Button>
+                </DialogFooter>
+            </DialogContent>
+        </Dialog>
 
-        {/* Item List */}
         <div className="space-y-4 pt-4">
           <div className="flex justify-between items-center border-b pb-2">
             <h3 className="font-black text-lg text-secondary uppercase tracking-tight">Invoice Items ({data.productLines.length})</h3>

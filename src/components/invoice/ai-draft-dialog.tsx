@@ -14,7 +14,7 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 import { Wand2, Loader2 } from "lucide-react";
 import { draftInvoice } from "@/ai/flows/ai-assisted-invoice-drafting";
-import { InvoiceData } from '@/types/invoice';
+import { InvoiceData, ProductLine } from '@/types/invoice';
 import { useToast } from '@/hooks/use-toast';
 
 interface AIDraftDialogProps {
@@ -56,12 +56,16 @@ export function AIDraftDialog({ onDraft, currentData }: AIDraftDialogProps) {
           orderBookNo: result.invoice?.orderBookNo || currentData.header.orderBookNo,
           deliveryDate: result.invoice?.deliveryDate || currentData.header.deliveryDate,
         },
-        productLines: result.productLines?.map(p => ({
+        productLines: result.productLines?.map((p: any) => ({
           productId: p.productId || '',
           description: p.description || '',
           packSize: p.packSize || '',
-          unitTpVat: p.unitTpVat || 0,
+          unitTp: p.unitTpVat ? p.unitTpVat / (1 + 17.4/100) : 0,
+          vatRate: 17.4,
+          unitDis: 0,
           quantity: p.quantity || 0,
+          bonus: 0,
+          specialDis: 0
         })) || currentData.productLines,
         discountRate: currentData.discountRate,
       };
