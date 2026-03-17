@@ -115,7 +115,6 @@ export function InvoiceEditor({ data, onChange }: InvoiceEditorProps) {
   const addToInvoice = async () => {
     if (!draftItem.productId) return;
 
-    // Handle Database Update if price was manually entered and checkbox is checked
     if (draftItem.isPriceEditable && draftItem.updateDb && draftItem.productId) {
       try {
         const tpVat = draftItem.unitTp * (1 + 17.4 / 100);
@@ -167,7 +166,6 @@ export function InvoiceEditor({ data, onChange }: InvoiceEditorProps) {
     setManualItem(EMPTY_MANUAL_ITEM);
   };
 
-  // Hybrid Search Logic: Searches by PID OR Name
   const filteredProducts = PREDEFINED_PRODUCTS.filter(p => {
     const query = (searchQuery || "").toLowerCase();
     const pid = String(p.pid || "").toLowerCase();
@@ -242,13 +240,13 @@ export function InvoiceEditor({ data, onChange }: InvoiceEditorProps) {
                     )}
                   >
                     <CalendarIcon className="mr-2 h-4 w-4" />
-                    {data.header.deliveryDate ? format(new Date(data.header.deliveryDate), "PPP") : <span>Pick a date</span>}
+                    {data.header.deliveryDate && !isNaN(Date.parse(data.header.deliveryDate)) ? format(new Date(data.header.deliveryDate), "PPP") : <span>Pick a date</span>}
                   </Button>
                 </PopoverTrigger>
                 <PopoverContent className="w-auto p-0">
                   <Calendar
                     mode="single"
-                    selected={new Date(data.header.deliveryDate)}
+                    selected={data.header.deliveryDate && !isNaN(Date.parse(data.header.deliveryDate)) ? new Date(data.header.deliveryDate) : undefined}
                     onSelect={(date) => handleHeaderChange('deliveryDate', date ? format(date, 'yyyy-MM-dd') : '')}
                     initialFocus
                   />
