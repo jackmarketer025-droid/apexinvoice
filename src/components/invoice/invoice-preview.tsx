@@ -94,50 +94,50 @@ export function InvoicePreview({ data }: InvoicePreviewProps) {
 
         {/* Information Grid */}
         <div className="grid grid-cols-3 gap-6 mb-4 px-1 mt-4 border-b-[1px] border-gray-300 pb-2">
-          <div className="space-y-0.5 text-[12px]">
+          <div className="space-y-0.5 text-[14px]">
             {[
               { label: 'Cust ID', value: data.customer.customerId },
-              { label: 'Name', value: data.customer.name, bold: true },
+              { label: 'Name', value: data.customer.name },
               { label: 'Address', value: data.customer.address },
               { label: 'Phone', value: data.customer.phone },
-              { label: 'Route', value: data.customer.route, bold: true },
+              { label: 'Route', value: data.customer.route },
             ].map((item, i) => (
               <div key={i} className="flex leading-tight py-[0.5px] items-baseline">
-                <span className="w-[50px] font-bold shrink-0">{item.label}</span>
+                <span className="w-[50px] shrink-0 font-normal">{item.label}</span>
                 <span className="w-[10px] text-center shrink-0">:</span>
-                <span className={cn("flex-1 whitespace-nowrap overflow-hidden", item.bold && "font-bold uppercase")}>{item.value}</span>
+                <span className="flex-1 whitespace-nowrap overflow-hidden font-normal uppercase">{item.value}</span>
               </div>
             ))}
           </div>
 
-          <div className="space-y-0.5 text-[12px]">
+          <div className="space-y-0.5 text-[14px]">
             {[
               { label: 'Depot', value: data.mpo.depot },
               { label: 'MPO ID', value: data.mpo.mpoId },
-              { label: 'Name', value: data.mpo.name, bold: true },
+              { label: 'Name', value: data.mpo.name },
               { label: 'Summary', value: data.mpo.summary },
               { label: 'Sum Date', value: data.mpo.sumDate },
             ].map((item, i) => (
               <div key={i} className="flex leading-tight py-[0.5px] items-baseline">
-                <span className="w-[55px] font-bold shrink-0">{item.label}</span>
+                <span className="w-[65px] shrink-0 font-normal">{item.label}</span>
                 <span className="w-[10px] text-center shrink-0">:</span>
-                <span className={cn("flex-1 whitespace-nowrap overflow-hidden", item.bold && "font-bold uppercase")}>{item.value}</span>
+                <span className="flex-1 whitespace-nowrap overflow-hidden font-normal uppercase">{item.value}</span>
               </div>
             ))}
           </div>
 
-          <div className="space-y-0.5 text-[12px]">
+          <div className="space-y-0.5 text-[14px]">
             {[
               { label: 'Category', value: data.header.category },
-              { label: 'Invoice No.', value: data.header.invoiceNo, bold: true },
+              { label: 'Invoice No.', value: data.header.invoiceNo },
               { label: 'Invoice Date', value: data.header.invoiceDate },
               { label: 'Order Book No.', value: data.header.orderBookNo },
-              { label: 'Delivery Date', value: data.header.deliveryDate, bold: true },
+              { label: 'Delivery Date', value: data.header.deliveryDate },
             ].map((item, i) => (
               <div key={i} className="flex leading-tight py-[0.5px] items-baseline">
-                <span className="w-[80px] font-bold shrink-0">{item.label}</span>
+                <span className="w-[90px] shrink-0 font-normal">{item.label}</span>
                 <span className="w-[10px] text-center shrink-0">:</span>
-                <span className={cn("flex-1 whitespace-nowrap overflow-hidden", item.bold && "font-bold uppercase")}>{item.value}</span>
+                <span className="flex-1 whitespace-nowrap overflow-hidden font-normal uppercase">{item.value}</span>
               </div>
             ))}
           </div>
@@ -221,13 +221,13 @@ export function InvoicePreview({ data }: InvoicePreviewProps) {
           </div>
 
           <div className="mt-6 px-1">
-            <p className="font-bold uppercase text-[12px] text-black leading-tight">
+            <p className="font-normal uppercase text-[14px] text-black leading-tight">
               IN WORD: {numberToWords(totals.totalPrice)}
             </p>
           </div>
 
           <div className="mt-4 px-1 text-left">
-            <p className="text-[13.5px] font-bold border-b-[0.5px] border-black text-black inline-block leading-tight">
+            <p className="text-[13.5px] font-normal border-b-[0.5px] border-black text-black inline-block leading-tight">
               বিশেষ দ্রষ্টব্য : আপনার স্বাক্ষরিত রিসিভ ইনভয়েস ব্যতীত কাউকে টাকা / ঔষধ প্রদান করবেন না।
             </p>
           </div>
@@ -236,7 +236,7 @@ export function InvoicePreview({ data }: InvoicePreviewProps) {
         {/* Signature Area */}
         <div className="mt-auto px-1 pb-6">
           <div className="flex justify-between items-end mb-8 pt-16">
-            <div className="grid grid-cols-6 gap-6 flex-1 text-[13.5px] font-bold text-gray-900">
+            <div className="grid grid-cols-6 gap-6 flex-1 text-[13.5px] font-normal text-gray-900">
               <div className="flex flex-col">
                 <div className="border-t-[0.5px] border-black pt-1.5">Prepared By</div>
                 <div className="text-[11px] mt-0.5 font-medium">razzak</div>
@@ -255,7 +255,7 @@ export function InvoicePreview({ data }: InvoicePreviewProps) {
               <div className="flex flex-col">
                 <div className="border-t-[0.5px] border-black pt-1.5">Customer's Signature</div>
               </div>
-              <div className="flex flex-col text-right justify-end font-bold text-[11px]">
+              <div className="flex flex-col text-right justify-end font-normal text-[11px]">
                 <p>{currentDate}</p>
                 <p>{currentTime}</p>
               </div>
@@ -263,10 +263,10 @@ export function InvoicePreview({ data }: InvoicePreviewProps) {
           </div>
 
           <div className="border-t-[0.5px] border-black pt-3 space-y-1.5">
-            <p className="text-[10.8px] font-bold text-gray-900 w-full">
+            <p className="text-[10.8px] font-normal text-gray-900 w-full">
               Warranty : We do hereby give this warranty that products sold under this invoice do not contravene to any provisions of section 18 of the drugs act 1940
             </p>
-            <p className="text-[10.8px] font-bold text-gray-900 w-full">
+            <p className="text-[10.8px] font-normal text-gray-900 w-full">
               Note : Received the goods in full and good condition.
             </p>
           </div>
