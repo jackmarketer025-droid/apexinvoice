@@ -7,7 +7,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Trash2, Search, Check, Plus } from 'lucide-react';
+import { Trash2, Search, Check, Plus, Calendar as CalendarIcon } from 'lucide-react';
 import { AIDraftDialog } from './ai-draft-dialog';
 import { PREDEFINED_PRODUCTS } from '@/lib/invoice-utils';
 import { cn } from "@/lib/utils";
@@ -29,6 +29,8 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import { Calendar } from "@/components/ui/calendar";
+import { format } from "date-fns";
 
 interface InvoiceEditorProps {
   data: InvoiceData;
@@ -79,7 +81,7 @@ export function InvoiceEditor({ data, onChange }: InvoiceEditorProps) {
     });
   };
 
-  const handleHeaderChange = (field: keyof InvoiceData['header'], value: string) => {
+  const handleHeaderChange = (field: keyof InvoiceData['header'], value: string | Date) => {
     onChange({
       ...data,
       header: { ...data.header, [field]: value }
@@ -230,7 +232,28 @@ export function InvoiceEditor({ data, onChange }: InvoiceEditorProps) {
             </div>
             <div className="space-y-1">
               <Label className="text-[10px] uppercase font-bold text-primary">Delivery Date</Label>
-              <Input className="h-8 text-sm font-black border-primary/50 text-primary" value={data.header.deliveryDate} onChange={(e) => handleHeaderChange('deliveryDate', e.target.value)} />
+              <Popover>
+                <PopoverTrigger asChild>
+                  <Button
+                    variant={"outline"}
+                    className={cn(
+                      "w-full justify-start text-left font-normal h-8 text-sm font-black border-primary/50 text-primary",
+                      !data.header.deliveryDate && "text-muted-foreground"
+                    )}
+                  >
+                    <CalendarIcon className="mr-2 h-4 w-4" />
+                    {data.header.deliveryDate ? format(new Date(data.header.deliveryDate), "PPP") : <span>Pick a date</span>}
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-auto p-0">
+                  <Calendar
+                    mode="single"
+                    selected={new Date(data.header.deliveryDate)}
+                    onSelect={(date) => handleHeaderChange('deliveryDate', date ? format(date, 'yyyy-MM-dd') : '')}
+                    initialFocus
+                  />
+                </PopoverContent>
+              </Popover>
             </div>
           </CardContent>
         </Card>
