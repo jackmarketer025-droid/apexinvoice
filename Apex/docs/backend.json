@@ -1,0 +1,494 @@
+{
+  "entities": {
+    "Company": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Company",
+      "type": "object",
+      "description": "Represents the primary company information, branding, and global disclaimers like warranty and special notes.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the Company entity."
+        },
+        "name": {
+          "type": "string",
+          "description": "The official name of the company, e.g., 'Apex Pharma Ltd.'."
+        },
+        "slogan": {
+          "type": "string",
+          "description": "The company's marketing slogan or enterprise affiliation, e.g., 'A Seed Marine Flake Enterprise'."
+        },
+        "mainAddress": {
+          "type": "string",
+          "description": "The primary physical address of the company."
+        },
+        "mainPhone": {
+          "type": "string",
+          "description": "The primary contact phone number for the company."
+        },
+        "mainFax": {
+          "type": "string",
+          "description": "The primary fax number for the company."
+        },
+        "warrantyText": {
+          "type": "string",
+          "description": "The standard warranty disclaimer text for invoices."
+        },
+        "noteText": {
+          "type": "string",
+          "description": "General note or receipt confirmation text for invoices."
+        },
+        "specialNoteText": {
+          "type": "string",
+          "description": "Special, often localized, instructional note for invoices."
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "mainAddress",
+        "mainPhone",
+        "warrantyText",
+        "noteText",
+        "specialNoteText"
+      ]
+    },
+    "CompanyBranch": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "CompanyBranch",
+      "type": "object",
+      "description": "Represents a specific operational branch or depot of the company from which invoices are issued.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the CompanyBranch entity."
+        },
+        "companyId": {
+          "type": "string",
+          "description": "Reference to the parent Company. (Relationship: Company 1:N CompanyBranch)"
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of the branch or depot, e.g., 'Dinajpur Depot'."
+        },
+        "address": {
+          "type": "string",
+          "description": "The physical address of the branch."
+        },
+        "phone": {
+          "type": "string",
+          "description": "The contact phone number for the branch."
+        }
+      },
+      "required": [
+        "id",
+        "companyId",
+        "name",
+        "address",
+        "phone"
+      ]
+    },
+    "Customer": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Customer",
+      "type": "object",
+      "description": "Represents a client or pharmacy that purchases products and receives invoices.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the Customer entity."
+        },
+        "customerNumber": {
+          "type": "string",
+          "description": "The unique identification number assigned to the customer."
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of the customer, e.g., 'PARVEZ PHARMACY'."
+        },
+        "address": {
+          "type": "string",
+          "description": "The address of the customer."
+        },
+        "phone": {
+          "type": "string",
+          "description": "The contact phone number for the customer."
+        },
+        "route": {
+          "type": "string",
+          "description": "The sales route associated with the customer, e.g., 'BAZAR ROAD'."
+        }
+      },
+      "required": [
+        "id",
+        "customerNumber",
+        "name",
+        "address",
+        "route"
+      ]
+    },
+    "Employee": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Employee",
+      "type": "object",
+      "description": "Represents an employee involved in various stages of the invoice process, such as sales (MPO), preparation, authorization, or delivery.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the Employee entity."
+        },
+        "employeeNumber": {
+          "type": "string",
+          "description": "The unique identification number assigned to the employee, e.g., 'MPO ID'."
+        },
+        "name": {
+          "type": "string",
+          "description": "The full name of the employee."
+        },
+        "role": {
+          "type": "string",
+          "description": "The primary role of the employee, e.g., 'MPO', 'Prepared By', 'Delivered By'. This can be a general role; specific roles for an invoice will be defined in the Invoice entity."
+        }
+      },
+      "required": [
+        "id",
+        "employeeNumber",
+        "name"
+      ]
+    },
+    "Product": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Product",
+      "type": "object",
+      "description": "Represents a single product available for sale, including its pricing and packaging details.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the Product entity."
+        },
+        "productNumber": {
+          "type": "string",
+          "description": "The unique product identification number, e.g., 'P Id'."
+        },
+        "name": {
+          "type": "string",
+          "description": "The descriptive name of the product, e.g., 'Apocal-D Tablet (15's)'."
+        },
+        "packSize": {
+          "type": "string",
+          "description": "The packaging size of the product, e.g., '15's'."
+        },
+        "unitTradePrice": {
+          "type": "number",
+          "description": "The base trade price per unit of the product."
+        },
+        "vatRatePercentage": {
+          "type": "number",
+          "description": "The VAT rate percentage applicable to the product."
+        }
+      },
+      "required": [
+        "id",
+        "productNumber",
+        "name",
+        "packSize",
+        "unitTradePrice",
+        "vatRatePercentage"
+      ]
+    },
+    "Invoice": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Invoice",
+      "type": "object",
+      "description": "Represents a complete invoice document issued to a customer, summarizing all relevant transaction details and references to associated parties.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the Invoice entity."
+        },
+        "invoiceNumber": {
+          "type": "string",
+          "description": "The unique number assigned to the invoice."
+        },
+        "invoiceDate": {
+          "type": "string",
+          "description": "The date when the invoice was generated.",
+          "format": "date-time"
+        },
+        "orderBookNumber": {
+          "type": "string",
+          "description": "The reference number from the order book."
+        },
+        "deliveryDate": {
+          "type": "string",
+          "description": "The date when the products are expected to be delivered.",
+          "format": "date-time"
+        },
+        "category": {
+          "type": "string",
+          "description": "The category of the invoice, e.g., 'General'."
+        },
+        "printTimestamp": {
+          "type": "string",
+          "description": "The date and time when the invoice was printed or finalized.",
+          "format": "date-time"
+        },
+        "invoiceType": {
+          "type": "string",
+          "description": "The type of invoice copy, e.g., 'Customer Copy', 'Office Copy'."
+        },
+        "customerId": {
+          "type": "string",
+          "description": "Reference to the Customer who received the invoice. (Relationship: Customer 1:N Invoice)"
+        },
+        "mpoEmployeeId": {
+          "type": "string",
+          "description": "Reference to the MPO (Medical Promotion Officer) Employee associated with this invoice. (Relationship: Employee 1:N Invoice)"
+        },
+        "preparedByEmployeeId": {
+          "type": "string",
+          "description": "Reference to the Employee who prepared this invoice. (Relationship: Employee 1:N Invoice)"
+        },
+        "authorisedByEmployeeId": {
+          "type": "string",
+          "description": "Reference to the Employee who authorized this invoice. (Relationship: Employee 1:N Invoice)"
+        },
+        "deliveredByEmployeeId": {
+          "type": "string",
+          "description": "Reference to the Employee who delivered the products for this invoice. (Relationship: Employee 1:N Invoice)"
+        },
+        "collectedByEmployeeId": {
+          "type": "string",
+          "description": "Reference to the Employee responsible for collecting payment for this invoice. (Relationship: Employee 1:N Invoice)"
+        },
+        "issuingBranchId": {
+          "type": "string",
+          "description": "Reference to the Company Branch from which this invoice was issued. (Relationship: CompanyBranch 1:N Invoice)"
+        },
+        "mpoSummary": {
+          "type": "string",
+          "description": "A summary identifier or code related to the MPO's activities for this invoice."
+        },
+        "mpoSummaryDate": {
+          "type": "string",
+          "description": "The date associated with the MPO summary.",
+          "format": "date-time"
+        },
+        "discountOnTradePricePercentage": {
+          "type": "number",
+          "description": "The overall discount percentage applied to the total trade price of the invoice."
+        },
+        "totalAmount": {
+          "type": "number",
+          "description": "The calculated total amount of all line items before any overall invoice discount."
+        },
+        "netPayableAmount": {
+          "type": "number",
+          "description": "The final calculated net payable amount for the invoice after all discounts and taxes."
+        }
+      },
+      "required": [
+        "id",
+        "invoiceNumber",
+        "invoiceDate",
+        "customerId",
+        "mpoEmployeeId",
+        "issuingBranchId",
+        "totalAmount",
+        "netPayableAmount"
+      ]
+    },
+    "InvoiceLineItem": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "InvoiceLineItem",
+      "type": "object",
+      "description": "Represents a single line item within an invoice, detailing a specific product, its quantity, and item-level calculated totals.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the InvoiceLineItem entity."
+        },
+        "invoiceId": {
+          "type": "string",
+          "description": "Reference to the parent Invoice. (Relationship: Invoice 1:N InvoiceLineItem)"
+        },
+        "productId": {
+          "type": "string",
+          "description": "Reference to the Product included in this line item. (Relationship: Product 1:N InvoiceLineItem)"
+        },
+        "quantity": {
+          "type": "number",
+          "description": "The quantity of the product ordered in this line item."
+        },
+        "unitDiscountAmount": {
+          "type": "number",
+          "description": "The discount amount applied per unit of the product in this line item. Defaults to 0 if no discount."
+        },
+        "calculatedUnitVAT": {
+          "type": "number",
+          "description": "The calculated VAT amount per unit for this line item."
+        },
+        "calculatedTotalTradePrice": {
+          "type": "number",
+          "description": "The calculated total trade price for the quantity of product in this line item before VAT and discounts."
+        },
+        "calculatedTotalVAT": {
+          "type": "number",
+          "description": "The calculated total VAT for the quantity of product in this line item."
+        },
+        "calculatedTotalPrice": {
+          "type": "number",
+          "description": "The final calculated total price for the quantity of product in this line item, including VAT and after unit discounts."
+        }
+      },
+      "required": [
+        "id",
+        "invoiceId",
+        "productId",
+        "quantity",
+        "unitDiscountAmount",
+        "calculatedUnitVAT",
+        "calculatedTotalTradePrice",
+        "calculatedTotalVAT",
+        "calculatedTotalPrice"
+      ]
+    }
+  },
+  "auth": {
+    "providers": [
+      "password",
+      "anonymous"
+    ]
+  },
+  "firestore": {
+    "structure": [
+      {
+        "path": "/company_settings/apex_pharma_ltd",
+        "definition": {
+          "entityName": "Company",
+          "schema": {
+            "$ref": "#/backend/entities/Company"
+          },
+          "description": "Singleton document containing global company information. Document ID is static (e.g., 'apex_pharma_ltd'). Read-only for most users, writable by administrators."
+        }
+      },
+      {
+        "path": "/company_settings/apex_pharma_ltd/branches/{branchId}",
+        "definition": {
+          "entityName": "CompanyBranch",
+          "schema": {
+            "$ref": "#/backend/entities/CompanyBranch"
+          },
+          "description": "Subcollection containing details for each operational branch of the company. Includes denormalized 'companyId' for authorization independence.",
+          "params": [
+            {
+              "name": "branchId",
+              "description": "The unique identifier for the CompanyBranch."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/customers/{customerId}",
+        "definition": {
+          "entityName": "Customer",
+          "schema": {
+            "$ref": "#/backend/entities/Customer"
+          },
+          "description": "Collection of customer profiles. Includes denormalized 'branchId' (primary branch association) and 'companyId' for authorization independence and QAP support.",
+          "params": [
+            {
+              "name": "customerId",
+              "description": "The unique identifier for the Customer."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/employees/{employeeId}",
+        "definition": {
+          "entityName": "Employee",
+          "schema": {
+            "$ref": "#/backend/entities/Employee"
+          },
+          "description": "Collection of employee profiles. Includes denormalized 'userId' (Firebase UID), 'branchId' (primary branch association), and 'companyId' for authorization independence and mapping Firebase users to employees.",
+          "params": [
+            {
+              "name": "employeeId",
+              "description": "The unique identifier for the Employee."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/products/{productId}",
+        "definition": {
+          "entityName": "Product",
+          "schema": {
+            "$ref": "#/backend/entities/Product"
+          },
+          "description": "Collection of products available for sale. Includes denormalized 'companyId' for authorization independence. Read-only for most users, writable by administrators.",
+          "params": [
+            {
+              "name": "productId",
+              "description": "The unique identifier for the Product."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/invoices/{invoiceId}",
+        "definition": {
+          "entityName": "Invoice",
+          "schema": {
+            "$ref": "#/backend/entities/Invoice"
+          },
+          "description": "Collection of all generated invoices. Includes denormalized 'ownerUserId' (Firebase UID of the MPO), 'issuingBranchId', and 'companyId' for authorization independence and QAP support (e.g., listing invoices by owner or branch).",
+          "params": [
+            {
+              "name": "invoiceId",
+              "description": "The unique identifier for the Invoice."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/invoices/{invoiceId}/line_items/{lineItemId}",
+        "definition": {
+          "entityName": "InvoiceLineItem",
+          "schema": {
+            "$ref": "#/backend/entities/InvoiceLineItem"
+          },
+          "description": "Subcollection of line items for a specific invoice. Includes denormalized 'ownerUserId', 'issuingBranchId', and 'companyId' from the parent Invoice for authorization independence, enabling direct rules evaluation without parental lookups.",
+          "params": [
+            {
+              "name": "invoiceId",
+              "description": "The unique identifier of the parent Invoice."
+            },
+            {
+              "name": "lineItemId",
+              "description": "The unique identifier for the InvoiceLineItem."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/user_roles/{userId}",
+        "definition": {
+          "entityName": "user_role_config",
+          "schema": {
+            "$ref": "#/backend/entities/UserRole"
+          },
+          "description": "Dedicated collection for Database-Backed Access Control (DBAC). Each document's ID is the Firebase User ID (UID). Contains a 'role' field (e.g., 'admin', 'mpo', 'branch_manager') and optional denormalized fields like 'employeeId', 'branchId', and 'companyId' for quick user context.",
+          "params": [
+            {
+              "name": "userId",
+              "description": "The Firebase User ID (UID) of the user."
+            }
+          ]
+        }
+      }
+    ],
+    "reasoning": "The Firestore structure for Apex InvoiceGen prioritizes secure, scalable, and debuggable authorization by strictly adhering to the core design principles and strategy mandates. The central theme is **Authorization Independence via Denormalization**, ensuring that security rules never require fetching parent documents (`get()`) to evaluate access permissions.\n\n**Authorization Independence:**\n1.  **Top-Level Entities:** Collections like `customers`, `employees`, `products`, and `invoices` are designed to be flat, allowing for efficient querying. To enable granular, independent authorization, each document in these collections will include denormalized fields that explicitly state its authorization context. For example, an `Invoice` document will contain `ownerUserId` (the Firebase UID of the MPO responsible), `issuingBranchId`, and `companyId`. This means rules for an invoice can directly evaluate `request.auth.uid == resource.data.ownerUserId` or `resource.data.issuingBranchId == getUserBranchId(request.auth.uid)` (where `getUserBranchId` is a helper function that might perform a *single* `get()` on the `user_roles` collection at the *start* of a rules evaluation, not per document), without needing to fetch the MPO's or branch's details for *each invoice*. This significantly simplifies rules, makes them atomic, and improves performance.\n2.  **Subcollections (`InvoiceLineItem`):** The `invoice_line_items` subcollection, nested under `invoices`, is a critical example of denormalization. Each `InvoiceLineItem` document will explicitly contain the `ownerUserId`, `issuingBranchId`, and `companyId` inherited from its parent `Invoice`. This completely eliminates the need for `get('/invoices/$(invoiceId)')` calls within the `invoice_line_items` security rules. Access to a line item can be directly evaluated based on its own fields, making rule evaluation robust and independent of parent document state.\n\n**QAPs (Query as a Privilege):**\nThis structure directly supports secure `list` operations without relying on security rules as filters:\n*   **Owner-scoped queries:** An MPO can query their own invoices using `db.collection('invoices').where('ownerUserId', '==', request.auth.uid)`. The security rules for `invoices` will then simply verify that `request.auth.uid` matches the `ownerUserId` of each returned document.\n*   **Branch-scoped queries:** A branch manager can query all invoices for their branch using `db.collection('invoices').where('issuingBranchId', '==', userBranchId)`. The rules will similarly verify that the `issuingBranchId` matches the manager's assigned branch ID.\n*   **Global data:** `Company` and `Product` data are global, enabling efficient listing for all authenticated users, with write access restricted to administrators.\n\n**Structural Segregation & Access Modeling:**\n*   **Singleton for Company:** `/company_settings/apex_pharma_ltd` serves as a single source of truth for global company details, making it easy to manage and secure (read by all, write by admin).\n*   **Hierarchical Paths:** `/company_settings/apex_pharma_ltd/branches/{branchId}` accurately models the 1:N relationship between a company and its branches.\n*   **Dedicated User Roles:** A top-level `/user_roles/{userId}` collection uses 'existence over content' for defining user roles (e.g., 'admin', 'mpo', 'branch_manager'), where the document ID is the Firebase UID. This makes role checks in security rules extremely efficient (`get(/databases/.../user_roles/$(request.auth.uid)).exists()` and `...data.role == 'admin'`).\n\nOverall, this design minimizes rule complexity, prevents common security pitfalls (like broken transactions due to `get()`), and ensures that `list` operations remain performant and secure, aligning with all core design principles."
+  }
+}
